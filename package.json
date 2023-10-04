@@ -1,0 +1,43 @@
+{
+  "name": "nodejs-rest",
+  "version": "1.0.0",
+  "description": "nodejs backend template based on Express",
+  "main": "dist",
+  "scripts": {
+    "start": "node dist/src/server.js",
+    "build": "tsc",
+    "dev": "ts-node src/server.ts",
+    "test": "jest --detectOpenHandles"
+  },
+  "keywords": [
+    "Software Engineering"
+  ],
+  "author": "Junhao Shen <junhaos@smu.edu>",
+  "license": "MIT",
+  "dependencies": {
+    "@prisma/client": "^4.15.0",
+    "@types/bcrypt": "^5.0.0",
+    "@types/nodemailer": "^6.4.9",
+    "bcrypt": "^5.1.1",
+    "dotenv": "^16.3.1",
+    "express": "^4.18.2",
+    "jsonwebtoken": "^9.0.2",
+    "mysql2": "^3.3.3",
+    "nodemailer": "^6.9.5",
+    "prisma": "^4.15.0"
+  },
+  "devDependencies": {
+    "@types/body-parser": "^1.19.2",
+    "@types/express": "^4.17.17",
+    "@types/jest": "^29.5.2",
+    "@types/jsonwebtoken": "^9.0.3",
+    "@types/node": "^20.2.5",
+    "@types/supertest": "^2.0.12",
+    "jest": "^29.5.0",
+    "nodemon": "^2.0.22",
+    "supertest": "^6.3.3",
+    "ts-jest": "^29.1.0",
+    "ts-node": "^10.9.1",
+    "typescript": "^5.1.3"
+  }
+}

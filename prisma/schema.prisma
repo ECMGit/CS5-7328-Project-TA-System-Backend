@@ -1,0 +1,84 @@
+// define your database configuration here
+
+datasource db {
+  provider = "mysql"
+  url = env("DATABASE_URL")
+}
+
+// define the data model here
+
+model User {
+  id               Int       @id @default(autoincrement())
+  smuNo            Int
+  username         String    @unique
+  email            String    @unique
+  firstName        String
+  lastName         String
+  password         String
+  resetToken       String?   @unique
+  resetTokenExpiry BigInt?
+  updatedAt        DateTime? @updatedAt
+  faculty          Faculty?  
+  student          Student?  
+  admin            Admin?    
+}
+
+model Faculty {
+  userId      Int             @id
+  designation String
+  department  String
+  courses     FacultyCourse[] 
+  user        User            @relation(fields: [userId], references: [id])
+}
+
+model Student {
+  userId    Int           @id
+  year      Int
+  courses   StudentCourse[] 
+  tas       CourseTA[]      // Opposite relation field for CourseTA
+  user      User          @relation(fields: [userId], references: [id])
+}
+
+model Admin {
+  userId   Int    @id
+  role     String // This can be an enum if you have predefined roles
+  user     User   @relation(fields: [userId], references: [id])
+}
+
+model Course {
+  id          Int             @id @default(autoincrement())
+  courseCode  String          @unique
+  title       String
+  description String?
+  faculties   FacultyCourse[] 
+  students    StudentCourse[] 
+  tas         CourseTA[]      // Opposite relation field for CourseTA
+}
+
+model FacultyCourse {
+  facultyId Int
+  courseId  Int
+  faculty   Faculty @relation(fields: [facultyId], references: [userId])
+  course    Course  @relation(fields: [courseId], references: [id])
+  @@id([facultyId, courseId])
+}
+
+model StudentCourse {
+  studentId Int
+  courseId  Int
+  student   Student @relation(fields: [studentId], references: [userId])
+  course    Course  @relation(fields: [courseId], references: [id])
+  @@id([studentId, courseId])
+}
+
+model CourseTA {
+  studentId Int
+  courseId  Int
+  student   Student @relation(fields: [studentId], references: [userId])
+  course    Course  @relation(fields: [courseId], references: [id])
+  @@id([studentId, courseId])
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
