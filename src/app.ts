@@ -25,6 +25,7 @@ app.use((req, res, next) => {
 });
 
 // import routes which are defined in modules
+// app.use('/api', passwordResetRouter);
 app.use('/user', userRoutes);
 
 
