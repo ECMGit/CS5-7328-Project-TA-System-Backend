@@ -30,6 +30,14 @@ Express.js Node.js app for backend, Rest API, and Prisma ORM.
 
 ## Installation
 
+## Create `.env` and add the following:
+```
+DATABASE_URL=mysql://root:<root password>@localhost:3306/ebean_prisma?autoReconnect=true&useSSL=false&useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC`
+FRONTEND_URL=http://localhost:3000
+EMAIL_USER=<email to send reset email from>
+EMAIL_PASS=<password for reset email>
+```
+
 ### `npm install`
 Start your database server on port 3306, and run the following command to create the database schema:
 ### `npx prisma db push`
