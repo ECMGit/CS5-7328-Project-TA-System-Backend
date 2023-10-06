@@ -79,6 +79,40 @@ model CourseTA {
   @@id([studentId, courseId])
 }
 
+model TAJob {
+  id                  Int            @id @default(autoincrement())
+  title               String
+  courseId            Int
+  course              Course         @relation(fields: [courseId], references: [id])
+  courseSchedule      String
+  totalHoursPerWeek   Int
+  maxNumberOfTAs      Int
+  requiredCourses     String
+  requiredSkills      String
+  TAStats             String         // Can be turned into an Enum with values "Master student", "Under", etc.
+  notes               String?
+  deadlineToApply     DateTime
+  facultyId           Int
+  faculty             Faculty        @relation(fields: [facultyId], references: [userId])
+  applications        TAApplication[] 
+}
+
+model TAApplication {
+  id                  Int         @id @default(autoincrement())
+  courseId            Int
+  course              Course      @relation(fields: [courseId], references: [id])
+  studentId           Int
+  student             Student     @relation(fields: [studentId], references: [userId])
+  hoursCanWorkPerWeek Int
+  coursesTaken        String
+  GPA                 Float
+  requiredCourses     String      // A comma separated list of required courses taken
+  requiredSkills      String      // A comma separated list of required skills
+  resumeFile          String      // URL or path to the file. This depends on how you handle file uploads.
+  taJobId             Int
+  taJob               TAJob       @relation(fields: [taJobId], references: [id])
+}
+
 generator client {
   provider = "prisma-client-js"
 }
