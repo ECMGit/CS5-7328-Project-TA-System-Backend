@@ -59,3 +59,26 @@ export const getUserDetailById = async (req: Request, res: Response, next: NextF
     }
 };
 
+export const getAllTAJobs = async (res: Response, next: NextFunction) => {
+    try {
+        const taJobs = await UserService.getAllTAJobs();
+        if (taJobs.lenght == 0) {
+            return res.status(404).json({ message: 'Np jpb listings found.' });
+        }
+        res.json(taJobs);
+    } catch (error) {
+        next(error);
+    }
+}
+
+export const getTAJobById = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        const taJob = await UserService.getTAJobById(Number(req.params.id));
+        if (!taJob) {
+            return res.status(404).json({ message: 'TA job not found' });
+        }
+        res.json(taJob);
+    } catch (error) {
+        next(error);
+    }
+}
