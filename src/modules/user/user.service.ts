@@ -22,3 +22,17 @@ export const getUserDetailById = async (id: number) => {
         where: { id }
     });
 }
+
+//get all Ta jobs 
+export const getALLTAJobs = async () => {
+    //using Prisma's findMany() method to retrieve all TA jobs from the database.
+    return await prisma.TAJob.findMany();
+}
+
+//find TA Job by job id
+export const getTAJobs = async (id: number) => {
+    //using Prisma's findMany() method to retrieve all TA jobs from the database.
+    return await prisma.TAJob.findUnique({
+        where: { id }
+    });
+}
