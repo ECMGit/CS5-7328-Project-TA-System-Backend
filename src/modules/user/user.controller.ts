@@ -59,11 +59,11 @@ export const getUserDetailById = async (req: Request, res: Response, next: NextF
     }
 };
 
-export const getAllTAJobs = async (res: Response, next: NextFunction) => {
+export const getAllTAJobs = async (req: Request, res: Response, next: NextFunction) => {
     try {
         const taJobs = await UserService.getAllTAJobs();
         if (taJobs.lenght == 0) {
-            return res.status(404).json({ message: 'Np jpb listings found.' });
+            return res.status(404).json({ message: 'Np job listings found.' });
         }
         res.json(taJobs);
     } catch (error) {
