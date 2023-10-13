@@ -4,6 +4,8 @@ import userRoutes from './modules/user/user.routes';
 
 const app = express();
 
+// This is a comment
+
 // Middleware
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
