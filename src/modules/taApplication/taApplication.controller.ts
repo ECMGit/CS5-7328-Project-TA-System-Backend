@@ -4,10 +4,18 @@ import { TAApplicationData } from './taApplication.types';
 import {
     NextFunction, Request, Response
 } from 'express';
-import { saveApplication } from './taApplication.service';
+import * as taApplicationService from './taApplication.service';
+import fs from 'fs';
+
 
 const storage = multer.diskStorage( {
     destination: ( req, file, cb ) => {
+        const uploadFolder = 'uploads/';
+
+        if ( !fs.existsSync( uploadFolder ) ) {
+            fs.mkdirSync( uploadFolder, { recursive: true } );
+        }
+
         cb( null, 'uploads/' );
     }
     , filename: ( req, file, cb ) => {
@@ -35,11 +43,32 @@ export const save = ( req: Request, res: Response, next: NextFunction ) => {
                     return;
                 }
 
-                const savedApplication = await saveApplication( applicationData, file );
+                const savedApplication
+                    = await taApplicationService.saveApplication( applicationData, file );
                 res.status( 201 ).json( savedApplication );
             } catch ( error ) {
                 next( error );
             }
         } )();
     } );
+};
+
+export const getApplication = async (
+    req: Request
+    , res: Response
+): Promise<Response<Error | void>> => {
+    const applicationId: number = Number( req.params.id );
+
+    if ( !applicationId ) {
+        return res.status( 404 ).json( { message: 'Application not found' } );
+    }
+
+    const application
+        = await taApplicationService.getApplication( applicationId );
+
+    if ( !application ) {
+        return res.status( 404 ).json( { message: 'Application not found' } );
+    }
+
+    return res.status( 200 ).json( application );
 };

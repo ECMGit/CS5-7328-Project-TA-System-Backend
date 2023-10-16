@@ -1,8 +1,9 @@
-import { PrismaClient } from '@prisma/client';
+import { PrismaClient, TAApplication } from '@prisma/client';
 import { TAApplicationData } from './taApplication.types';
 
 const prisma = new PrismaClient();
 
+// Save application with associated courses and tajob
 export const saveApplication
     // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
     = async ( data: TAApplicationData, file: Express.Multer.File ) => {
@@ -21,4 +22,15 @@ export const saveApplication
                 , resumeFile: filePath
             }
         } );
+    };
+
+export const getApplication
+    = async ( id: number ): Promise<TAApplication|null> => {
+        const application = await prisma.tAApplication.findUnique( { where: { id } } );
+
+        if ( !application ) {
+            return null;
+        }
+
+        return application;
     };
