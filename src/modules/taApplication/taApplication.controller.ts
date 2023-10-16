@@ -56,7 +56,8 @@ export const save = ( req: Request, res: Response, next: NextFunction ) => {
 export const getApplication = async (
     req: Request
     , res: Response
-): Promise<Response<Error | void>> => {
+// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
+) => {
     const applicationId: number = Number( req.params.id );
 
     if ( !applicationId ) {
