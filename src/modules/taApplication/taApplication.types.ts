@@ -2,10 +2,10 @@
 export type TAApplicationData = {
   courseId: number;
   studentId: number;
-  hoursCanWorkPerWeek: number;
+  hoursCanWorkPerWeek: string;
   coursesTaken: string;
   // eslint-disable-next-line @typescript-eslint/naming-convention
-  GPA: number;
+  gpa: number;
   requiredCourses: string;
   requiredSkills: string;
   taJobId: number;

@@ -16,7 +16,7 @@ export const saveApplication
                 , hoursCanWorkPerWeek: data.hoursCanWorkPerWeek
                 , coursesTaken: data.coursesTaken
                 // eslint-disable-next-line @typescript-eslint/naming-convention
-                , GPA: data.GPA
+                , GPA: data.gpa
                 , requiredCourses: data.requiredCourses
                 , requiredSkills: data.requiredSkills
                 , resumeFile: filePath
