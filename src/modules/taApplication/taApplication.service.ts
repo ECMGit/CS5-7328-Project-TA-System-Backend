@@ -14,7 +14,6 @@ export const saveApplication
                 , student: { connect: { userId: data.studentId } }
                 , taJob: { connect: { id: data.taJobId } }
                 , hoursCanWorkPerWeek: data.hoursCanWorkPerWeek
-                , coursesTaken: data.coursesTaken
                 // eslint-disable-next-line @typescript-eslint/naming-convention
                 , GPA: data.gpa
                 , requiredCourses: data.requiredCourses
