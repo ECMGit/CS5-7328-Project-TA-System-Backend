@@ -19,7 +19,7 @@ const router = express.Router();
 // Register a new user
 router.post('/signup', async (req, res) => {
     const { username, email, password, smuNo, firstName, lastName } = req.body;
-
+    console.log(req.body);
     // Convert number to integer
     const smuNo_int = parseInt(req.body.smuNo);
   
