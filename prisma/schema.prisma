@@ -111,7 +111,6 @@ model TAApplication {
     studentId           Int
     student             Student @relation(fields: [studentId], references: [userId])
     hoursCanWorkPerWeek String // A String value with the range of hours, like "Less than 10 hours per week"
-    coursesTaken        String
     GPA                 Float
     requiredCourses     String // A comma separated list of required courses taken
     requiredSkills      String // A comma separated list of required skills
