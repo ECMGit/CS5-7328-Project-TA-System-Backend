@@ -1,8 +1,11 @@
 import express from 'express';
 import bodyParser from 'body-parser';
 import userRoutes from './modules/user/user.routes';
+import passwordRouter from './modules/passwordRouter';
 
 const app = express();
+
+// This is a comment
 
 // Middleware
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -26,6 +29,7 @@ app.use((req, res, next) => {
 
 // import routes which are defined in modules
 // app.use('/api', passwordResetRouter);
+app.use('/api', passwordRouter);
 app.use('/user', userRoutes);
 
 
