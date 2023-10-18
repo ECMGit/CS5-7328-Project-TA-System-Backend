@@ -88,3 +88,20 @@ export const getTAJobById = async (req: Request, res: Response, next: NextFuncti
         next(error);
     }
 }
+
+// New function to handle querying with filters.
+export const getTAJobsWithFilters = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        // Extract query parameters from the request. These will be your filters.
+        const queryParams = req.query;
+
+        // Call the service function, passing in the filters.
+        const filteredTAJobs = await UserService.getTAJobsWithFilters(queryParams);
+
+        // Send back the filtered data.
+        res.json(filteredTAJobs);
+    } catch (error) {
+        console.error('Error fetching TA jobs with filters:', error);
+        next(error); // Pass errors to the next middleware.
+    }
+};

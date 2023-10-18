@@ -42,3 +42,30 @@ export const getTAJobById = async (id: number) => {
         where: { id }
     });
 }
+
+type FilterParams = {
+    title?: string;
+    courseId?: number;
+    course?: string;
+    totalHoursPerWeek?: number;
+    faculty?: string;
+  };
+  
+  export const getTAJobsWithFilters = async (filters: FilterParams) => {
+      try {
+          let queryConditions: Record<string, any> = {}; // 'any' could be replaced with more specific types based on your conditions
+          for (const [key, value] of Object.entries(filters)) {
+              if (value) {
+                  queryConditions[key] = value;
+              }
+          }
+  
+          return await prisma.tAJob.findMany({
+              where: queryConditions,
+          });
+      } catch (error) {
+          console.error('Error querying TA jobs with filters:', error);
+          throw error;
+      }
+  };
+  
