@@ -1,3 +1,4 @@
+import { log } from 'console';
 import * as UserService from './user.service';
 //do we have to import the TA service? 
 import { Request, Response, NextFunction } from 'express';
@@ -64,8 +65,7 @@ export const getAllTAJobs = async (req: Request, res: Response, next: NextFuncti
     console.log('in get all');
     
     try {
-        const taJobs = await UserService.getAllTAJobs();
-        console.log('wooo '+taJobs);     
+        const taJobs = await UserService.getAllTAJobs();     
         if (taJobs.length == 0) {
             return res.status(404).json({ message: 'Np job listings found.' });
         }
@@ -91,7 +91,11 @@ export const getTAJobById = async (req: Request, res: Response, next: NextFuncti
 
 // New function to handle querying with filters.
 export const getTAJobsWithFilters = async (req: Request, res: Response, next: NextFunction) => {
+    console.log('in controller');
+    
     try {
+        console.log(req.params);
+        
         // Extract query parameters from the request. These will be your filters.
         const queryParams = req.query;
 
