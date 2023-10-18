@@ -14,6 +14,7 @@ import { Request, Response, NextFunction } from 'express';
  */
 export const getUsers = async (req: Request, res: Response, next: NextFunction) => {
     try {
+        console.log('getting user')
         const users = await UserService.getUsers();
         res.json(users);
     } catch (error) {
@@ -60,13 +61,17 @@ export const getUserDetailById = async (req: Request, res: Response, next: NextF
 };
 
 export const getAllTAJobs = async (req: Request, res: Response, next: NextFunction) => {
+    console.log('in get all');
+    
     try {
         const taJobs = await UserService.getAllTAJobs();
-        if (taJobs.lenght == 0) {
+        console.log('wooo '+taJobs);     
+        if (taJobs.length == 0) {
             return res.status(404).json({ message: 'Np job listings found.' });
         }
         res.json(taJobs);
     } catch (error) {
+        console.log(error);
         next(error);
     }
 }
@@ -79,6 +84,7 @@ export const getTAJobById = async (req: Request, res: Response, next: NextFuncti
         }
         res.json(taJob);
     } catch (error) {
+        console.log(error);
         next(error);
     }
 }

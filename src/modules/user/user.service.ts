@@ -1,4 +1,5 @@
-import { prisma } from 'prisma';
+const { PrismaClient } = require('@prisma/client');
+const prisma = new PrismaClient();
 
 /**
  * This file is for containing all the operation directly to database
@@ -26,13 +27,18 @@ export const getUserDetailById = async (id: number) => {
 //get all Ta jobs 
 export const getAllTAJobs = async () => {
     //using Prisma's findMany() method to retrieve all TA jobs from the database.
-    return await prisma.TAJob.findMany();
+    console.log(await prisma.user.findMany());
+    console.log(await prisma.tAJob.findMany());
+    
+    return await prisma.tAJob.findMany();
 }
 
 //find TA Job by job id
 export const getTAJobById = async (id: number) => {
     //using Prisma's findMany() method to retrieve all TA jobs from the database.
-    return await prisma.TAJob.findUnique({
+    console.log(await prisma.tAJob.findMany());
+
+    return await prisma.tAJob.findUnique({
         where: { id }
     });
 }
