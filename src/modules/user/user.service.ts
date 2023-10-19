@@ -29,9 +29,18 @@ export const getUserDetailById = async (id: number) => {
 //get all Ta jobs 
 export const getAllTAJobs = async () => {
     //using Prisma's findMany() method to retrieve all TA jobs from the database.
-    console.log(await prisma.tAJob.findMany());
+    console.log(await prisma.tAJob.findMany({
+      include: {
+      course: true,
+      faculty: true,
+    },}));
     
-    return await prisma.tAJob.findMany();
+    return await prisma.tAJob.findMany({
+      include: {
+        course: true,
+        faculty: true,
+      },
+    });
 }
 
 //find TA Job by job id
@@ -39,7 +48,11 @@ export const getTAJobById = async (id: number) => {
     //using Prisma's findMany() method to retrieve all TA jobs from the database.
     try{
         return await prisma.tAJob.findUnique({
-            where: { id }
+            where: { id },
+            include: {
+              course: true,
+              faculty: true,
+            },
         });
     }
     catch (err) {
