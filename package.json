@@ -24,7 +24,7 @@
     "jsonwebtoken": "^9.0.2",
     "mysql2": "^3.3.3",
     "nodemailer": "^6.9.5",
-    "prisma": "^4.15.0"
+    "prisma": "^4.16.2"
   },
   "devDependencies": {
     "@types/body-parser": "^1.19.2",
