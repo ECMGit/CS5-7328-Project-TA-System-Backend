@@ -102,7 +102,11 @@ type FilterParams = {
         where: queryConditions,
         include: {
             course: true,
-            faculty: true,
+            faculty: {
+              include: {
+                user: true // Include the user associated with the faculty
+              }
+            }
           },
       });
   
