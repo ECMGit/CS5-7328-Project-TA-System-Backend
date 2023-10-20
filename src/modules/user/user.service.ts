@@ -66,6 +66,7 @@ type FilterParams = {
     course?: string;
     totalHoursPerWeek?: number;
     faculty?: string;
+    taStats?: string;
   };
   
   export const getTAJobsWithFilters = async (filters: FilterParams) => {
