@@ -1,7 +1,7 @@
 import express from 'express';
 import bodyParser from 'body-parser';
 import userRoutes from './modules/user/user.routes';
-import * as UserController from './modules/user/user.controller'
+import tajobRoutes from './modules/tajobs/tajob.routes';
 
 const app = express();
 
@@ -31,10 +31,7 @@ app.use((req, res, next) => {
 
 // import routes which are defined in modules
 app.use('/user', userRoutes);
-
-app.get('/jobs/query', UserController.getTAJobsWithFilters);
-app.get('/jobs/:id', UserController.getTAJobById);
-app.get('/jobs', UserController.getAllTAJobs);
+app.use('/jobs', tajobRoutes);
 
 app.get("/", (req, res) => {
   res.status(200).send("Hello World!");
