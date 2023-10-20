@@ -1,15 +1,20 @@
+
 import express from "express";
 import bodyParser from "body-parser";
 import userRoutes from "./modules/user/user.routes";
 import jobRoutes from "./modules/job/job.routes";
+import userRoutes from './modules/user/user.routes';
+import taApplicationRoutes from './modules/taApplication/taApplication.routes';
 
 const app = express();
 
 // Middleware
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use(bodyParser.json());
+app.use( bodyParser.urlencoded( { extended: false } ) );
+app.use( bodyParser.json() );
+app.use( express.json() );
 
 // Enable CORS
+
 app.use((req, res, next) => {
   // res.setHeader('Access-Control-Allow-Origin', 'http://localhost:3000');
   res.setHeader("Access-Control-Allow-Origin", "*");
@@ -31,9 +36,12 @@ app.use((req, res, next) => {
 // import routes which are defined in modules
 app.use("/user", userRoutes);
 app.use("/job", jobRoutes);
+app.use('/ta-application', taApplicationRoutes );
 
-app.get("/", (req, res) => {
-  res.status(200).send("Hello World!");
-});
+
+app.get( '/', ( req, res ) => {
+    res.status( 200 ).send( 'Hello World!' );
+} );
+
 
 export default app;
