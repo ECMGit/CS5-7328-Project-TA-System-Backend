@@ -4,6 +4,7 @@ const prisma = new PrismaClient();
 
 export const getJobs = async () => {
   try {
+    // return all jobs from database
     return await prisma.tAJob.findMany();
   } catch (error) {
     throw error;
@@ -23,10 +24,11 @@ export const createJob = async (jobData: {
   requiredSkills: string;
   TAStats: string;
   notes?: string;
-  deadlineToApply: Date;
+  deadlineToApply: Date; // should be formatted as ISO date
   facultyId: number;
 }) => {
   try {
+    // add one job to database
     return await prisma.tAJob.create({
       data: jobData,
     });
