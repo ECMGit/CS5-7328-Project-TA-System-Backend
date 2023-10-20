@@ -1,5 +1,8 @@
-import express from 'express';
-import bodyParser from 'body-parser';
+
+import express from "express";
+import bodyParser from "body-parser";
+import userRoutes from "./modules/user/user.routes";
+import jobRoutes from "./modules/job/job.routes";
 import userRoutes from './modules/user/user.routes';
 import taApplicationRoutes from './modules/taApplication/taApplication.routes';
 
@@ -11,27 +14,29 @@ app.use( bodyParser.json() );
 app.use( express.json() );
 
 // Enable CORS
-app.use( ( req, res, next ) => {
-    // res.setHeader('Access-Control-Allow-Origin', 'http://localhost:3000');
-    res.setHeader( 'Access-Control-Allow-Origin', '*' );
-    res.setHeader( 'Access-Control-Allow-Methods', 'OPTIONS, GET, POST, PUT, DELETE' );
-    res.setHeader( 'Access-Control-Allow-Headers', 'Content-Type, Authorization' );
 
-    /*
-     * Handle preflight request.
-     * By default, send a 200 status
-     * for OPTIONS requests.
-     */
-    if ( req.method === 'OPTIONS' ) {
-        return res.sendStatus( 200 );
-    }
+app.use((req, res, next) => {
+  // res.setHeader('Access-Control-Allow-Origin', 'http://localhost:3000');
+  res.setHeader("Access-Control-Allow-Origin", "*");
+  res.setHeader(
+    "Access-Control-Allow-Methods",
+    "OPTIONS, GET, POST, PUT, DELETE"
+  );
+  res.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
 
-    next();
-} );
+  // Handle preflight request.
+  // By default, send a 200 status for OPTIONS requests.
+  if (req.method === "OPTIONS") {
+    return res.sendStatus(200);
+  }
+
+  next();
+});
 
 // import routes which are defined in modules
-app.use( '/user', userRoutes );
-app.use( '/ta-application', taApplicationRoutes );
+app.use("/user", userRoutes);
+app.use("/job", jobRoutes);
+app.use('/ta-application', taApplicationRoutes );
 
 
 app.get( '/', ( req, res ) => {
