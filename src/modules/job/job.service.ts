@@ -1,7 +1,8 @@
 import { PrismaClient } from "@prisma/client";
-
+import { jobData } from "./job.types";
 const prisma = new PrismaClient();
 
+//TODO: add comments to all functions
 export const getJobs = async () => {
   try {
     // return all jobs from database
@@ -13,20 +14,10 @@ export const getJobs = async () => {
 
 /**
  * @param jobData Job data to be stored
+ * @returns The job that was created
+ * @throws Error if job could not be created
  */
-export const createJob = async (jobData: {
-  title: string;
-  courseId: number;
-  courseSchedule: string;
-  totalHoursPerWeek: number;
-  maxNumberOfTAs: number;
-  requiredCourses: string;
-  requiredSkills: string;
-  TAStats: string;
-  notes?: string;
-  deadlineToApply: Date; // should be formatted as ISO date
-  facultyId: number;
-}) => {
+export const createJob = async (jobData: jobData) => {
   try {
     // add one job to database
     return await prisma.tAJob.create({

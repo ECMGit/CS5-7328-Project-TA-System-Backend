@@ -7,6 +7,7 @@ import {
 import * as taApplicationService from './taApplication.service';
 import fs from 'fs';
 
+//TODO: Add Comments to all functions
 
 const storage = multer.diskStorage( {
     destination: ( req, file, cb ) => {

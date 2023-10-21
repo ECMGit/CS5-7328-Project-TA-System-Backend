@@ -3,7 +3,6 @@ import express from "express";
 import bodyParser from "body-parser";
 import userRoutes from "./modules/user/user.routes";
 import jobRoutes from "./modules/job/job.routes";
-import userRoutes from './modules/user/user.routes';
 import taApplicationRoutes from './modules/taApplication/taApplication.routes';
 
 const app = express();

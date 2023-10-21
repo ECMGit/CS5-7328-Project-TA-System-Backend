@@ -110,7 +110,7 @@ model TAApplication {
   course              Course  @relation(fields: [courseId], references: [id])
   studentId           Int
   student             Student @relation(fields: [studentId], references: [userId])
-  hoursCanWorkPerWeek Int
+  hoursCanWorkPerWeek String
   coursesTaken        String
   GPA                 Float
   requiredCourses     String // A comma separated list of required courses taken
