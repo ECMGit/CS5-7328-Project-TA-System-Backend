@@ -1,5 +1,5 @@
-import { PrismaClient } from "@prisma/client";
-import { jobData } from "./job.types";
+import { PrismaClient } from '@prisma/client';
+import { jobData } from './job.types';
 const prisma = new PrismaClient();
 
 //TODO: add comments to all functions
@@ -8,6 +8,7 @@ export const getJobs = async () => {
     // return all jobs from database
     return await prisma.tAJob.findMany();
   } catch (error) {
+    console.log(error);
     throw error;
   }
 };
@@ -24,6 +25,7 @@ export const createJob = async (jobData: jobData) => {
       data: jobData,
     });
   } catch (error) {
+    console.log(error);
     throw error;
   }
 };

@@ -1,5 +1,5 @@
-import * as JobService from "./job.service";
-import { Request, Response, NextFunction } from "express";
+import * as JobService from './job.service';
+import { Request, Response, NextFunction } from 'express';
 
 /**
  * @param req

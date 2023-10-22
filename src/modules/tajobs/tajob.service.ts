@@ -1,26 +1,5 @@
-import { prisma } from 'prisma';
-/**
- * This file is for containing all the operation directly to database
- * You can use this file to create, update, delete, or get data from database
- * And you can use the value returned from this file to do complex logic in the controller
- */
-export const getUsers = async () => {
-  return await prisma.user.findMany();
-};
-
-export const getUserById = async (id: number) => {
-  return await prisma.user.findUnique({ where: { id } });
-};
-
-export const findUserByUsername = async (username: string) => {
-  return await prisma.user.findUnique({ where: { username } });
-};
-
-export const getUserDetailById = async (id: number) => {
-  return await prisma.user.findUnique({
-    where: { id },
-  });
-};
+import { PrismaClient } from '@prisma/client';
+const prisma = new PrismaClient();
 
 //get all Ta jobs
 export const getAllTAJobs = async () => {
@@ -64,14 +43,13 @@ type FilterParams = {
   course?: string;
   totalHoursPerWeek?: number;
   faculty?: string;
-  taStats?: string;
 };
 
 export const getTAJobsWithFilters = async (filters: FilterParams) => {
   try {
-    //eslint-disable-next-line @typescript-eslint/no-explicit-any
+    // 'any' could be replaced with more specific types based on your conditions
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const queryConditions: Record<string, any> = {}; 
-    //TODO: above'any' could be replaced with more specific types based on your conditions
 
     for (const [key, value] of Object.entries(filters)) {
       if (value) {
@@ -87,8 +65,7 @@ export const getTAJobsWithFilters = async (filters: FilterParams) => {
             queryConditions[key] = number;
           } else {
             // If the conversion results in NaN and you prefer to not include it in the query,
-            // you can decide either to skip this condition or handle it appropriately, 
-            // maybe by logging an error.
+            // you can decide either to skip this condition or handle it appropriately, maybe by logging an error.
             console.error(`Invalid number received for ${key}`);
             // You can continue to the next iteration if you don't want this property to be part of your query
             continue;
