@@ -16,8 +16,11 @@ model User {
   lastName         String
   password         String
   resetToken       String?   @unique
-  resetTokenExpiry BigInt?
+  resetTokenExpiry Int?
   updatedAt        DateTime? @updatedAt
+  faculty          Faculty?
+  student          Student?
+  admin            Admin?
   faculty          Faculty?
   student          Student?
   admin            Admin?
@@ -28,7 +31,9 @@ model Faculty {
   designation String
   department  String
   courses     FacultyCourse[]
+  courses     FacultyCourse[]
   user        User            @relation(fields: [userId], references: [id])
+  TAJob       TAJob[]
   TAJob       TAJob[]
 }
 
@@ -116,7 +121,11 @@ model TAApplication {
   requiredCourses     String // A comma separated list of required courses taken
   requiredSkills      String // A comma separated list of required skills
   resumeFile          String // URL or path to the file. This depends on how you handle file uploads.
+  requiredCourses     String // A comma separated list of required courses taken
+  requiredSkills      String // A comma separated list of required skills
+  resumeFile          String // URL or path to the file. This depends on how you handle file uploads.
   taJobId             Int
+  taJob               TAJob   @relation(fields: [taJobId], references: [id])
   taJob               TAJob   @relation(fields: [taJobId], references: [id])
 }
 
