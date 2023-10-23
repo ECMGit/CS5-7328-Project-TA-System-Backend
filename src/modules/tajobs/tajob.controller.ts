@@ -1,7 +1,15 @@
 import * as UserService from './tajob.service';
 //do we have to import the TA service?
 import { Request, Response, NextFunction } from 'express';
+//TODO: Add comments to functions, using given example as format
 
+/**
+ * 
+ * @param req 
+ * @param res 
+ * @param next 
+ * @returns 
+ */
 export const getAllTAJobs = async (
   req: Request,
   res: Response,
@@ -60,5 +68,24 @@ export const getTAJobsWithFilters = async (
   } catch (error) {
     console.error('Error fetching TA jobs with filters:', error);
     next(error); // Pass errors to the next middleware.
+  }
+};
+
+/**
+ * get user by id
+ * @param req 
+ * @param res 
+ * @param next 
+ * @returns 
+ */
+export const getTAJobsByFacultyId = async (req: Request, res: Response, next: NextFunction) => {
+  try {
+      const user = await UserService.getTAJobsByFacultyId(Number(req.params.facultyId));
+      if (!user) {
+          return res.status(404).json({ message: 'User not found' });
+      }
+      res.json(user);
+  } catch (error) {
+      next(error);
   }
 };

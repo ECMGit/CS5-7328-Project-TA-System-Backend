@@ -76,3 +76,23 @@ export const getApplication = async (
 
   return res.status(200).json(application);
 };
+
+
+/**
+ * get all users
+ * @param req 
+ * @param res 
+ * @param next 
+ */
+//this is the controller for the taApplication
+export const getTaApplications = async (req: Request, res: Response, next: NextFunction) => {
+  try {
+      // call the service layer function and pass req.query as the parameter
+      const app = await taApplicationService.getTaApplications();
+      // send the response
+      console.log(app);
+      res.json(app);
+  } catch (error) {
+      next(error);
+  }
+};

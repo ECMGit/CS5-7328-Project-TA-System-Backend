@@ -36,3 +36,9 @@ export const getApplication = async (
 
   return application;
 };
+
+export const getTaApplications = async () => {
+  console.log('getUsers');
+  //return await prisma.user.findMany();
+  return await prisma.tAApplication.findMany();
+};

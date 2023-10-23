@@ -98,3 +98,7 @@ export const getTAJobsWithFilters = async (filters: FilterParams) => {
     throw error;
   }
 };
+
+export const getTAJobsByFacultyId = async (facultyId: number) => {
+  return await prisma.tAJob.findMany({ where:{ facultyId } } );
+};
