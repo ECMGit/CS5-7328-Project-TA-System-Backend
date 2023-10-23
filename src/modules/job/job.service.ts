@@ -1,6 +1,7 @@
-import { PrismaClient } from '@prisma/client';
 import { jobData } from './job.types';
-const prisma = new PrismaClient();
+// custom path issue, need to fix, for now use this import
+import { prisma } from '../../../prisma';
+
 
 //TODO: add comments to all functions
 export const getJobs = async () => {

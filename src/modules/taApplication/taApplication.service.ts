@@ -1,7 +1,8 @@
-import { PrismaClient, TAApplication } from '@prisma/client';
+import { TAApplication } from '@prisma/client';
 import { TAApplicationData } from './taApplication.types';
+// custom path issue, need to fix, for now use this import
+import { prisma } from '../../../prisma';
 
-const prisma = new PrismaClient();
 //TODO: Add Comments to all functions
 
 // Save application with associated courses and tajob
