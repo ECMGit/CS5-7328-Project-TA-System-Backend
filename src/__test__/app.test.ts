@@ -1,6 +1,7 @@
 import request from 'supertest';
 import app from '../app'; // Import your Express app
 import { User } from '@prisma/client';
+import {faker} from '@faker-js/faker';
 
 describe('GET /', () => {
   it('should return "Hello, World!"', async () => {
@@ -45,5 +46,30 @@ describe('POST /user/login', () => {
       .send({ username: 'unknown', password: 'password' });
     expect(response.status).toBe(401);
     expect(response.body).toEqual({ error: 'Invalid username or password' });
+  });
+});
+
+
+describe('POST /user/signup', () => {
+  it('should create a new user', async () => {
+    // Generate fake user data
+    const fakeUser = {
+      smuNo: faker.number.int(),
+      username: faker.internet.userName(),
+      email: faker.internet.email(),
+      firstName: faker.person.firstName(),
+      lastName: faker.person.lastName(),
+      password: faker.internet.password(),
+    };
+
+    const response = await request(app)
+      .post('/user/signup')
+      .send(fakeUser);
+
+    expect(response.status).toBe(201);
+    expect(response.body.message).toBe('User created!');
+    
+    // Additional assertions...
+    // For instance, check if user is in the database
   });
 });
