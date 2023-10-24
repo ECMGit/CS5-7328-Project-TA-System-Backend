@@ -12,4 +12,7 @@ router.get('/', UserController.getUsers); // route is not protected by authentic
 // router.get('/detail', authenticate, UserController.getUserDetailById); 
 // ... other user-related routes
 
+router.post('/signUp', UserController.signUp);
+router.post('/login', UserController.login);
+
 export default router;
