@@ -3,9 +3,11 @@ import { TAApplicationData } from './taApplication.types';
 // custom path issue, need to fix, for now use this import
 import { prisma } from '../../../prisma';
 
-//TODO: Add Comments to all functions
-
-// Save application with associated courses and tajob
+/**
+ * Save application with associated courses and tajob
+ * @param data  
+ * @param file
+ */
 export const saveApplication =
   // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
   async (data: TAApplicationData, file: Express.Multer.File) => {
@@ -16,7 +18,6 @@ export const saveApplication =
         student: { connect: { userId: data.studentId } },
         taJob: { connect: { id: data.taJobId } },
         hoursCanWorkPerWeek: data.hoursCanWorkPerWeek,
-        coursesTaken: data.coursesTaken,
         // eslint-disable-next-line @typescript-eslint/naming-convention
         GPA: data.gpa,
         requiredCourses: data.requiredCourses,
@@ -26,6 +27,10 @@ export const saveApplication =
     });
   };
 
+/**
+ * Get a list of all applications
+ * @param id application id
+ */
 export const getApplication = async (
   id: number
 ): Promise<TAApplication | null> => {

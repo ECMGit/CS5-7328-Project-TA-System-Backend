@@ -5,8 +5,9 @@ import { NextFunction, Request, Response } from 'express';
 import * as taApplicationService from './taApplication.service';
 import fs from 'fs';
 
-//TODO: Add Comments to all functions
-
+/**
+ * create multer instance
+ */
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
     const uploadFolder = 'uploads/';
@@ -27,6 +28,12 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage });
 
+/**
+ * Save a TA application
+ * @param req 
+ * @param res 
+ * @param next 
+ */
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export const save = (req: Request, res: Response, next: NextFunction) => {
   upload.single('resumeFile')(req, res, (err) => {
@@ -79,20 +86,22 @@ export const getApplication = async (
 
 
 /**
- * get all users
+ * get a list of all applications
  * @param req 
  * @param res 
  * @param next 
  */
 //this is the controller for the taApplication
-export const getTaApplications = async (req: Request, res: Response, next: NextFunction) => {
+export const getTaApplications = async (
+  req: Request, res: Response, next: NextFunction
+) => {
   try {
-      // call the service layer function and pass req.query as the parameter
-      const app = await taApplicationService.getTaApplications();
-      // send the response
-      console.log(app);
-      res.json(app);
+    // call the service layer function and pass req.query as the parameter
+    const app = await taApplicationService.getTaApplications();
+    // send the response
+    console.log(app);
+    res.json(app);
   } catch (error) {
-      next(error);
+    next(error);
   }
 };

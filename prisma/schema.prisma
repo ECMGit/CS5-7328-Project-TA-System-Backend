@@ -1,132 +1,122 @@
 // define your database configuration here
 
 datasource db {
-  provider = "mysql"
-  url      = env("DATABASE_URL")
+    provider = "mysql"
+    url      = env("DATABASE_URL")
 }
 
 // define the data model here
 
 model User {
-  id               Int       @id @default(autoincrement())
-  smuNo            Int
-  username         String    @unique
-  email            String    @unique
-  firstName        String
-  lastName         String
-  password         String
-  resetToken       String?   @unique
-  resetTokenExpiry Int?
-  updatedAt        DateTime? @updatedAt
-  faculty          Faculty?
-  student          Student?
-  admin            Admin?
-  faculty          Faculty?
-  student          Student?
-  admin            Admin?
+    id               Int       @id @default(autoincrement())
+    smuNo            Int
+    username         String    @unique
+    email            String    @unique
+    firstName        String
+    lastName         String
+    password         String
+    resetToken       String?   @unique
+    resetTokenExpiry Int?
+    updatedAt        DateTime? @updatedAt
+    faculty          Faculty?
+    student          Student?
+    admin            Admin?
 }
 
 model Faculty {
-  userId      Int             @id
-  designation String
-  department  String
-  courses     FacultyCourse[]
-  courses     FacultyCourse[]
-  user        User            @relation(fields: [userId], references: [id])
-  TAJob       TAJob[]
-  TAJob       TAJob[]
+    userId      Int             @id
+    designation String
+    department  String
+    courses     FacultyCourse[]
+    user        User            @relation(fields: [userId], references: [id])
+    TAJob       TAJob[]
 }
 
 model Student {
-  userId        Int             @id
-  year          Int
-  courses       StudentCourse[]
-  tas           CourseTA[] // Opposite relation field for CourseTA
-  user          User            @relation(fields: [userId], references: [id])
-  TAApplication TAApplication[]
+    userId        Int             @id
+    year          Int
+    courses       StudentCourse[]
+    tas           CourseTA[] // Opposite relation field for CourseTA
+    user          User            @relation(fields: [userId], references: [id])
+    TAApplication TAApplication[]
 }
 
 model Admin {
-  userId Int    @id
-  role   String // This can be an enum if you have predefined roles
-  user   User   @relation(fields: [userId], references: [id])
+    userId Int    @id
+    role   String // This can be an enum if you have predefined roles
+    user   User   @relation(fields: [userId], references: [id])
 }
 
 model Course {
-  id            Int             @id @default(autoincrement())
-  courseCode    String          @unique
-  title         String
-  description   String?
-  faculties     FacultyCourse[]
-  students      StudentCourse[]
-  tas           CourseTA[] // Opposite relation field for CourseTA
-  TAJob         TAJob[]
-  TAApplication TAApplication[]
+    id            Int             @id @default(autoincrement())
+    courseCode    String          @unique
+    title         String
+    description   String?
+    faculties     FacultyCourse[]
+    students      StudentCourse[]
+    tas           CourseTA[] // Opposite relation field for CourseTA
+    TAJob         TAJob[]
+    TAApplication TAApplication[]
 }
 
 model FacultyCourse {
-  facultyId Int
-  courseId  Int
-  faculty   Faculty @relation(fields: [facultyId], references: [userId])
-  course    Course  @relation(fields: [courseId], references: [id])
+    facultyId Int
+    courseId  Int
+    faculty   Faculty @relation(fields: [facultyId], references: [userId])
+    course    Course  @relation(fields: [courseId], references: [id])
 
-  @@id([facultyId, courseId])
+    @@id([facultyId, courseId])
 }
 
 model StudentCourse {
-  studentId Int
-  courseId  Int
-  student   Student @relation(fields: [studentId], references: [userId])
-  course    Course  @relation(fields: [courseId], references: [id])
+    studentId Int
+    courseId  Int
+    student   Student @relation(fields: [studentId], references: [userId])
+    course    Course  @relation(fields: [courseId], references: [id])
 
-  @@id([studentId, courseId])
+    @@id([studentId, courseId])
 }
 
 model CourseTA {
-  studentId Int
-  courseId  Int
-  student   Student @relation(fields: [studentId], references: [userId])
-  course    Course  @relation(fields: [courseId], references: [id])
+    studentId Int
+    courseId  Int
+    student   Student @relation(fields: [studentId], references: [userId])
+    course    Course  @relation(fields: [courseId], references: [id])
 
-  @@id([studentId, courseId])
+    @@id([studentId, courseId])
 }
 
 model TAJob {
-  id                Int             @id @default(autoincrement())
-  title             String
-  courseId          Int
-  course            Course          @relation(fields: [courseId], references: [id])
-  courseSchedule    String
-  totalHoursPerWeek Int
-  maxNumberOfTAs    Int
-  requiredCourses   String
-  requiredSkills    String
-  TAStats           String // Can be turned into an Enum with values "Master student", "Under", etc.
-  notes             String?
-  deadlineToApply   DateTime
-  facultyId         Int
-  faculty           Faculty         @relation(fields: [facultyId], references: [userId])
-  applications      TAApplication[]
+    id                Int             @id @default(autoincrement())
+    title             String
+    courseId          Int
+    course            Course          @relation(fields: [courseId], references: [id])
+    courseSchedule    String
+    totalHoursPerWeek Int
+    maxNumberOfTAs    Int
+    requiredCourses   String
+    requiredSkills    String
+    TAStats           String // Can be turned into an Enum with values "Master student", "Under", etc.
+    notes             String?
+    deadlineToApply   DateTime
+    facultyId         Int
+    faculty           Faculty         @relation(fields: [facultyId], references: [userId])
+    applications      TAApplication[]
 }
 
 model TAApplication {
-  id                  Int     @id @default(autoincrement())
-  courseId            Int
-  course              Course  @relation(fields: [courseId], references: [id])
-  studentId           Int
-  student             Student @relation(fields: [studentId], references: [userId])
-  hoursCanWorkPerWeek String
-  coursesTaken        String
-  GPA                 Float
-  requiredCourses     String // A comma separated list of required courses taken
-  requiredSkills      String // A comma separated list of required skills
-  resumeFile          String // URL or path to the file. This depends on how you handle file uploads.
-  requiredCourses     String // A comma separated list of required courses taken
-  requiredSkills      String // A comma separated list of required skills
-  resumeFile          String // URL or path to the file. This depends on how you handle file uploads.
-  taJobId             Int
-  taJob               TAJob   @relation(fields: [taJobId], references: [id])
-  taJob               TAJob   @relation(fields: [taJobId], references: [id])
+    id                  Int     @id @default(autoincrement())
+    courseId            Int
+    course              Course  @relation(fields: [courseId], references: [id])
+    studentId           Int
+    student             Student @relation(fields: [studentId], references: [userId])
+    hoursCanWorkPerWeek String
+    GPA                 Float
+    requiredCourses     String // A comma separated list of required courses taken
+    requiredSkills      String // A comma separated list of required skills
+    resumeFile          String // URL or path to the file. This depends on how you handle file uploads.
+    taJobId             Int
+    taJob               TAJob   @relation(fields: [taJobId], references: [id])
 }
 
 generator client {
