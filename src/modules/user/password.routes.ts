@@ -32,7 +32,7 @@ router.post('/password-reset-link', async (req, res) => {
     where: { email: user.email },
     data: {
       resetToken: token,
-      resetTokenExpiry: Date.now() + 3600000, // 1 hour from now
+      resetTokenExpiry: (Date.now() + 3600000).toString(), // 1 hour from now
     },
   });
 
@@ -90,7 +90,7 @@ router.post('/password-reset/confirm', async (req, res) => {
 
   // 2. Verify that the token hasn't expired (assuming you have an expiry date in your DB)
   // If you have a resetTokenExpiry field in your User model:
-  if (!user.resetTokenExpiry || user.resetTokenExpiry < Date.now()) {
+  if (!user.resetTokenExpiry || user.resetTokenExpiry < (Date.now().toString())) {
     return res.status(400).json({ error: 'The access token has expired'});
   }
 
