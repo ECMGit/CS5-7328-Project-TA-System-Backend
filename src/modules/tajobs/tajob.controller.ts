@@ -1,7 +1,6 @@
 import * as UserService from './tajob.service';
 //do we have to import the TA service?
 import { Request, Response, NextFunction } from 'express';
-//TODO: Add comments to functions, using given example as format
 
 /**
  * 
