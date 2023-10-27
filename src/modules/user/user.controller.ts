@@ -79,7 +79,12 @@ export const getUserDetailById = async (
 
 
 
-// Register a new user
+/**
+ * Register a new user
+ * @param req
+ * @param res
+ * @returns {Promise<Response>}
+ */
 export async function signUp(req: Request, res: Response) {
   const { username, email, password, smuNo, firstName, lastName } = req.body;
   console.log(req.body);
@@ -110,7 +115,12 @@ export async function signUp(req: Request, res: Response) {
   }
 }
 
-// User login
+/**
+ * Login as a user
+ * @param req
+ * @param res
+ * @returns {Promise<Response>}
+ */
 export async function login(req: Request, res: Response) {
   const { username, password } = req.body;
   try {
@@ -135,7 +145,12 @@ export async function login(req: Request, res: Response) {
   }
 }
 
-// Import users
+/**
+ * Import all users
+ * @param req
+ * @param res
+ * @returns {Promise<Response>}
+ */
 export async function importUsers(req: Request, res: Response) {
   const users = req.body;
 
