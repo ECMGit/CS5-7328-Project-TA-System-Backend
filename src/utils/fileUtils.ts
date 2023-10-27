@@ -4,6 +4,7 @@ import fs from 'fs';
 
 /**
  * create multer storage instance
+ * make sure it is singleton
  */
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
