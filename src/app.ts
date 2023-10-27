@@ -1,6 +1,7 @@
 import express from 'express';
 import bodyParser from 'body-parser';
-import userRoutes from './modules/user/user.routes';
+import passwordResetRouter from './routes/passwordResetRouter';
+import userRouter from './routes/userRouter';
 
 const app = express();
 
@@ -10,11 +11,9 @@ app.use(bodyParser.json());
 
 // Enable CORS
 app.use((req, res, next) => {
-  // res.setHeader('Access-Control-Allow-Origin', 'http://localhost:3000');
-  res.setHeader('Access-Control-Allow-Origin', '*');
-  res.setHeader('Access-Control-Allow-Methods', 'OPTIONS, GET, POST, PUT, DELETE');
+  res.setHeader('Access-Control-Allow-Origin', 'http://localhost:3000');
+  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
-  
   // Handle preflight request. 
   // By default, send a 200 status for OPTIONS requests.
   if (req.method === 'OPTIONS') {
@@ -24,9 +23,8 @@ app.use((req, res, next) => {
   next();
 });
 
-// import routes which are defined in modules
-app.use('/user', userRoutes);
-
+app.use('/api', passwordResetRouter);
+app.use('/user', userRouter);
 
 
 app.get("/", (req, res) => {

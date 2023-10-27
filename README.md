@@ -11,19 +11,12 @@ Express.js Node.js app for backend, Rest API, and Prisma ORM.
 ├── package.json
 ├── package-lock.json
 ├── prisma
-│   ├── index.ts                            # Database client, you can call this instead of create a new client in each function
 │   └── schema.prisma
 ├── README.md
 ├── src                                     # Source files, write your code under this folder
 │   ├── app.ts                              # Entry of the application
 │   ├── server.ts                           # Configure the server
-│   ├── middleware                          # Middleware folder, write your middleware under this folder, you can add more middleware base on your need
-│   │  └── authentication.ts                # Authentication middleware, we are not yet develop it, we can implement it later
-│   └── modules                             # define your modules here, you can add more modules base on your need, please refer the user module for standard
-│       ├── user.controller.ts              # define your controller here, which is responsible for handling request and response, query data from service
-│       ├── user.routes.ts                  # define routes and api endpoints
-│       └── user.service.ts                 # data access layer, for database operation
-├────── __test__                            # Test folder, write your test case under this folder
+│   └── __test__                            # Test folder, write your test case under this folder
 │       └── app.test.ts
 └── tsconfig.json
 ```
