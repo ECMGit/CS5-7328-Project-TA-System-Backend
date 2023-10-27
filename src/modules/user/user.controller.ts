@@ -77,13 +77,11 @@ export const getUserDetailById = async (
   }
 };
 
-
-
 /**
  * Register a new user
  * @param req
  * @param res
- * @returns {Promise<Response>}
+ * @returns {Promise<Response>} <- this is just the error code
  */
 export async function signUp(req: Request, res: Response) {
   const { username, email, password, smuNo, firstName, lastName } = req.body;
@@ -119,7 +117,7 @@ export async function signUp(req: Request, res: Response) {
  * Login as a user
  * @param req
  * @param res
- * @returns {Promise<Response>}
+ * @returns {Promise<Response>} <- this is just the error code
  */
 export async function login(req: Request, res: Response) {
   const { username, password } = req.body;
@@ -149,7 +147,7 @@ export async function login(req: Request, res: Response) {
  * Import all users
  * @param req
  * @param res
- * @returns {Promise<Response>}
+ * @returns {Promise<Response>} <- this is just the error code
  */
 export async function importUsers(req: Request, res: Response) {
   const users = req.body;
