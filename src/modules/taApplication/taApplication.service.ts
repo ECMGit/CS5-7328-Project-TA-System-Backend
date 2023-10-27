@@ -5,8 +5,8 @@ import { prisma } from '../../../prisma';
 
 /**
  * Save application with associated courses and tajob
- * @param data  
- * @param file
+ * @param data  Ta application data
+ * @param file  resume file
  */
 export const saveApplication =
   // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
@@ -28,7 +28,7 @@ export const saveApplication =
   };
 
 /**
- * Get a list of all applications
+ * Get a application by id
  * @param id application id
  */
 export const getApplication = async (
@@ -43,8 +43,10 @@ export const getApplication = async (
   return application;
 };
 
+/**
+ * Get all applications
+ */
 export const getTaApplications = async () => {
   console.log('getUsers');
-  //return await prisma.user.findMany();
   return await prisma.tAApplication.findMany();
 };

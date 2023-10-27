@@ -1,32 +1,8 @@
-import path from 'path';
-import multer from 'multer';
 import { TAApplicationData } from './taApplication.types';
 import { NextFunction, Request, Response } from 'express';
 import * as taApplicationService from './taApplication.service';
-import fs from 'fs';
+import { upload } from 'src/utils/fileUtils';
 
-/**
- * create multer instance
- */
-const storage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    const uploadFolder = 'uploads/';
-
-    if (!fs.existsSync(uploadFolder)) {
-      fs.mkdirSync(uploadFolder, { recursive: true });
-    }
-
-    cb(null, 'uploads/');
-  },
-  filename: (req, file, cb) => {
-    cb(
-      null,
-      file.fieldname + '-' + Date.now() + path.extname(file.originalname)
-    );
-  },
-});
-
-const upload = multer({ storage });
 
 /**
  * Save a TA application
@@ -36,6 +12,7 @@ const upload = multer({ storage });
  */
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export const save = (req: Request, res: Response, next: NextFunction) => {
+  // Upload the resume file
   upload.single('resumeFile')(req, res, (err) => {
     if (err) {
       next(err);
@@ -64,7 +41,12 @@ export const save = (req: Request, res: Response, next: NextFunction) => {
   });
 };
 
-export const getApplication = async (
+/**
+ * get single ta application
+ * @param req 
+ * @param res 
+ */
+export const getTaApplication = async (
   req: Request,
   res: Response
   // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
@@ -91,7 +73,6 @@ export const getApplication = async (
  * @param res 
  * @param next 
  */
-//this is the controller for the taApplication
 export const getTaApplications = async (
   req: Request, res: Response, next: NextFunction
 ) => {

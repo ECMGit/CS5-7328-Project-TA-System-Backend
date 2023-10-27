@@ -5,6 +5,6 @@ const router = express.Router();
 
 router.post( '/', TaApplicationController.save );
 router.get('/', TaApplicationController.getTaApplications); // route is not protected by authentication middleware
-router.get( '/:id', TaApplicationController.getApplication );
+router.get( '/:id', TaApplicationController.getTaApplication );
 
 export default router;
