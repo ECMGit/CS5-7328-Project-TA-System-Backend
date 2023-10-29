@@ -20,5 +20,5 @@ router.post('/password-reset-link', UserController.sendPasswordResetLink);
 router.get('/reset-password', UserController.confirmResetPassword);
 
 // testing purpose
-router.post('/importUsers', UserController.importUsers);
+router.post('/import', UserController.importUsers);
 export default router;
