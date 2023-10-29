@@ -4,8 +4,10 @@ import * as UserController from './user.controller';
 
 const router = Router();
 
-router.get('/', UserController.getUsers); // route is not protected by authentication middleware
+router.get('/detail/:id', UserController.getUserDetailById);
 router.get('/:id', UserController.getUserById);
+router.get('/', UserController.getUsers); // route is not protected by authentication middleware
+
 // route is protected by authentication middleware
 // router.get('/detail', authenticate, UserController.getUserDetailById); 
 // ... other user-related routes

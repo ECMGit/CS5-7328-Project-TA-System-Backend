@@ -1,34 +1,18 @@
-import path from 'path';
-import multer from 'multer';
 import { TAApplicationData } from './taApplication.types';
 import { NextFunction, Request, Response } from 'express';
 import * as taApplicationService from './taApplication.service';
-import fs from 'fs';
+import { upload } from 'src/utils/fileUtils';
 
-//TODO: Add Comments to all functions
 
-const storage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    const uploadFolder = 'uploads/';
-
-    if (!fs.existsSync(uploadFolder)) {
-      fs.mkdirSync(uploadFolder, { recursive: true });
-    }
-
-    cb(null, 'uploads/');
-  },
-  filename: (req, file, cb) => {
-    cb(
-      null,
-      file.fieldname + '-' + Date.now() + path.extname(file.originalname)
-    );
-  },
-});
-
-const upload = multer({ storage });
-
+/**
+ * Save a TA application
+ * @param req 
+ * @param res 
+ * @param next 
+ */
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export const save = (req: Request, res: Response, next: NextFunction) => {
+  // Upload the resume file
   upload.single('resumeFile')(req, res, (err) => {
     if (err) {
       next(err);
@@ -57,7 +41,12 @@ export const save = (req: Request, res: Response, next: NextFunction) => {
   });
 };
 
-export const getApplication = async (
+/**
+ * get single ta application
+ * @param req 
+ * @param res 
+ */
+export const getTaApplication = async (
   req: Request,
   res: Response
   // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
@@ -75,4 +64,25 @@ export const getApplication = async (
   }
 
   return res.status(200).json(application);
+};
+
+
+/**
+ * get a list of all applications
+ * @param req 
+ * @param res 
+ * @param next 
+ */
+export const getTaApplications = async (
+  req: Request, res: Response, next: NextFunction
+) => {
+  try {
+    // call the service layer function and pass req.query as the parameter
+    const app = await taApplicationService.getTaApplications();
+    // send the response
+    console.log(app);
+    res.json(app);
+  } catch (error) {
+    next(error);
+  }
 };

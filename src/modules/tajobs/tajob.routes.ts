@@ -8,5 +8,6 @@ const router = Router();
 router.get('/query', TajobController.getTAJobsWithFilters);
 router.get('/:id', TajobController.getTAJobById);
 router.get('/', TajobController.getAllTAJobs);
+router.get("/:facultyId", TajobController.getTAJobsByFacultyId)
 
 export default router;

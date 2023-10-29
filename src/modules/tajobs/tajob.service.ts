@@ -1,5 +1,5 @@
-import { PrismaClient } from '@prisma/client';
-const prisma = new PrismaClient();
+// custom path issue, need to fix, for now use this import
+import { prisma } from '../../../prisma';
 
 //get all Ta jobs
 export const getAllTAJobs = async () => {
@@ -47,10 +47,11 @@ type FilterParams = {
 
 export const getTAJobsWithFilters = async (filters: FilterParams) => {
   try {
+    // TODO: above'any' could be replaced with more specific types based on your conditions
     // 'any' could be replaced with more specific types based on your conditions
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const queryConditions: Record<string, any> = {}; 
-
+    
     for (const [key, value] of Object.entries(filters)) {
       if (value) {
         // Check if the value is one of the properties that need to be converted to a number
@@ -97,4 +98,8 @@ export const getTAJobsWithFilters = async (filters: FilterParams) => {
     console.error('Error querying TA jobs with filters:', error);
     throw error;
   }
+};
+
+export const getTAJobsByFacultyId = async (facultyId: number) => {
+  return await prisma.tAJob.findMany({ where:{ facultyId } } );
 };
