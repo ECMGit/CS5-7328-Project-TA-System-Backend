@@ -37,7 +37,7 @@ app.use((req, res, next) => {
 
 // import routes which are defined in modules
 app.use('/user', userRoutes);
-app.use('/job', jobRoutes);
+app.use('/faculty-jobs', jobRoutes);
 app.use('/ta-application', taApplicationRoutes);
 app.use('/jobs', tajobRoutes);
 
