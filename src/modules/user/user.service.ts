@@ -8,6 +8,12 @@ import { prisma } from '../../../prisma';
  */
 
 
+export const createUser = async (data: any) => {
+  return await prisma.user.create({
+      data
+  });
+}
+
 export const getUsers = async () => {
   return await prisma.user.findMany();
 };
