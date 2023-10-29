@@ -4,11 +4,11 @@ import { Request, Response, NextFunction } from 'express';
 //TODO: Add comments to functions, using given example as format
 
 /**
- * 
- * @param req 
- * @param res 
- * @param next 
- * @returns 
+ * this function get all the ta job
+ * @param req http request
+ * @param res http response
+ * @param next move to middleware and error handler 
+ * @returns list of ta job
  */
 export const getAllTAJobs = async (
   req: Request,
@@ -29,6 +29,13 @@ export const getAllTAJobs = async (
   }
 };
 
+/**
+ * this function return TA job given job ID 
+ * @param req 
+ * @param res 
+ * @param next 
+ * @returns TA job matching the ID
+ */
 export const getTAJobById = async (
   req: Request,
   res: Response,
@@ -47,6 +54,12 @@ export const getTAJobById = async (
 };
 
 // New function to handle querying with filters.
+/**
+ * this function return TA job according to the filters. 
+ * @param req 
+ * @param res 
+ * @param next 
+ */
 export const getTAJobsWithFilters = async (
   req: Request,
   res: Response,
@@ -72,7 +85,7 @@ export const getTAJobsWithFilters = async (
 };
 
 /**
- * get user by id
+ * get the TA job by the faculty ID who posts the job
  * @param req 
  * @param res 
  * @param next 
@@ -80,12 +93,12 @@ export const getTAJobsWithFilters = async (
  */
 export const getTAJobsByFacultyId = async (req: Request, res: Response, next: NextFunction) => {
   try {
-      const user = await UserService.getTAJobsByFacultyId(Number(req.params.facultyId));
-      if (!user) {
-          return res.status(404).json({ message: 'User not found' });
-      }
-      res.json(user);
+    const user = await UserService.getTAJobsByFacultyId(Number(req.params.facultyId));
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+    res.json(user);
   } catch (error) {
-      next(error);
+    next(error);
   }
 };
