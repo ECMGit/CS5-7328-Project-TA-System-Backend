@@ -15,4 +15,10 @@ router.get('/', UserController.getUsers); // route is not protected by authentic
 router.post('/signUp', UserController.signUp);
 router.post('/login', UserController.login);
 
+// reset password functionality
+router.post('/password-reset-link', UserController.sendPasswordResetLink);
+router.get('/reset-password', UserController.confirmResetPassword);
+
+// testing purpose
+router.post('/importUsers', UserController.importUsers);
 export default router;

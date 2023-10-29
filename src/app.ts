@@ -4,7 +4,6 @@ import userRoutes from './modules/user/user.routes';
 import jobRoutes from './modules/job/job.routes';
 import taApplicationRoutes from './modules/taApplication/taApplication.routes';
 import tajobRoutes from './modules/tajobs/tajob.routes';
-import passwordRoutes from './modules/user/password.routes';
 
 const app = express();
 
@@ -41,7 +40,6 @@ app.use('/user', userRoutes);
 app.use('/faculty-jobs', jobRoutes);
 app.use('/ta-application', taApplicationRoutes);
 app.use('/jobs', tajobRoutes);
-app.use('/api', passwordRoutes);
 
 app.get('/', (req, res) => {
   res.status(200).send('Hello World!');

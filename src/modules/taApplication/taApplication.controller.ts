@@ -1,7 +1,7 @@
 import { TAApplicationData } from './taApplication.types';
 import { NextFunction, Request, Response } from 'express';
 import * as taApplicationService from './taApplication.service';
-import { upload } from 'src/utils/fileUtils';
+import { upload } from 'utils/fileUtils';
 
 
 /**

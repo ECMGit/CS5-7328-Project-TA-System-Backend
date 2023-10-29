@@ -6,7 +6,7 @@
   "scripts": {
     "start": "node dist/src/server.js",
     "build": "tsc",
-    "dev": "ts-node src/server.ts",
+    "dev": "ts-node -r tsconfig-paths/register src/server.ts",
     "test": "jest --detectOpenHandles"
   },
   "keywords": [
@@ -30,7 +30,8 @@
     "mysql2": "^3.3.3",
     "nodemailer": "^6.9.5",
     "prettier": "^2.8.8",
-    "prisma": "^4.16.2"
+    "prisma": "^4.16.2",
+    "tsconfig-paths": "^4.2.0"
   },
   "devDependencies": {
     "@faker-js/faker": "^8.2.0",

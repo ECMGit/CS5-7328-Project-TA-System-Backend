@@ -1,7 +1,7 @@
 import { TAApplication } from '@prisma/client';
 import { TAApplicationData } from './taApplication.types';
 // custom path issue, need to fix, for now use this import
-import { prisma } from '../../../prisma';
+import { prisma } from 'prisma';
 
 /**
  * Save application with associated courses and tajob
@@ -23,6 +23,7 @@ export const saveApplication =
         requiredCourses: data.requiredCourses,
         requiredSkills: data.requiredSkills,
         resumeFile: filePath,
+        coursesTaken: data.coursesTaken,
       },
     });
   };

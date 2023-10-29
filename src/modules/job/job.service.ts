@@ -1,6 +1,6 @@
 import { jobData } from './job.types';
 // custom path issue, need to fix, for now use this import
-import { prisma } from '../../../prisma';
+import { prisma } from 'prisma';
 
 
 //TODO: add comments to all functions
