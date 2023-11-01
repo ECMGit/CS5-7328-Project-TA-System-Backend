@@ -1,3 +1,3 @@
-import { PrismaClient, TAApplication } from '@prisma/client'
+import { configManager } from 'src/config/configurationManager';
 
-export const prisma = new PrismaClient();
+export const prisma = configManager.prismaClient;
