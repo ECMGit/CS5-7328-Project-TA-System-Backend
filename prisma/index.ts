@@ -1,3 +1,4 @@
-import { configManager } from 'src/config/configurationManager';
+import { configManager } from '../src/config/configurationManager';
+
 
 export const prisma = configManager.prismaClient;
