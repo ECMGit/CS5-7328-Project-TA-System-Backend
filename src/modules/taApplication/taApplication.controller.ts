@@ -2,6 +2,7 @@ import { TAApplicationData } from './taApplication.types';
 import { NextFunction, Request, Response } from 'express';
 import * as taApplicationService from './taApplication.service';
 import { upload } from 'utils/fileUtils';
+import { prisma } from '../../../prisma';
 
 
 /**
@@ -82,6 +83,51 @@ export const getTaApplications = async (
     // send the response
     console.log(app);
     res.json(app);
+  } catch (error) {
+    next(error);
+  }
+};
+
+
+
+
+/**
+ * Update a TA application
+ * @param req 
+ * @param res 
+ * @param next 
+ */
+export const updateTaApplication = async (req: Request, res: Response, next: NextFunction) => {
+  const applicationId: number = Number(req.params.id);
+  const updateData: TAApplicationData = req.body; // Add validation as needed
+  console.log("LMAO", updateData);
+  console.log("LMAO", applicationId);
+  console.log("LMAO", req.body);
+  console.log("LMAO", req.params);
+  // console.log("LMAO", res);
+  // console.log("LMAO", next);
+
+  try {
+    const updatedApplication = await taApplicationService.updateApplication(applicationId, updateData);
+    res.status(200).json(updatedApplication);
+  } catch (error) {
+    next(error);
+  }
+};
+
+
+/**
+ * Delete a TA application
+ * @param req 
+ * @param res 
+ * @param next 
+ */
+export const deleteTaApplication = async (req: Request, res: Response, next: NextFunction) => {
+  const applicationId: number = Number(req.params.id);
+
+  try {
+    await taApplicationService.deleteApplication(applicationId);
+    res.status(204).send(); // No Content
   } catch (error) {
     next(error);
   }

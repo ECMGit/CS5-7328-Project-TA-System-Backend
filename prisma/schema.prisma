@@ -16,7 +16,7 @@ model User {
     lastName         String
     password         String
     resetToken       String?   @unique
-    resetTokenExpiry Int?
+    resetTokenExpiry BigInt?
     updatedAt        DateTime? @updatedAt
     faculty          Faculty?
     student          Student?
