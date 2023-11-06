@@ -10,9 +10,9 @@ import { prisma } from 'prisma';
 
 export const createUser = async (data: any) => {
   return await prisma.user.create({
-      data,
+    data,
   });
-}
+};
 
 export const getUsers = async () => {
   return await prisma.user.findMany();
@@ -23,7 +23,24 @@ export const getUserById = async (id: number) => {
 };
 
 export const findUserByUsername = async (username: string) => {
-  return await prisma.user.findUnique({ where: { username } });
+  const user = await prisma.user.findUnique(
+    {
+      where: { username }
+      , include: {
+        faculty: true
+        , student: true
+        , admin: true
+      }
+    }
+  );
+  if (!user) {
+    return null;
+  }
+  // Add user role according to joiner table
+  return {
+    ...user
+    , role: user.admin? 'admin' : user.faculty?'faculty' : 'student'
+  };
 };
 
 export const getUserDetailById = async (id: number) => {
@@ -37,15 +54,15 @@ export const createUserBatch = async (data: any) => {
     data: data,
     skipDuplicates: true,
   });
-}
+};
 
 export const findUserByEmail = async (email: string) => {
   return await prisma.user.findUnique({ where: { email } });
-}
+};
 
 export const findUserByResetToken = async (token: string) => {
   return await prisma.user.findUnique({ where: { resetToken: token } });
-}
+};
 
 export const updateUserWithResetToken = async (
   email: string,
