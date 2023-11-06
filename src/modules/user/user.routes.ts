@@ -12,4 +12,13 @@ router.get('/', UserController.getUsers); // route is not protected by authentic
 // router.get('/detail', authenticate, UserController.getUserDetailById); 
 // ... other user-related routes
 
+router.post('/signUp', UserController.signUp);
+router.post('/login', UserController.login);
+
+// reset password functionality
+router.post('/password-reset-link', UserController.sendPasswordResetLink);
+router.get('/reset-password', UserController.confirmResetPassword);
+
+// testing purpose
+router.post('/import', UserController.importUsers);
 export default router;

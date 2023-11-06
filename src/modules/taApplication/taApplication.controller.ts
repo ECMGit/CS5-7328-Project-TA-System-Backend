@@ -1,34 +1,19 @@
-import path from 'path';
-import multer from 'multer';
 import { TAApplicationData } from './taApplication.types';
 import { NextFunction, Request, Response } from 'express';
 import * as taApplicationService from './taApplication.service';
-import fs from 'fs';
+import { upload } from 'utils/fileUtils';
+import { prisma } from '../../../prisma';
 
-//TODO: Add Comments to all functions
 
-const storage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    const uploadFolder = 'uploads/';
-
-    if (!fs.existsSync(uploadFolder)) {
-      fs.mkdirSync(uploadFolder, { recursive: true });
-    }
-
-    cb(null, 'uploads/');
-  },
-  filename: (req, file, cb) => {
-    cb(
-      null,
-      file.fieldname + '-' + Date.now() + path.extname(file.originalname)
-    );
-  },
-});
-
-const upload = multer({ storage });
-
+/**
+ * Save a TA application
+ * @param req 
+ * @param res 
+ * @param next 
+ */
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export const save = (req: Request, res: Response, next: NextFunction) => {
+  // Upload the resume file
   upload.single('resumeFile')(req, res, (err) => {
     if (err) {
       next(err);
@@ -57,7 +42,12 @@ export const save = (req: Request, res: Response, next: NextFunction) => {
   });
 };
 
-export const getApplication = async (
+/**
+ * get single ta application
+ * @param req 
+ * @param res 
+ */
+export const getTaApplication = async (
   req: Request,
   res: Response
   // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
@@ -79,20 +69,66 @@ export const getApplication = async (
 
 
 /**
- * get all users
+ * get a list of all applications
  * @param req 
  * @param res 
  * @param next 
  */
-//this is the controller for the taApplication
-export const getTaApplications = async (req: Request, res: Response, next: NextFunction) => {
+export const getTaApplications = async (
+  req: Request, res: Response, next: NextFunction
+) => {
   try {
-      // call the service layer function and pass req.query as the parameter
-      const app = await taApplicationService.getTaApplications();
-      // send the response
-      console.log(app);
-      res.json(app);
+    // call the service layer function and pass req.query as the parameter
+    const app = await taApplicationService.getTaApplications();
+    // send the response
+    console.log(app);
+    res.json(app);
   } catch (error) {
-      next(error);
+    next(error);
+  }
+};
+
+
+
+
+/**
+ * Update a TA application
+ * @param req 
+ * @param res 
+ * @param next 
+ */
+export const updateTaApplication = async (req: Request, res: Response, next: NextFunction) => {
+  const applicationId: number = Number(req.params.id);
+  const updateData: TAApplicationData = req.body; // Add validation as needed
+  console.log("LMAO", updateData);
+  console.log("LMAO", applicationId);
+  console.log("LMAO", req.body);
+  console.log("LMAO", req.params);
+  // console.log("LMAO", res);
+  // console.log("LMAO", next);
+
+  try {
+    const updatedApplication = await taApplicationService.updateApplication(applicationId, updateData);
+    res.status(200).json(updatedApplication);
+  } catch (error) {
+    next(error);
+  }
+};
+
+
+/**
+ * Delete a TA application
+ * @param req 
+ * @param res 
+ * @param next 
+ */
+export const deleteTaApplication = async (req: Request, res: Response, next: NextFunction) => {
+  const applicationId: number = Number(req.params.id);
+
+  try {
+    await taApplicationService.deleteApplication(applicationId);
+    res.status(204).send(); // No Content
+  } catch (error) {
+    next(error);
   }
 };
