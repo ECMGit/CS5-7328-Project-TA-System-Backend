@@ -18,6 +18,11 @@ export const getJobs = async () => {
   }
 };
 //get one job with route /:id
+/**
+ * @param id id of the job to be returned
+ * @returns the job that was found
+ * @throws Error if job could not be found
+ */
 export const getOneJob = async (id: number) => {
   try {
     // return one job from database
@@ -32,6 +37,12 @@ export const getOneJob = async (id: number) => {
   }
 };
 //udpate job by id passed as param
+/**
+ * @param id id of the job to be updated
+ * @param jobData data to be updated
+ * @returns the job that was updated
+ * @throws Error if job could not be updated
+ */  
 export const updateJob = async (id: number, jobData: jobData) => {
   try {
     // update one job from database

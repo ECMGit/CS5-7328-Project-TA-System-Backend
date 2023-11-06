@@ -20,6 +20,11 @@ export const getJobs = async (
   }
 };
 //get one job with route /:id
+/**
+* @param req
+* @param res
+* @param next
+*/
 export const getOneJob = async (
   req: Request,
   res: Response,
@@ -33,6 +38,11 @@ export const getOneJob = async (
   }
 };
 //udpate job by id passed as param
+/**
+ * @param req
+ * @param res
+ * @param next
+ */
 export const updateJob = async (
   req: Request,
   res: Response,
