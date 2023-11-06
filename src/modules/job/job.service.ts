@@ -4,6 +4,10 @@ import { prisma } from '../../../prisma';
 
 
 //TODO: add comments to all functions
+/**
+ * 
+ * @returns all the job available
+ */
 export const getJobs = async () => {
   try {
     // return all jobs from database
