@@ -1,3 +1,4 @@
+import exp from 'constants';
 import * as JobService from './job.service';
 import { Request, Response, NextFunction } from 'express';
 
@@ -18,6 +19,32 @@ export const getJobs = async (
     next(error);
   }
 };
+//get one job with route /:id
+export const getOneJob = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const job = await JobService.getOneJob(parseInt(req.params.id));
+    res.json(job);
+  } catch (error) {
+    next(error);
+  }
+}
+//udpate job by id passed as param
+export const updateJob = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const job = await JobService.updateJob(parseInt(req.params.id), req.body);
+    res.json(job);
+  } catch (error) {
+    next(error);
+  }
+}
 
 /**
  * @param req
