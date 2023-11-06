@@ -30,7 +30,7 @@ export const getOneJob = async (id: number) => {
     console.log(error);
     throw error;
   }
-}
+};
 //udpate job by id passed as param
 export const updateJob = async (id: number, jobData: jobData) => {
   try {
@@ -46,7 +46,7 @@ export const updateJob = async (id: number, jobData: jobData) => {
     console.log(error);
     throw error;
   }
-}
+};
 /**
  * @param jobData Job data to be stored
  * @returns The job that was created

@@ -31,7 +31,7 @@ export const getOneJob = async (
   } catch (error) {
     next(error);
   }
-}
+};
 //udpate job by id passed as param
 export const updateJob = async (
   req: Request,
@@ -44,7 +44,7 @@ export const updateJob = async (
   } catch (error) {
     next(error);
   }
-}
+};
 
 /**
  * @param req
