@@ -14,6 +14,24 @@ export const createUser = async (data: any) => {
   });
 }
 
+export const createStudent = async (data: any) => {
+  return await prisma.student.create({
+      data,
+  });
+}
+
+export const createFaculty = async (data: any) => {
+  return await prisma.faculty.create({
+      data,
+  });
+}
+
+export const createAdmin = async (data: any) => {
+  return await prisma.admin.create({
+      data,
+  });
+}
+
 export const getUsers = async () => {
   return await prisma.user.findMany();
 };

@@ -106,7 +106,7 @@ export const getUserDetailById = async (
  * @returns {Promise<Response>} <- this is just the error code
  */
 export async function signUp(req: Request, res: Response) {
-  const { username, email, password, smuNo, firstName, lastName } = req.body;
+  const { username, email, password, smuNo, firstName, lastName, year, userType } = req.body;
   console.log(req.body);
 
   // Convert number to integer
@@ -123,7 +123,7 @@ export async function signUp(req: Request, res: Response) {
     const hashedPassword = await bcrypt.hash(password, 10);
 
     // Create a new user
-    await UserService.createUser({
+    var user = await UserService.createUser({
       username,
       email,
       password: hashedPassword,
@@ -131,6 +131,21 @@ export async function signUp(req: Request, res: Response) {
       firstName,
       lastName,
     });
+
+    if (userType === "student") {
+      await UserService.createStudent({
+          userId: user.id,
+          year: year,
+      });
+    } else if (userType === "faculty") {
+      await UserService.createFaculty({
+        userId: user.id,
+      });
+    } else if (userType === "admin") {
+      await UserService.createAdmin({
+        userId: user.id,
+      });
+    }
 
     return res.status(201).json({ message: 'User registered successfully' });
   } catch (error) {
