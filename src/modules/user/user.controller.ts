@@ -9,6 +9,21 @@ import bcrypt from 'bcrypt';
  *
  */
 
+// Helper function to convert all BigInt properties to strings
+function bigIntToString(obj: any) {
+  for (let prop in obj) {
+    if (obj.hasOwnProperty(prop)) {
+      if (typeof obj[prop] === 'bigint') {
+        obj[prop] = obj[prop].toString();
+      } else if (typeof obj[prop] === 'object' && obj[prop] !== null) {
+        bigIntToString(obj[prop]);
+      }
+    }
+  }
+}
+
+
+
 /**
  * get all users
  * @param req
@@ -22,7 +37,11 @@ export const getUsers = async (
 ) => {
   try {
     console.log('getting user');
-    const users = await UserService.getUsers();
+    let users = await UserService.getUsers();
+
+    // Convert BigInt to String
+    users.forEach((user: any) => bigIntToString(user));
+
     res.json(users);
   } catch (error) {
     next(error);
@@ -43,10 +62,14 @@ export const getUserById = async (
 ) => {
   console.log(Number(req.params.id));
   try {
-    const user = await UserService.getUserById(Number(req.params.id));
+    let user = await UserService.getUserById(Number(req.params.id));
     if (!user) {
       return res.status(404).json({ message: 'User not found' });
     }
+
+    // Convert BigInt to String
+    bigIntToString(user);
+
     res.json(user);
   } catch (error) {
     next(error);

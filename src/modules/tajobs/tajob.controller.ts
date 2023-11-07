@@ -2,6 +2,7 @@ import * as UserService from './tajob.service';
 //do we have to import the TA service?
 import { Request, Response, NextFunction } from 'express';
 //TODO: Add comments to functions, using given example as format
+import { prisma } from '../../../prisma';
 
 /**
  * this function get all the ta job
@@ -16,6 +17,44 @@ export const getAllTAJobs = async (
   next: NextFunction
 ) => {
   console.log('in get all');
+
+  // // Define the specific IDs
+  // const studentId = 10;
+  // const courseId = 3;
+  // const taJobId = 7;
+
+  // // Check if the student, course, and TA job exist
+  // const student = await prisma.student.findUnique({
+  //   where: { userId: 10 }
+  // });
+
+  // const course = await prisma.course.findUnique({
+  //   where: { id: courseId }
+  // });
+
+  // const taJob = await prisma.tAJob.findUnique({
+  //   where: { id: taJobId }
+  // });
+
+  // if (student && course && taJob) {
+  //   // Create a TA application
+  //   const taApplication = await prisma.tAApplication.create({
+  //     data: {
+  //       studentId: studentId,
+  //       courseId: courseId,
+  //       hoursCanWorkPerWeek: "20",
+  //       coursesTaken: "CSC101, CSC102",
+  //       GPA: 3.8,
+  //       requiredCourses: "CSC101",
+  //       requiredSkills: "Programming, Time Management",
+  //       resumeFile: "path/to/resume.pdf",
+  //       taJobId: taJobId
+  //     },
+  //   });
+  //   console.log(`Created TA Application for student ID: ${studentId}`);
+  // } else {
+  //   console.log("Student, course, or TA job not found for the given IDs!");
+  // }
 
   try {
     const taJobs = await UserService.getAllTAJobs();

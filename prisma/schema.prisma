@@ -16,7 +16,7 @@ model User {
     lastName         String
     password         String
     resetToken       String?   @unique
-    resetTokenExpiry Int?
+    resetTokenExpiry BigInt?
     updatedAt        DateTime? @updatedAt
     faculty          Faculty?
     student          Student?
@@ -111,7 +111,7 @@ model TAApplication {
   studentId           Int
   student             Student @relation(fields: [studentId], references: [userId])
   hoursCanWorkPerWeek String
-  coursesTaken        String?
+  coursesTaken?       String
   GPA                 Float
   requiredCourses     String // A comma separated list of required courses taken
   requiredSkills      String // A comma separated list of required skills

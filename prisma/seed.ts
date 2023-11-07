@@ -1,4 +1,5 @@
-import {prisma} from 'prisma';
+import { PrismaClient } from '@prisma/client';
+const prisma = new PrismaClient();
 
 async function main() {
   // Create users, faculty, courses, and TA positions here
