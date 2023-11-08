@@ -4,14 +4,20 @@ import { Request, Response, NextFunction } from 'express';
 import nodemailer from 'nodemailer';
 import crypto from 'crypto';
 import bcrypt from 'bcrypt';
+import jwt from 'jsonwebtoken'; // Import the JWT library
+
+const JWT_SECRET = 'my-secret-key';
+
 /**
  * Demo code for showing how to use the service layer and CRUD operations
  *
  */
 
 // Helper function to convert all BigInt properties to strings
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 function bigIntToString(obj: any) {
-  for (let prop in obj) {
+  for (const prop in obj) {
+    // eslint-disable-next-line no-prototype-builtins
     if (obj.hasOwnProperty(prop)) {
       if (typeof obj[prop] === 'bigint') {
         obj[prop] = obj[prop].toString();
@@ -37,9 +43,10 @@ export const getUsers = async (
 ) => {
   try {
     console.log('getting user');
-    let users = await UserService.getUsers();
+    const users = await UserService.getUsers();
 
     // Convert BigInt to String
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     users.forEach((user: any) => bigIntToString(user));
 
     res.json(users);
@@ -62,7 +69,7 @@ export const getUserById = async (
 ) => {
   console.log(Number(req.params.id));
   try {
-    let user = await UserService.getUserById(Number(req.params.id));
+    const user = await UserService.getUserById(Number(req.params.id));
     if (!user) {
       return res.status(404).json({ message: 'User not found' });
     }
@@ -106,7 +113,8 @@ export const getUserDetailById = async (
  * @returns {Promise<Response>} <- this is just the error code
  */
 export async function signUp(req: Request, res: Response) {
-  const { username, email, password, smuNo, firstName, lastName, year, userType } = req.body;
+  const { username, email, password, smuNo, firstName, lastName, 
+    year, userType } = req.body;
   console.log(req.body);
 
   // Convert number to integer
@@ -123,7 +131,7 @@ export async function signUp(req: Request, res: Response) {
     const hashedPassword = await bcrypt.hash(password, 10);
 
     // Create a new user
-    var user = await UserService.createUser({
+    const user = await UserService.createUser({
       username,
       email,
       password: hashedPassword,
@@ -132,22 +140,28 @@ export async function signUp(req: Request, res: Response) {
       lastName,
     });
 
-    if (userType === "student") {
+    if (userType === 'student') {
       await UserService.createStudent({
-          userId: user.id,
-          year: year,
+        userId: user.id,
+        year: year,
       });
-    } else if (userType === "faculty") {
+    } else if (userType === 'faculty') {
       await UserService.createFaculty({
         userId: user.id,
       });
-    } else if (userType === "admin") {
+    } else if (userType === 'admin') {
       await UserService.createAdmin({
         userId: user.id,
       });
     }
 
-    return res.status(201).json({ message: 'User registered successfully' });
+    // Create and send a JWT token
+    // TODO: Replace JWT_SECRET with process.env.JWT_SECRET and update .env accordingly
+    const token = jwt.sign({ userId: user.id }, JWT_SECRET);
+    res.status(201).json({
+      message: 'User registered successfully',
+      token, // Include the token in the response
+    });
   } catch (error) {
     console.error(error);
     return res.status(500).json({ error: 'Internal Server Error' });
@@ -176,10 +190,15 @@ export async function login(req: Request, res: Response) {
     }
 
     // Exclude password and other sensitive fields before sending
+    // and before generating the jwt token
     const { password: _, ...safeUser } = user;
-    return res
-      .status(200)
-      .json({ message: 'Login successful', user: safeUser });
+    // TODO: Replace JWT_SECRET with process.env.JWT_SECRET and update .env accordingly
+    const token = jwt.sign({ userId: user.id }, JWT_SECRET); // Replace 'your-secret-key' with your actual secret key
+    res.status(200).json({
+      message: 'Login successful',
+      user: safeUser,
+      token, // Include the token in the response
+    });
   } catch (error) {
     console.error(error);
     return res.status(500).json({ error: 'Internal Server Error' });

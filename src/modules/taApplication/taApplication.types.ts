@@ -2,7 +2,7 @@
 export type TAApplicationData = {
   courseId: number;
   studentId: number;
-  hoursCanWorkPerWeek: string;
+  hoursCanWorkPerWeek: number;
   coursesTaken: string;
   gpa: number;
   requiredCourses: string;
