@@ -59,7 +59,7 @@ export const getAllTAJobs = async (
   try {
     const taJobs = await UserService.getAllTAJobs();
     if (taJobs.length == 0) {
-      return res.status(404).json({ message: 'Np job listings found.' });
+      console.log('No job listings found.');
     }
     res.json(taJobs);
   } catch (error) {
