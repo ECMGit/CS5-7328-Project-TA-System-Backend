@@ -5,6 +5,9 @@ import jobRoutes from './modules/job/job.routes';
 import taApplicationRoutes from './modules/taApplication/taApplication.routes';
 import tajobRoutes from './modules/tajobs/tajob.routes';
 
+// middleware
+import { verifyToken } from './middleware/authentication';
+
 const app = express();
 
 // Middleware
@@ -37,9 +40,11 @@ app.use((req, res, next) => {
 
 // import routes which are defined in modules
 app.use('/user', userRoutes);
-app.use('/faculty-jobs', jobRoutes);
-app.use('/ta-application', taApplicationRoutes);
-app.use('/jobs', tajobRoutes);
+// routes that require middleware
+
+app.use('/faculty-jobs', verifyToken, jobRoutes);
+app.use('/ta-application', verifyToken, taApplicationRoutes);
+app.use('/jobs', verifyToken, tajobRoutes);
 
 app.get('/', (req, res) => {
   res.status(200).send('Hello World!');
