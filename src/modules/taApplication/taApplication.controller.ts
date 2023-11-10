@@ -104,10 +104,10 @@ export const updateTaApplication = async (
 ) => {
   const applicationId: number = Number(req.params.id);
   const updateData: TAApplicationData = req.body; // Add validation as needed
-  console.log('LMAO', updateData);
-  console.log('LMAO', applicationId);
-  console.log('LMAO', req.body);
-  console.log('LMAO', req.params);
+  // console.log('LMAO', updateData);
+  // console.log('LMAO', applicationId);
+  // console.log('LMAO', req.body);
+  // console.log('LMAO', req.params);
   // console.log("LMAO", res);
   // console.log("LMAO", next);
 
