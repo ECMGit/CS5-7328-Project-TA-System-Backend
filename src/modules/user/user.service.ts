@@ -9,9 +9,15 @@ import { prisma } from 'prisma';
 
 
 export const createUser = async (data: any) => {
-  return await prisma.user.create({
+  //First create the user
+  const user = await prisma.user.create({
     data,
   });
+    
+  //TODO: should create student or faculty accordingly
+    
+  return user;  
+    
 };
 
 export const getUsers = async () => {
@@ -36,10 +42,20 @@ export const findUserByUsername = async (username: string) => {
   if (!user) {
     return null;
   }
+  //TODO: set default role to student for now
+  let role = 'student';
+
+  if (user.admin) {
+    role = 'admin';
+  } else if (user.faculty) {
+    role = 'faculty';
+  } else if (user.student) {
+    role ='student';
+  }
   // Add user role according to joiner table
   return {
     ...user
-    , role: user.admin? 'admin' : user.faculty?'faculty' : 'student'
+    , role: role
   };
 };
 

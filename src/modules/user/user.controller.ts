@@ -11,7 +11,7 @@ import bcrypt from 'bcrypt';
 
 // Helper function to convert all BigInt properties to strings
 function bigIntToString(obj: any) {
-  for (let prop in obj) {
+  for (const prop in obj) {
     if (obj.hasOwnProperty(prop)) {
       if (typeof obj[prop] === 'bigint') {
         obj[prop] = obj[prop].toString();
@@ -37,7 +37,7 @@ export const getUsers = async (
 ) => {
   try {
     console.log('getting user');
-    let users = await UserService.getUsers();
+    const users = await UserService.getUsers();
 
     // Convert BigInt to String
     users.forEach((user: any) => bigIntToString(user));
@@ -62,7 +62,7 @@ export const getUserById = async (
 ) => {
   console.log(Number(req.params.id));
   try {
-    let user = await UserService.getUserById(Number(req.params.id));
+    const user = await UserService.getUserById(Number(req.params.id));
     if (!user) {
       return res.status(404).json({ message: 'User not found' });
     }
@@ -105,8 +105,12 @@ export const getUserDetailById = async (
  * @param res
  * @returns {Promise<Response>} <- this is just the error code
  */
-export async function signUp(req: Request, res: Response) {
-  const { username, email, password, smuNo, firstName, lastName } = req.body;
+export async function signUp (req: Request, res: Response) {
+    
+  const {
+    username, email, password, smuNo, firstName, lastName, userType
+  } = req.body;
+    
   console.log(req.body);
 
   // Convert number to integer
@@ -123,14 +127,20 @@ export async function signUp(req: Request, res: Response) {
     const hashedPassword = await bcrypt.hash(password, 10);
 
     // Create a new user
-    await UserService.createUser({
+    const user = await UserService.createUser({
       username,
       email,
       password: hashedPassword,
       smuNo: smuNo_int,
       firstName,
       lastName,
+      userType
     });
+      
+    if (!user) {
+      return res.status(500).json({ error: 'Internal server error' });
+    }
+          
 
     return res.status(201).json({ message: 'User registered successfully' });
   } catch (error) {
