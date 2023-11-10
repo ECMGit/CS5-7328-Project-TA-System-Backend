@@ -7,6 +7,7 @@ const router = Router();
 router.get('/detail/:id', UserController.getUserDetailById);
 router.get('/:id', UserController.getUserById);
 router.get('/', UserController.getUsers); // route is not protected by authentication middleware
+router.get('/role/:id', UserController.getRole);
 
 // route is protected by authentication middleware
 // router.get('/detail', authenticate, UserController.getUserDetailById); 

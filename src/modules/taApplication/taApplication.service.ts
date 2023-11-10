@@ -182,7 +182,7 @@ export const updateApplication = async (id: number, updateData: Partial<TAApplic
   return await prisma.tAApplication.update({
     where: { id },
     data: {
-      ...updateData
+      ...updateData,
       // Omit resumeFile here, handle it separately if you're allowing resume file updates
     },
   });

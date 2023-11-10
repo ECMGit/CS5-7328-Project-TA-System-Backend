@@ -5,6 +5,7 @@ import nodemailer from 'nodemailer';
 import crypto from 'crypto';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken'; // Import the JWT library
+import { log } from 'console';
 
 const JWT_SECRET = 'my-secret-key';
 
@@ -191,7 +192,10 @@ export async function login(req: Request, res: Response) {
 
     // Exclude password and other sensitive fields before sending
     // and before generating the jwt token
+    console.log(user);
     const { password: _, ...safeUser } = user;
+    console.log(safeUser);
+    
     // TODO: Replace JWT_SECRET with process.env.JWT_SECRET and update .env accordingly
     const token = jwt.sign({ userId: user.id }, JWT_SECRET); // Replace 'your-secret-key' with your actual secret key
     res.status(200).json({
@@ -204,6 +208,26 @@ export async function login(req: Request, res: Response) {
     return res.status(500).json({ error: 'Internal Server Error' });
   }
 }
+
+export async function getRole(req: Request, res: Response) {
+  const { id } = req.params; // Get the userId from the URL parameter
+  const userId = parseInt(id, 10); // Convert id to a number if needed
+
+  try {
+    // Find the user's role
+    const userRole = await UserService.getUserRoleById(userId);
+    if (!userRole) {
+      return res.status(401).json({ error: 'Invalid userId' });
+    }
+
+    res.status(200).json({ role: userRole });
+
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ error: 'Internal Server Error' });
+  }
+}
+
 
 /**
  * Import all users
