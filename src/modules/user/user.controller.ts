@@ -149,6 +149,8 @@ export async function signUp(req: Request, res: Response) {
     } else if (userType === 'faculty') {
       await UserService.createFaculty({
         userId: user.id,
+        designation: '',
+        department: 'cs'
       });
     } else if (userType === 'admin') {
       await UserService.createAdmin({
@@ -212,7 +214,8 @@ export async function login(req: Request, res: Response) {
 export async function getRole(req: Request, res: Response) {
   const { id } = req.params; // Get the userId from the URL parameter
   const userId = parseInt(id, 10); // Convert id to a number if needed
-
+  console.log('getrole' + id);
+  
   try {
     // Find the user's role
     const userRole = await UserService.getUserRoleById(userId);
