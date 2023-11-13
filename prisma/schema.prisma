@@ -18,8 +18,8 @@ model User {
     resetToken       String?   @unique
     resetTokenExpiry BigInt?
     updatedAt        DateTime? @updatedAt
-    faculty          Faculty?
     student          Student?
+    faculty          Faculty?
     admin            Admin?
 }
 
@@ -105,19 +105,19 @@ model TAJob {
 }
 
 model TAApplication {
-  id                  Int     @id @default(autoincrement())
-  courseId            Int
-  course              Course  @relation(fields: [courseId], references: [id])
-  studentId           Int
-  student             Student @relation(fields: [studentId], references: [userId])
-  hoursCanWorkPerWeek String
-  coursesTaken?       String
-  GPA                 Float
-  requiredCourses     String // A comma separated list of required courses taken
-  requiredSkills      String // A comma separated list of required skills
-  resumeFile          String // URL or path to the file. This depends on how you handle file uploads.
-  taJobId             Int
-  taJob               TAJob   @relation(fields: [taJobId], references: [id])
+    id                  Int     @id @default(autoincrement())
+    courseId            Int
+    course              Course  @relation(fields: [courseId], references: [id])
+    studentId           Int
+    student             Student @relation(fields: [studentId], references: [userId])
+    hoursCanWorkPerWeek String
+    coursesTaken        String?
+    GPA                 Float
+    requiredCourses     String // A comma separated list of required courses taken
+    requiredSkills      String // A comma separated list of required skills
+    resumeFile          String // URL or path to the file. This depends on how you handle file uploads.
+    taJobId             Int
+    taJob               TAJob   @relation(fields: [taJobId], references: [id])
 }
 
 generator client {

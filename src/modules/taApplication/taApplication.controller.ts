@@ -1,8 +1,7 @@
 import { TAApplicationData } from './taApplication.types';
 import { NextFunction, Request, Response } from 'express';
 import * as taApplicationService from './taApplication.service';
-import { upload } from 'utils/fileUtils';
-import { prisma } from '../../../prisma';
+import { upload } from '../../utils/fileUtils';
 
 
 /**
@@ -97,18 +96,22 @@ export const getTaApplications = async (
  * @param res 
  * @param next 
  */
-export const updateTaApplication = async (req: Request, res: Response, next: NextFunction) => {
+export const updateTaApplication = async (
+  req: Request, res: Response, next: NextFunction
+) => {
   const applicationId: number = Number(req.params.id);
   const updateData: TAApplicationData = req.body; // Add validation as needed
-  console.log("LMAO", updateData);
-  console.log("LMAO", applicationId);
-  console.log("LMAO", req.body);
-  console.log("LMAO", req.params);
+  console.log('LMAO', updateData);
+  console.log('LMAO', applicationId);
+  console.log('LMAO', req.body);
+  console.log('LMAO', req.params);
   // console.log("LMAO", res);
   // console.log("LMAO", next);
 
   try {
-    const updatedApplication = await taApplicationService.updateApplication(applicationId, updateData);
+    const updatedApplication = await taApplicationService.updateApplication(
+      applicationId, updateData
+    );
     res.status(200).json(updatedApplication);
   } catch (error) {
     next(error);
@@ -122,7 +125,9 @@ export const updateTaApplication = async (req: Request, res: Response, next: Nex
  * @param res 
  * @param next 
  */
-export const deleteTaApplication = async (req: Request, res: Response, next: NextFunction) => {
+export const deleteTaApplication = async (
+  req: Request, res: Response, next: NextFunction
+) => {
   const applicationId: number = Number(req.params.id);
 
   try {
