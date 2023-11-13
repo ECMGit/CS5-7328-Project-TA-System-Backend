@@ -4,14 +4,21 @@ import { Request, Response, NextFunction } from 'express';
 import nodemailer from 'nodemailer';
 import crypto from 'crypto';
 import bcrypt from 'bcrypt';
+import jwt from 'jsonwebtoken'; // Import the JWT library
+import { log } from 'console';
+
+const JWT_SECRET = 'my-secret-key';
+
 /**
  * Demo code for showing how to use the service layer and CRUD operations
  *
  */
 
 // Helper function to convert all BigInt properties to strings
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 function bigIntToString(obj: any) {
   for (const prop in obj) {
+    // eslint-disable-next-line no-prototype-builtins
     if (obj.hasOwnProperty(prop)) {
       if (typeof obj[prop] === 'bigint') {
         obj[prop] = obj[prop].toString();
@@ -40,6 +47,7 @@ export const getUsers = async (
     const users = await UserService.getUsers();
 
     // Convert BigInt to String
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     users.forEach((user: any) => bigIntToString(user));
 
     res.json(users);
@@ -105,12 +113,9 @@ export const getUserDetailById = async (
  * @param res
  * @returns {Promise<Response>} <- this is just the error code
  */
-export async function signUp (req: Request, res: Response) {
-    
-  const {
-    username, email, password, smuNo, firstName, lastName, userType
-  } = req.body;
-    
+export async function signUp(req: Request, res: Response) {
+  const { username, email, password, smuNo, firstName, lastName, 
+    year, userType } = req.body;
   console.log(req.body);
 
   // Convert number to integer
@@ -142,7 +147,30 @@ export async function signUp (req: Request, res: Response) {
     }
           
 
-    return res.status(201).json({ message: 'User registered successfully' });
+    if (userType === 'student') {
+      await UserService.createStudent({
+        userId: user.id,
+        year: year,
+      });
+    } else if (userType === 'faculty') {
+      await UserService.createFaculty({
+        userId: user.id,
+        designation: '',
+        department: 'cs'
+      });
+    } else if (userType === 'admin') {
+      await UserService.createAdmin({
+        userId: user.id,
+      });
+    }
+
+    // Create and send a JWT token
+    // TODO: Replace JWT_SECRET with process.env.JWT_SECRET and update .env accordingly
+    const token = jwt.sign({ userId: user.id }, JWT_SECRET);
+    res.status(201).json({
+      message: 'User registered successfully',
+      token, // Include the token in the response
+    });
   } catch (error) {
     console.error(error);
     return res.status(500).json({ error: 'Internal Server Error' });
@@ -171,15 +199,44 @@ export async function login(req: Request, res: Response) {
     }
 
     // Exclude password and other sensitive fields before sending
+    // and before generating the jwt token
+    console.log(user);
     const { password: _, ...safeUser } = user;
-    return res
-      .status(200)
-      .json({ message: 'Login successful', user: safeUser });
+    console.log(safeUser);
+    
+    // TODO: Replace JWT_SECRET with process.env.JWT_SECRET and update .env accordingly
+    const token = jwt.sign({ userId: user.id }, JWT_SECRET); // Replace 'your-secret-key' with your actual secret key
+    res.status(200).json({
+      message: 'Login successful',
+      user: safeUser,
+      token, // Include the token in the response
+    });
   } catch (error) {
     console.error(error);
     return res.status(500).json({ error: 'Internal Server Error' });
   }
 }
+
+export async function getRole(req: Request, res: Response) {
+  const { id } = req.params; // Get the userId from the URL parameter
+  const userId = parseInt(id, 10); // Convert id to a number if needed
+  console.log('getrole' + id);
+  
+  try {
+    // Find the user's role
+    const userRole = await UserService.getUserRoleById(userId);
+    if (!userRole) {
+      return res.status(401).json({ error: 'Invalid userId' });
+    }
+
+    res.status(200).json({ role: userRole });
+
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ error: 'Internal Server Error' });
+  }
+}
+
 
 /**
  * Import all users

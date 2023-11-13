@@ -1,26 +1,34 @@
-// import jwt from 'jsonwebtoken';
-// import { Request, Response, NextFunction } from 'express';
+import jwt from 'jsonwebtoken';
+import { Request, Response, NextFunction } from 'express';
+// Used to make the request accept the user property without errors
+import { UserAuthInfoRequest } from './requestDefinitions';
 
-// /**
-//  * demo code for implementing authentication middleware
-//  * @param req 
-//  * @param res 
-//  * @param next 
-//  * @returns 
-//  */
-// export const authenticate = (req: Request, res: Response, next: NextFunction) => {
-//     //TODO: fix the errors
-//     const authHeader = req.headers.authorization;
-//     if (!authHeader) {
-//         return res.status(401).json({ message: 'No token provided' });
-//     }
+// TODO: Replace JWT_SECRET with process.env.JWT_SECRET and update .env accordingly
+const JWT_SECRET = 'my-secret-key';
 
-//     const token = authHeader.split(' ')[1];
-//     jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
-//         if (err) {
-//             return res.status(401).json({ message: 'Failed to authenticate token' });
-//         }
-//         req.userId = decoded.id;
-//         next();
-//     });
-// };
+/**
+ * demo code for implementing authentication middleware
+ * @param req 
+ * @param res 
+ * @param next 
+ * @returns 
+ */
+export const verifyToken = (req: Request, res: Response, next: NextFunction) =>{
+  const token = req.headers.authorization;
+  console.log('token '+token);
+  
+  if (!token) {
+    return res.status(401).json({ error: 'Unauthorized' });
+  }
+
+  // Verify the token
+  jwt.verify(token, JWT_SECRET, (err, decoded) => {
+    if (err) {
+      return res.status(401).json({ error: 'Invalid token' });
+    }
+
+    console.log('valid token');
+
+    next();
+  });
+};
