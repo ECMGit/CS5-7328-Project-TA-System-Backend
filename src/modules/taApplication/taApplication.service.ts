@@ -2,7 +2,7 @@ import { TAApplication } from '@prisma/client';
 import { TAApplicationData } from './taApplication.types';
 // custom path issue, need to fix, for now use this import
 import { prisma } from 'prisma';
-import bcrypt from 'bcrypt';
+// import bcrypt from 'bcrypt';
 
 /**
  * Save application with associated courses and tajob
@@ -178,7 +178,10 @@ export const getTaApplications = async () => {
 };
 
 
-export const updateApplication = async (id: number, updateData: Partial<TAApplicationData>): Promise<TAApplication> => {
+export const updateApplication = async (
+  id: number,
+  updateData: Partial<TAApplicationData>
+): Promise<TAApplication> => {
   return await prisma.tAApplication.update({
     where: { id },
     data: {

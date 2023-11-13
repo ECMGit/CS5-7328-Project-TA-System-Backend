@@ -22,6 +22,7 @@ export const getAllTAJobs = async (
     // return all jobs that have been published
     const taJobs = await UserService.getAllTAJobs();
     if (taJobs.length == 0) {
+      console.log('No job listings found.');
       // if there are no jobs found, return message that no jobs are found
       return res.status(404).json({ message: 'No job listings found.' });
     }
