@@ -18,6 +18,7 @@ model User {
     resetToken       String?   @unique
     resetTokenExpiry BigInt?
     updatedAt        DateTime? @updatedAt
+    userType         String?
     student          Student?
     faculty          Faculty?
     admin            Admin?
