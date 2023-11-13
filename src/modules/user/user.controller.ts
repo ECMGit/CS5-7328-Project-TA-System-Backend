@@ -5,7 +5,6 @@ import nodemailer from 'nodemailer';
 import crypto from 'crypto';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken'; // Import the JWT library
-import { log } from 'console';
 
 const JWT_SECRET = 'my-secret-key';
 
@@ -43,7 +42,6 @@ export const getUsers = async (
   next: NextFunction
 ) => {
   try {
-    console.log('getting user');
     const users = await UserService.getUsers();
 
     // Convert BigInt to String
@@ -68,7 +66,7 @@ export const getUserById = async (
   res: Response,
   next: NextFunction
 ) => {
-  console.log(Number(req.params.id));
+
   try {
     const user = await UserService.getUserById(Number(req.params.id));
     if (!user) {
@@ -116,8 +114,7 @@ export const getUserDetailById = async (
 export async function signUp(req: Request, res: Response) {
   const { username, email, password, smuNo, firstName, lastName, 
     year, userType } = req.body;
-  console.log(req.body);
-
+    
   // Convert number to integer
   const smuNo_int = parseInt(smuNo);
 
@@ -130,7 +127,7 @@ export async function signUp(req: Request, res: Response) {
 
     // Hash password
     const hashedPassword = await bcrypt.hash(password, 10);
-
+    
     // Create a new user
     const user = await UserService.createUser({
       username,
@@ -200,7 +197,7 @@ export async function login(req: Request, res: Response) {
 
     // Exclude password and other sensitive fields before sending
     // and before generating the jwt token
-    console.log(user);
+    // console.log(user);
     const { password: _, ...safeUser } = user;
     console.log(safeUser);
     
@@ -220,11 +217,12 @@ export async function login(req: Request, res: Response) {
 export async function getRole(req: Request, res: Response) {
   const { id } = req.params; // Get the userId from the URL parameter
   const userId = parseInt(id, 10); // Convert id to a number if needed
-  console.log('getrole' + id);
+  // console.log('getrole' + id, "userID"+userId);
   
   try {
     // Find the user's role
     const userRole = await UserService.getUserRoleById(userId);
+    // console.log(userRole);
     if (!userRole) {
       return res.status(401).json({ error: 'Invalid userId' });
     }

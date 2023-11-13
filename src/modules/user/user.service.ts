@@ -68,7 +68,8 @@ export const findUserByUsername = async (username: string) => {
       }
     }
   );
-  if (!user) {
+  console.log("user", user);
+  if (user === null || user === undefined) {
     return null;
   }
   //TODO: set default role to student for now
