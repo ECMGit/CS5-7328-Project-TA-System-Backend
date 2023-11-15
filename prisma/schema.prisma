@@ -35,7 +35,7 @@ model Faculty {
 
 model Student {
     userId        Int             @id
-    year          Int
+    year          Int?
     courses       StudentCourse[]
     tas           CourseTA[] // Opposite relation field for CourseTA
     user          User            @relation(fields: [userId], references: [id])
