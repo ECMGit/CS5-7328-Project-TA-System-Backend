@@ -122,6 +122,18 @@ model TAApplication {
   taJob               TAJob   @relation(fields: [taJobId], references: [id])
 }
 
+model UserMessage {
+  id              Int         @id @default(autoincrement())
+  content         String
+  createdAt       DateTime    @default(now())
+  senderId        Int
+  receiverId      Int
+  applicationId   Int
+  sender          User        @relation(name: "MessageSender", fields: [senderId], references: [id])
+  receiver        User        @relation(name: "MessageReceiver", fields: [receiverId], references: [id])
+  application     TAApplication @relation(fields: [applicationId], references: [id])
+}
+
 generator client {
     provider = "prisma-client-js"
 }

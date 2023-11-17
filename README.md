@@ -34,6 +34,9 @@ Express.js Node.js app for backend, Rest API, and Prisma ORM.
 Start your database server on port 3306, and run the following command to create the database schema:
 ### `npx prisma db push`
 
+### `npx ts-node prisma/seed.ts`
+import testing data to database, if any duplicate happend, try remove all data in your database
+
 ## Available Script
 ### `npm test`
 run your test cases with jest and supertest
