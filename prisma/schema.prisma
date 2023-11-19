@@ -22,6 +22,8 @@ model User {
     student          Student?
     faculty          Faculty?
     admin            Admin?
+    sentMessages     UserMessage[] @relation("MessageSender")
+    receivedMessages UserMessage[] @relation("MessageReceiver")
 }
 
 model Faculty {
@@ -120,6 +122,7 @@ model TAApplication {
   resumeFile          String // URL or path to the file. This depends on how you handle file uploads.
   taJobId             Int
   taJob               TAJob   @relation(fields: [taJobId], references: [id])
+  messages            UserMessage[]
 }
 
 model UserMessage {
