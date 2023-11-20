@@ -4,7 +4,10 @@ import jwt from 'jsonwebtoken';
 import { prisma } from '../../prisma';
 import { generateRandomNumber, generateRandomString } from 'utils/index';
 
-const JWT_SECRET = 'my-secret-key';
+let JWT_SECRET = 'my-secret-key';
+if (process.env.JWT_SECRET) {
+  JWT_SECRET = process.env.JWT_SECRET;
+}
 
 describe('TA Application API', () => {
   let token: string;
