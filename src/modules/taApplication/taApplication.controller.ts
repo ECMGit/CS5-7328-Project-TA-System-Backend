@@ -26,8 +26,7 @@ export const save = (req: Request, res: Response, next: NextFunction) => {
         const file = req.file;
 
         if (!file) {
-          next(new Error('No file uploaded'));
-          return;
+          return res.status(400).json({ message: 'No file uploaded' });
         }
 
         const savedApplication = await taApplicationService.saveApplication(
@@ -36,6 +35,7 @@ export const save = (req: Request, res: Response, next: NextFunction) => {
         );
         res.status(201).json(savedApplication);
       } catch (error) {
+        console.error(error);
         next(error);
       }
     })();
