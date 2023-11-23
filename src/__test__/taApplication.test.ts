@@ -138,7 +138,7 @@ describe('TA Application API', () => {
   describe('GET /', () => {
     it('should get a list of TA applications', async () => {
       const response = await request(app)
-        .get('/view-applcations/')
+        .get('/ta-application/')
         .set('Authorization', `Bearer ${token}`);
 
       expect(response.statusCode).toBe(200);
@@ -149,12 +149,12 @@ describe('TA Application API', () => {
 
   describe('GET /:id', () => {
     it('should return a 404 status for a non-existing TA application', async () => {
-      const name = "John"; // Assuming this ID does not exist
+      const name = 'John'; // Assuming this ID does not exist
       const response = await request(app)
-        .get(`/view-applications/${name}`)
+        .get(`/ta-application/${name}`)
         .set('Authorization', `Bearer ${token}`);
 
       expect(response.statusCode).toBe(404);
     });
   });
-  });
+});
