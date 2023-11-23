@@ -131,7 +131,30 @@ describe('TA Application API', () => {
       expect(response.body).toEqual(expect.objectContaining({
         message: 'No file uploaded'
       }));
-    });
-      
+    }); 
   });
-});
+
+
+  describe('GET /', () => {
+    it('should get a list of TA applications', async () => {
+      const response = await request(app)
+        .get('/view-applcations/')
+        .set('Authorization', `Bearer ${token}`);
+
+      expect(response.statusCode).toBe(200);
+      expect(response.body).toBeInstanceOf(Array);
+      // Add more assertions based on the expected structure of the response
+    });
+  });
+
+  describe('GET /:id', () => {
+    it('should return a 404 status for a non-existing TA application', async () => {
+      const name = "John"; // Assuming this ID does not exist
+      const response = await request(app)
+        .get(`/view-applications/${name}`)
+        .set('Authorization', `Bearer ${token}`);
+
+      expect(response.statusCode).toBe(404);
+    });
+  });
+  });
