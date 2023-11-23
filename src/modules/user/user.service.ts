@@ -14,15 +14,25 @@ export const createUser = async (data: any) => {
     data,
   });
     
-  //TODO: should create student or faculty accordingly
-    
   return user;  
     
 };
 
-export const createStudent = async (data: any) => {
+interface CreateStudentData {
+    userId: number; 
+    year: number;
+  }
+
+export const createStudent = async (data: CreateStudentData) => {
   return await prisma.student.create({
-    data,
+    data: {
+      year: data.year,
+      user: {
+        connect: {
+          id: data.userId
+        }
+      }
+    }
   });
 };
 
@@ -35,9 +45,13 @@ interface CreateFacultyData {
 export const createFaculty = async (data: CreateFacultyData) => {
   return await prisma.faculty.create({
     data: {
-      userId: data.userId,
       designation: data.designation,
-      department: data.department
+      department: data.department,
+      user: {
+        connect: {
+          id: data.userId
+        }
+      }
     }
   });
 };
