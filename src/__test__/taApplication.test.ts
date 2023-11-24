@@ -135,6 +135,7 @@ describe('TA Application API', () => {
   });
 
 
+      // Get a list of TA applications of a course
   describe('GET /', () => {
     it('should get a list of TA applications', async () => {
       const response = await request(app)
@@ -142,19 +143,36 @@ describe('TA Application API', () => {
         .set('Authorization', `Bearer ${token}`);
 
       expect(response.statusCode).toBe(200);
+       // Assuming the response body is an array
       expect(response.body).toBeInstanceOf(Array);
-      // Add more assertions based on the expected structure of the response
+      // Assuming each element in the array has the 'id' property
+      if (response.body.length > 0) {
+        const firstApplication = response.body[0];
+        expect(firstApplication).toHaveProperty('id');
+        expect(firstApplication).toHaveProperty('courseId');
+        expect(firstApplication).toHaveProperty('studentId');
+      }
     });
   });
 
+  // In this test case, we assume set the filter of student name to John 
+  // and there is no applications related to John so no result will be shown
   describe('GET /:id', () => {
     it('should return a 404 status for a non-existing TA application', async () => {
-      const name = 'John'; // Assuming this ID does not exist
+      const name = generateRandomString(); 
+      // const nonExistingId = 'non-existing-id'; // Replace with an actual non-existing ID
       const response = await request(app)
         .get(`/ta-application/${name}`)
+        // .get(`/ta-application/${nonExistingId}`)
         .set('Authorization', `Bearer ${token}`);
 
       expect(response.statusCode).toBe(404);
+      // expect(response.body.error).toBe("Application not found");
+      // expect(response.body.error).toMatch("/application not found/i");
+      // expect(response.body).toEqual("Application not found");
+      expect(response.body).toEqual(expect.objectContaining({
+        message: 'Application not found'
+      }));
     });
   });
 });
