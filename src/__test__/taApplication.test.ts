@@ -14,6 +14,7 @@ describe('TA Application API', () => {
   let courseId: number;
   let studentId: number;
   let taJobId: number;
+  let applicationId: number;
   beforeAll(async() => {
     // Create associated test resources
     const user = await prisma.user.create({
@@ -87,7 +88,23 @@ describe('TA Application API', () => {
       }
     });
     taJobId  = taJob.id;
-      
+
+    /* TA Application */
+    const taApplication = await prisma.tAApplication.create({
+      data: {
+        courseId: courseId,
+        studentId: studentId,  
+        hoursCanWorkPerWeek: 'Above 10 hours',
+        coursesTaken: 'CS101,CS102', 
+        GPA: 3.5,
+        requiredCourses: 'CS201,CS202',
+        requiredSkills: 'JavaScript,TypeScript',
+        resumeFile: 'src/__test__/testFile.pdf',  
+        taJobId: taJobId,
+      }
+    });
+    applicationId = taApplication.id;
+
   });
   describe('POST /', () => {
     it('should successfully upload a file and save application data', async () => {
@@ -133,5 +150,33 @@ describe('TA Application API', () => {
       }));
     });
       
+  });
+
+  describe('POST /ta-application/:id', () => {
+    it('should successfully update a TA application', async () => {
+      const updateData = {  
+        GPA: 3.7
+      };
+      const response = await request(app)
+        .post(`/ta-application/${applicationId}`)
+        .send(updateData)
+        .set('Authorization', `Bearer ${token}`);
+  
+      expect(response.statusCode).toBe(200);
+      expect(response.body).toMatchObject(updateData);
+    });
+      
+    it('should return error when invalid applicationId was given', async () => {
+      const invalidId: number = 9999999;
+      const updateData = {  
+        GPA: 3.7
+      };
+      const response = await request(app)
+        .post(`/ta-application/${invalidId}`)
+        .send(updateData)
+        .set('Authorization', `Bearer ${token}`);
+  
+      expect(response.statusCode).not.toBe(200);
+    });
   });
 });
