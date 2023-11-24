@@ -135,8 +135,7 @@ export async function signUp(req: Request, res: Response) {
       password: hashedPassword,
       smuNo: smuNo_int,
       firstName,
-      lastName,
-      userType
+      lastName
     });
       
     if (!user) {
