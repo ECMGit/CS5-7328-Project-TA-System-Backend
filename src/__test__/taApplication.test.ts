@@ -154,7 +154,6 @@ describe('TA Application API', () => {
       
   });
 
-
   describe('POST /ta-application/:id', () => {
     it('should successfully update a TA application', async () => {
       const updateData = {
@@ -163,7 +162,7 @@ describe('TA Application API', () => {
         hoursCanWorkPerWeek: 'Above 10 hours',
         coursesTaken: 'CS101,CS102',
         status: 'Pending',  
-        GPA: 3.6,
+        GPA: 3.8,
         requiredCourses: 'CS201,CS202',
         requiredSkills: 'JavaScript,TypeScript',
         resumeFile: 'src/__test__/testFile.pdf',  
