@@ -162,7 +162,7 @@ describe('TA Application API', () => {
         hoursCanWorkPerWeek: 'Above 10 hours',
         coursesTaken: 'CS101,CS102',
         status: 'Pending',  
-        GPA: 3.8,
+        GPA: 3.7,
         requiredCourses: 'CS201,CS202',
         requiredSkills: 'JavaScript,TypeScript',
         resumeFile: 'src/__test__/testFile.pdf',  
