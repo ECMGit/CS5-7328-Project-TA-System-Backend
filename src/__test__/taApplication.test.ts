@@ -3,7 +3,6 @@ import app from '../app';
 import jwt from 'jsonwebtoken';
 import { prisma } from '../../prisma';
 import { generateRandomNumber, generateRandomString } from 'utils/index';
-import { application } from 'express';
 
 let JWT_SECRET = 'my-secret-key';
 if (process.env.JWT_SECRET) {
@@ -96,8 +95,7 @@ describe('TA Application API', () => {
         courseId: courseId,
         studentId: studentId,  
         hoursCanWorkPerWeek: 'Above 10 hours',
-        coursesTaken: 'CS101,CS102',
-        status: 'Pending',  
+        coursesTaken: 'CS101,CS102', 
         GPA: 3.5,
         requiredCourses: 'CS201,CS202',
         requiredSkills: 'JavaScript,TypeScript',
@@ -154,20 +152,10 @@ describe('TA Application API', () => {
       
   });
 
-
   describe('POST /ta-application/:id', () => {
     it('should successfully update a TA application', async () => {
-      const updateData = {
-        courseId: courseId,
-        studentId: studentId,  
-        hoursCanWorkPerWeek: 'Above 10 hours',
-        coursesTaken: 'CS101,CS102',
-        status: 'Pending',  
-        GPA: 3.6,
-        requiredCourses: 'CS201,CS202',
-        requiredSkills: 'JavaScript,TypeScript',
-        resumeFile: 'src/__test__/testFile.pdf',  
-        taJobId: taJobId,
+      const updateData = {  
+        GPA: 3.7
       };
       const response = await request(app)
         .post(`/ta-application/${applicationId}`)
@@ -177,6 +165,18 @@ describe('TA Application API', () => {
       expect(response.statusCode).toBe(200);
       expect(response.body).toMatchObject(updateData);
     });
+      
+    it('should return error when invalid applicationId was given', async () => {
+      const invalidId: number = 9999999;
+      const updateData = {  
+        GPA: 3.7
+      };
+      const response = await request(app)
+        .post(`/ta-application/${invalidId}`)
+        .send(updateData)
+        .set('Authorization', `Bearer ${token}`);
   
+      expect(response.statusCode).not.toBe(200);
+    });
   });
 });
