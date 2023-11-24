@@ -104,8 +104,8 @@ describe('TA Application API', () => {
       }
     });
     applicationId = taApplication.id;
-
   });
+    
   describe('POST /', () => {
     it('should successfully upload a file and save application data', async () => {
       const applicationData = {
@@ -150,6 +150,58 @@ describe('TA Application API', () => {
       }));
     });
       
+  });
+    
+  describe('GET /', () => {
+    it('should get a list of TA applications', async () => {
+      const response = await request(app)
+        .get('/ta-application/')
+        .set('Authorization', `Bearer ${token}`);
+
+      expect(response.statusCode).toBe(200);
+      // Assuming the response body is an array
+      expect(response.body).toBeInstanceOf(Array);
+      // Assuming each element in the array has the 'id' property
+      if (response.body.length > 0) {
+        const firstApplication = response.body[0];
+        expect(firstApplication).toHaveProperty('id');
+        expect(firstApplication).toHaveProperty('courseId');
+        expect(firstApplication).toHaveProperty('studentId');
+      }
+    });
+      
+    it('should return a 401 error for unauthenticated user', async () => {
+      const response = await request(app)
+        .get('/ta-application/')
+        .set('Authorization', 'Bearer invalidtoken');
+
+      expect(response.statusCode).toBe(401);
+    });
+  });
+
+  describe('GET /:id', () => {
+    it('should return a TA application', async () => {
+      const response = await request(app)
+        .get(`/ta-application/${applicationId}`)
+        .set('Authorization', `Bearer ${token}`);
+
+      expect(response.statusCode).toBe(200);
+      expect(response.body).toHaveProperty('id');
+      expect(response.body).toHaveProperty('courseId');
+      expect(response.body).toHaveProperty('studentId');
+    });
+      
+    it('should return a 404 status for a non-existing TA application', async () => {
+      const nonExistingId = 'non-existing-id';
+      const response = await request(app)
+        .get(`/ta-application/${nonExistingId}`)
+        .set('Authorization', `Bearer ${token}`);
+
+      expect(response.statusCode).toBe(404);
+      expect(response.body).toEqual(expect.objectContaining({
+        message: 'Application not found'
+      }));
+    });
   });
 
   describe('POST /ta-application/:id', () => {
