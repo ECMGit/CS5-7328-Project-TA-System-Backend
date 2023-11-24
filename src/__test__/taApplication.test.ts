@@ -165,6 +165,7 @@ describe('TA Application API', () => {
       expect(response.statusCode).toBe(200);
       expect(response.body).toMatchObject(updateData);
     });
+      
     it('should return error when invalid applicationId was given', async () => {
       const invalidId: number = 9999999;
       const updateData = {  
@@ -176,7 +177,6 @@ describe('TA Application API', () => {
         .set('Authorization', `Bearer ${token}`);
   
       expect(response.statusCode).not.toBe(200);
-      // expect(response.body).toMatchObject(updateData);
     });
   });
 });
