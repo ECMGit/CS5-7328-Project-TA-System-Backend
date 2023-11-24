@@ -3,6 +3,7 @@ import app from '../app';
 import jwt from 'jsonwebtoken';
 import { prisma } from '../../prisma';
 import { generateRandomNumber, generateRandomString } from 'utils/index';
+import { application } from 'express';
 
 let JWT_SECRET = 'my-secret-key';
 if (process.env.JWT_SECRET) {
@@ -14,6 +15,7 @@ describe('TA Application API', () => {
   let courseId: number;
   let studentId: number;
   let taJobId: number;
+  let applicationId: number;
   beforeAll(async() => {
     // Create associated test resources
     const user = await prisma.user.create({
@@ -87,7 +89,24 @@ describe('TA Application API', () => {
       }
     });
     taJobId  = taJob.id;
-      
+
+    /* TA Application */
+    const taApplication = await prisma.tAApplication.create({
+      data: {
+        courseId: courseId,
+        studentId: studentId,  
+        hoursCanWorkPerWeek: 'Above 10 hours',
+        coursesTaken: 'CS101,CS102',
+        status: 'Pending',  
+        GPA: 3.5,
+        requiredCourses: 'CS201,CS202',
+        requiredSkills: 'JavaScript,TypeScript',
+        resumeFile: 'src/__test__/testFile.pdf',  
+        taJobId: taJobId,
+      }
+    });
+    applicationId = taApplication.id;
+
   });
   describe('POST /', () => {
     it('should successfully upload a file and save application data', async () => {
@@ -133,5 +152,31 @@ describe('TA Application API', () => {
       }));
     });
       
+  });
+
+
+  describe('POST /ta-application/:id', () => {
+    it('should successfully update a TA application', async () => {
+      const updateData = {
+        courseId: courseId,
+        studentId: studentId,  
+        hoursCanWorkPerWeek: 'Above 10 hours',
+        coursesTaken: 'CS101,CS102',
+        status: 'Pending',  
+        GPA: 3.6,
+        requiredCourses: 'CS201,CS202',
+        requiredSkills: 'JavaScript,TypeScript',
+        resumeFile: 'src/__test__/testFile.pdf',  
+        taJobId: taJobId,
+      };
+      const response = await request(app)
+        .post(`/ta-application/${applicationId}`)
+        .send(updateData)
+        .set('Authorization', `Bearer ${token}`);
+  
+      expect(response.statusCode).toBe(200);
+      expect(response.body).toMatchObject(updateData);
+    });
+  
   });
 });
