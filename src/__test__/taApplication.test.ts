@@ -165,6 +165,18 @@ describe('TA Application API', () => {
       expect(response.statusCode).toBe(200);
       expect(response.body).toMatchObject(updateData);
     });
+    it('should return error when invalid applicationId was given', async () => {
+      const invalidId: number = 9999999;
+      const updateData = {  
+        GPA: 3.7
+      };
+      const response = await request(app)
+        .post(`/ta-application/${invalidId}`)
+        .send(updateData)
+        .set('Authorization', `Bearer ${token}`);
   
+      expect(response.statusCode).not.toBe(200);
+      // expect(response.body).toMatchObject(updateData);
+    });
   });
 });
