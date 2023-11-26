@@ -99,6 +99,10 @@ export const getUserDetailById = async (
     if (!user) {
       return res.status(404).json({ message: 'User not found' });
     }
+
+    // Convert BigInt to String
+    bigIntToString(user);
+
     res.json(user);
   } catch (error) {
     next(error);
