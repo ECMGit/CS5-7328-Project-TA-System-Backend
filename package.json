@@ -47,12 +47,8 @@
     "eslint": "^8.52.0",
     "eslint-plugin-jest": "^27.4.2",
     "eslint-plugin-jest-formatting": "^3.1.0",
-<<<<<<< Updated upstream
     "jest": "^29.5.0",
     "jest-module-name-mapper": "^0.1.5",
-=======
-    "jest": "^29.7.0",
->>>>>>> Stashed changes
     "nodemon": "^2.0.22",
     "prisma": "^5.4.2",
     "supertest": "^6.3.3",
