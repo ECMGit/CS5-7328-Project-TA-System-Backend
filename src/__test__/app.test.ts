@@ -34,19 +34,19 @@ describe('POST /signUp', () => {
   });
 });
 
-  it('should return 409 if username already exists', async () => {
-    const mockFindUser = jest.fn().mockResolvedValue({ username: 'existinguser' });
-    jest.spyOn(UserService, 'findUserByUsername').mockImplementation(mockFindUser);
+it('should return 409 if username already exists', async () => {
+  const mockFindUser = jest.fn().mockResolvedValue({ username: 'existinguser' });
+  jest.spyOn(UserService, 'findUserByUsername').mockImplementation(mockFindUser);
 
-    const response = await request(app).post('/user/signUp').send({
-      username: 'existinguser',
-      // other fields...
-    });
-    expect(response.statusCode).toBe(409);
-    expect(response.body).toEqual({
-      error: 'Username already taken'
-    });
+  const response = await request(app).post('/user/signUp').send({
+    username: 'existinguser',
+    // other fields...
   });
+  expect(response.statusCode).toBe(409);
+  expect(response.body).toEqual({
+    error: 'Username already taken'
+  });
+});
 
 
 /**
