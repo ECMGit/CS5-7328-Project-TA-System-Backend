@@ -56,12 +56,12 @@ describe('TA Job Service Tests', () => {
     // Test for getTAJobById endpoint
     describe('GET /jobs/:id', () => {
         it('should return a TA job by id', async () => {
-            const mockGetTAJobById = jest.fn().mockResolvedValue({/* mocked TA job data */ });
+            const mockGetTAJobById = jest.fn().mockResolvedValue(mockTAJobs);
             jest.spyOn(UserService, 'getTAJobById').mockImplementation(mockGetTAJobById);
 
             const response = await request(app).get('/jobs/1'); // Assuming 1 is the job ID
             expect(response.status).toBe(200);
-            expect(response.body).toEqual({/* expected TA job data */ });
+            expect(response.body).toEqual(mockTAJobs);
         });
 
         it('should return 404 if TA job not found', async () => {
