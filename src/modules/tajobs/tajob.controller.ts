@@ -89,12 +89,14 @@ export const getTAJobsWithFilters = async (
 export const getTAJobsByFacultyId = async (req: Request, res: Response, next: NextFunction) => {
   try {
     // return jobs with matching faculty ID
-      const user = await UserService.getTAJobsByFacultyId(Number(req.params.facultyId));
-      if (!user) {
+      const taJobs = await UserService.getTAJobsByFacultyId(Number(req.params.facultyId));
+      if (taJobs.length == 0) {
+      //const user = await UserService.getTAJobsByFacultyId(Number(req.params.facultyId));
+      //if (!user) {
         // if there are no jobs posted by the faculty member or if the faculty is not found, return this message
-          return res.status(404).json({ message: 'User not found' });
+          return res.status(404).json({ message: 'No TA jobs found' });
       }
-      res.json(user);
+      res.json(taJobs);
   } catch (error) {
       next(error);
   }

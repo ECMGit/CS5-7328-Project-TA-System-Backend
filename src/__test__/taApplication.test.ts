@@ -74,26 +74,28 @@ describe('TA Job Service Tests', () => {
     });
 
 
-    // Test for getTAJobByFacultyID endpoint
-    describe('GET /jobs/:facultyId', () => {
-        it('should return TA jobs by faculty id', async () => {
-            const mockGetTAJobByFacultyId = jest.fn().mockResolvedValue({
-                //mocked TA job data
-            });
+    // Test for getTAJobsByFacultyId endpoint
+    describe('GET /jobs/faculty/:facultyId', () => {
+        it('should return all TA jobs by faculty id', async () => {
+            // const mockCreateUser = jest.fn().mockResolvedValue(mockUser);
+            // const mockCreateFaculty = jest.fn().mockResolvedValue(mockFaculty);
+            // jest.spyOn(UserService1, 'createUser').mockImplementation(mockCreateUser);
+            // jest.spyOn(UserService1, 'createFaculty').mockImplementation(mockCreateFaculty);
+            const mockGetTAJobsByFacultyId = jest.fn().mockResolvedValue(mockTAJobs);
+            jest.spyOn(UserService, 'getTAJobsByFacultyId').mockImplementation(mockGetTAJobsByFacultyId);
 
-            const response = await request(app).get('/jobs/1');
+            const response = await request(app).get('/jobs/faculty/10'); // Assuming faculty ID is 10
             expect(response.status).toBe(200);
-            expect(response.body).toEqual({
-                //expected TA job data
-            })
+            expect(response.body).toEqual(mockTAJobs);
+            console.log(response.body);
         });
 
-        it('should return 404 if Faculty not found', async () => {
-            jest.spyOn(UserService, 'getTAJobsByFacultyId').mockResolvedValue(null);
+        it('should return 404 if user of faculty id is not found', async () => {
+            jest.spyOn(UserService, 'getTAJobsByFacultyId').mockResolvedValue([]);
 
-            const response = await request(app).get('/jobs/999');
+            const response = await request(app).get('/jobs/faculty/999'); // Assuming 999 is a non-existent faculty ID
             expect(response.status).toBe(404);
-            expect(response.body).toEqual({ message: 'Faculty not found' });
+            expect(response.body.message).toEqual('No TA jobs found');
         });
     });
 
