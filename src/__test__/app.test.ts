@@ -87,7 +87,7 @@ describe('POST /faculty-jobs', () => {
 
     const response = await request(app).post('/faculty-jobs').send(jobData);
     expect(response.status).toBe(201);
-    // expect(response.text).toBe("[]");
+    expect(response.text).toBe("[]");
   });
 
   it('should post nothing if the input is malformed', async () => {
@@ -122,6 +122,35 @@ describe('GET /faculty-jobs/:id', () => {
     expect(response.status).toBe(404);
   });
 });
+
+describe('PUT /edit/:id', () => {
+  const id = 0;
+  const today = new Date();
+  const tomorrow = new Date(today);
+  tomorrow.setDate(tomorrow.getDate() + 1);
+  const isoDate = tomorrow.toISOString().substring(0, 10);
+
+  let jobData = {
+    title: "Best Job Ever!",
+    courseId: 0,
+    courseSchedule: "this is a schedule",
+    totalHoursPerWeek: 10,
+    maxNumberOfTAs: 10,
+    requiredCourses: "Pascal",
+    requiredSkills: "basic literacy",
+    TAStats: "here are some statistics",
+    notes: "here are some notes",
+    deadlineToApply: isoDate,
+    facultyId: 0
+  }
+  
+  it('should update a job', async () => {
+    const response = await request(app).put('/edit/'+String(id)).send(jobData); 
+    expect(response.status).toBe(201);
+    expect(response.text).toBe(""); //check 
+    
+  });
+})
 
 
 /**
