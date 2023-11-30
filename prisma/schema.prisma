@@ -22,6 +22,8 @@ model User {
     student          Student?
     faculty          Faculty?
     admin            Admin?
+    sentMessages     UserMessage[] @relation("MessageSender")
+    receivedMessages UserMessage[] @relation("MessageReceiver")
 }
 
 model Faculty {
@@ -120,6 +122,7 @@ model TAApplication {
   resumeFile          String // URL or path to the file. This depends on how you handle file uploads.
   taJobId             Int
   taJob               TAJob   @relation(fields: [taJobId], references: [id])
+  messages            UserMessage[]
 }
 
 model UserMessage {
@@ -129,8 +132,8 @@ model UserMessage {
   senderId        Int
   receiverId      Int
   applicationId   Int
-  sender          User        @relation(name: "MessageSender", fields: [senderId], references: [id])
-  receiver        User        @relation(name: "MessageReceiver", fields: [receiverId], references: [id])
+  sender          User        @relation("MessageSender", fields: [senderId], references: [id])
+  receiver        User        @relation("MessageReceiver", fields: [receiverId], references: [id])
   application     TAApplication @relation(fields: [applicationId], references: [id])
 }
 
