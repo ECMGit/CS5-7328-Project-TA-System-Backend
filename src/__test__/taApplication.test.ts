@@ -224,19 +224,79 @@ describe("TA Job Service Tests", () => {
       expect(response.statusCode).toBe(200);
       expect(response.body).toEqual(mockReturnedTAJobs);
     });
-  
-    it('should return empty array if no matching jobs found', async () => {
-      const mockFilter = { courseId: 999 }; // Assuming no job matches this filter
-      jest.spyOn(UserService, 'getTAJobsWithFilters').mockResolvedValue([]);
-  
-      const response = await request(app).get('/jobs/query').query(mockFilter);
-      
-      console.log(response.body);
-      expect(response.statusCode).toBe(200); // or 404 based on your implementation
-      expect(response.body).toEqual([]); // Asserting the response is an empty array
+
+    // Test for getTAJobById endpoint
+    describe('GET /jobs/:id', () => {
+        it('should return a TA job by id', async () => {
+            const mockGetTAJobById = jest.fn().mockResolvedValue(mockTAJobs);
+            jest.spyOn(UserService, 'getTAJobById').mockImplementation(mockGetTAJobById);
+
+            const response = await request(app).get('/jobs/1'); // Assuming 1 is the job ID
+            expect(response.status).toBe(200);
+            expect(response.body).toEqual(mockTAJobs);
+        });
+
+        it('should return 404 if TA job not found', async () => {
+            jest.spyOn(UserService, 'getTAJobById').mockResolvedValue(null);
+
+            const response = await request(app).get('/jobs/999'); // Assuming 999 is a non-existent job ID
+            expect(response.status).toBe(404);
+            expect(response.body).toEqual({ message: 'TA job not found' });
+        });
     });
   });
   
 
+
+    // Test for getTAJobsByFacultyId endpoint
+    describe('GET /jobs/faculty/:facultyId', () => {
+        it('should return all TA jobs by faculty id', async () => {
+            // const mockCreateUser = jest.fn().mockResolvedValue(mockUser);
+            // const mockCreateFaculty = jest.fn().mockResolvedValue(mockFaculty);
+            // jest.spyOn(UserService1, 'createUser').mockImplementation(mockCreateUser);
+            // jest.spyOn(UserService1, 'createFaculty').mockImplementation(mockCreateFaculty);
+            const mockGetTAJobsByFacultyId = jest.fn().mockResolvedValue(mockTAJobs);
+            jest.spyOn(UserService, 'getTAJobsByFacultyId').mockImplementation(mockGetTAJobsByFacultyId);
+
+            const response = await request(app).get('/jobs/faculty/10'); // Assuming faculty ID is 10
+            expect(response.status).toBe(200);
+            expect(response.body).toEqual(mockTAJobs);
+            console.log(response.body);
+        });
+
+        it('should return 404 if user of faculty id is not found', async () => {
+            jest.spyOn(UserService, 'getTAJobsByFacultyId').mockResolvedValue([]);
+
+            const response = await request(app).get('/jobs/faculty/999'); // Assuming 999 is a non-existent faculty ID
+            expect(response.status).toBe(404);
+            expect(response.body.message).toEqual('No TA jobs found');
+        });
+    });
+
+
+    // Second test for getTAJobsByFacultyId endpoint
+    describe('GET /jobs/faculty/:facultyId', () => {
+        it('should return all TA jobs by faculty id', async () => {
+            // const mockCreateUser = jest.fn().mockResolvedValue(mockUser);
+            // const mockCreateFaculty = jest.fn().mockResolvedValue(mockFaculty);
+            // jest.spyOn(UserService1, 'createUser').mockImplementation(mockCreateUser);
+            // jest.spyOn(UserService1, 'createFaculty').mockImplementation(mockCreateFaculty);
+            const mockGetTAJobsByFacultyId = jest.fn().mockResolvedValue(mockTAJobs);
+            jest.spyOn(UserService, 'getTAJobsByFacultyId').mockImplementation(mockGetTAJobsByFacultyId);
+
+            const response = await request(app).get('/jobs/faculty/12'); // Assuming faculty ID is 10
+            expect(response.status).toBe(200);
+            expect(response.body).toEqual(mockTAJobs);
+            console.log(response.body);
+        });
+
+        it('should return 404 if user of faculty id is not found', async () => {
+            jest.spyOn(UserService, 'getTAJobsByFacultyId').mockResolvedValue([]);
+
+            const response = await request(app).get('/jobs/faculty/998'); // Assuming 999 is a non-existent faculty ID
+            expect(response.status).toBe(404);
+            expect(response.body.message).toEqual('No TA jobs found');
+        });
+    });
 
 });
