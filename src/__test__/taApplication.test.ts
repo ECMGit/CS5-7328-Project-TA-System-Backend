@@ -73,5 +73,29 @@ describe('TA Job Service Tests', () => {
         });
     });
 
+
+    // Test for getTAJobByFacultyID endpoint
+    describe('GET /jobs/:facultyId', () => {
+        it('should return TA jobs by faculty id', async () => {
+            const mockGetTAJobByFacultyId = jest.fn().mockResolvedValue({
+                //mocked TA job data
+            });
+
+            const response = await request(app).get('/jobs/1');
+            expect(response.status).toBe(200);
+            expect(response.body).toEqual({
+                //expected TA job data
+            })
+        });
+
+        it('should return 404 if Faculty not found', async () => {
+            jest.spyOn(UserService, 'getTAJobsByFacultyId').mockResolvedValue(null);
+
+            const response = await request(app).get('/jobs/999');
+            expect(response.status).toBe(404);
+            expect(response.body).toEqual({ message: 'Faculty not found' });
+        });
+    });
+
 });
 
