@@ -2,9 +2,11 @@ import request from "supertest";
 import app from "../app"; // Import your Express app
 import * as UserService from "../modules/tajobs/tajob.service"; // Import the TA job service
 
-//still have some errors need to find
+// Remove the verifyToken function in the routes when running these test cases
+// The test cases work only when the tokens are not a part of the equation
 
 describe("TA Job Service Tests", () => {
+  // Create mockup job positions to test against
   const mockTAJobs = [
     {
       id: 1,
@@ -79,6 +81,7 @@ describe("TA Job Service Tests", () => {
 
   // Test for getTAJobById endpoint
   describe("GET /jobs/:id", () => {
+    // Test a success of the system
     it("should return a TA job by id", async () => {
       const mockGetTAJobById = jest.fn().mockResolvedValue({
         /* mocked TA job data */
@@ -94,6 +97,7 @@ describe("TA Job Service Tests", () => {
       });
     });
 
+    // Test a failure of the system
     it("should return 404 if TA job not found", async () => {
       jest.spyOn(UserService, "getTAJobById").mockResolvedValue(null);
 
@@ -132,7 +136,7 @@ describe("TA Job Service Tests", () => {
   
   describe('GET /jobs/filter', () => {
 
-
+    // Test the filtering system
     it('should return filtered TA jobs', async () => {
       const mockFilter = { courseId: 1 };
       const mockFilteredTAJobs = [
