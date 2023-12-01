@@ -8,7 +8,7 @@ const router = Router();
 router.get('/query', TajobController.getTAJobsWithFilters);
 router.get('/:id', TajobController.getTAJobById);
 router.get('/', TajobController.getAllTAJobs);
-router.get("/faculty/:facultyId", TajobController.getTAJobsByFacultyId)
+router.get('/faculty/:facultyId', TajobController.getTAJobsByFacultyId);
 
 // post one job
 router.post('/', TajobController.createJob);
