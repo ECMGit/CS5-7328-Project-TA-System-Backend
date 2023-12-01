@@ -1,4 +1,4 @@
-import * as UserService from './tajob.service';
+import * as JobService from './tajob.service';
 //do we have to import the TA service?
 import { Request, Response, NextFunction } from 'express';
 
@@ -20,7 +20,7 @@ export const getAllTAJobs = async (
 
   try {
     // return all jobs that have been published
-    const taJobs = await UserService.getAllTAJobs();
+    const taJobs = await JobService.getAllTAJobs();
     if (taJobs.length == 0) {
       console.log('No job listings found.');
       // if there are no jobs found, return message that no jobs are found
@@ -41,7 +41,7 @@ export const getTAJobById = async (
 ) => {
   try {
     // return jobs with matching job ID
-    const taJob = await UserService.getTAJobById(Number(req.params.id));
+    const taJob = await JobService.getTAJobById(Number(req.params.id));
     if (!taJob) {
       // if no TA job is found with the required ID, return message indicating issue
       return res.status(404).json({ message: 'TA job not found' });
@@ -68,7 +68,7 @@ export const getTAJobsWithFilters = async (
     const queryParams = req.query;
 
     // Call the service function, passing in the filters.
-    const filteredTAJobs = await UserService.getTAJobsWithFilters(queryParams);
+    const filteredTAJobs = await JobService.getTAJobsWithFilters(queryParams);
 
     // Send back the filtered data.
     res.json(filteredTAJobs);
@@ -89,9 +89,9 @@ export const getTAJobsWithFilters = async (
 export const getTAJobsByFacultyId = async (req: Request, res: Response, next: NextFunction) => {
   try {
     // return jobs with matching faculty ID
-      const taJobs = await UserService.getTAJobsByFacultyId(Number(req.params.facultyId));
+      const taJobs = await JobService.getTAJobsByFacultyId(Number(req.params.facultyId));
       if (taJobs.length == 0) {
-      //const user = await UserService.getTAJobsByFacultyId(Number(req.params.facultyId));
+      //const user = await JobService.getTAJobsByFacultyId(Number(req.params.facultyId));
       //if (!user) {
         // if there are no jobs posted by the faculty member or if the faculty is not found, return this message
           return res.status(404).json({ message: 'No TA jobs found' });
