@@ -11,9 +11,9 @@ router.get('/', TajobController.getAllTAJobs);
 router.get("/faculty/:facultyId", TajobController.getTAJobsByFacultyId)
 
 // post one job
-router.post('/', JobController.createJob);
+router.post('/', TajobController.createJob);
 
 //udpate one job by id passed as param
-router.put('/edit/:id', JobController.updateJob);
+router.put('/edit/:id', TajobController.updateJob);
 
 export default router;
