@@ -31,12 +31,15 @@ export const getOneJob = async (
 ) => {
   try {
     const job = await JobService.getOneJob(parseInt(req.params.id));
+    if (!job) {
+      res.status(404);
+    }
     res.json(job);
   } catch (error) {
     next(error);
   }
 };
-//udpate job by id passed as param
+// update job by id passed as param
 /**
  * @param req
  * @param res
@@ -49,7 +52,7 @@ export const updateJob = async (
 ) => {
   try {
     const job = await JobService.updateJob(parseInt(req.params.id), req.body);
-    res.json(job);
+    res.status(201).json({'id': job.id});
   } catch (error) {
     next(error);
   }
@@ -67,7 +70,7 @@ export const createJob = async (
 ) => {
   try {
     const newJob = await JobService.createJob(req.body);
-    res.status(201).json(newJob);
+    res.status(201).json({id: newJob.id});
   } catch (error) {
     next(error);
   }
