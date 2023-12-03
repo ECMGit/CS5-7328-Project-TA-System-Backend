@@ -113,9 +113,28 @@ export const createJob = async (
   next: NextFunction
 ) => {
   try {
-    // TODO
-    // const newJob = await JobService.createJob(req.body);
-    // res.status(201).json(newJob);
+    const newJob = await JobService.createJob(req.body);
+    res.status(201).json(newJob);
+  } catch (error) {
+    next(error);
+  }
+};
+
+
+//udpate job by id passed as param
+/**
+ * @param req
+ * @param res
+ * @param next
+ */
+export const updateJob = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const job = await JobService.updateJob(parseInt(req.params.id), req.body);
+    res.json(job);
   } catch (error) {
     next(error);
   }
