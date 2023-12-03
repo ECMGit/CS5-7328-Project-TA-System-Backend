@@ -136,3 +136,26 @@ export const createJob = async (jobData: jobData) => {
   }
 };
 
+//udpate job by id passed as param
+/**
+ * @param id id of the job to be updated
+ * @param jobData data to be updated
+ * @returns the job that was updated
+ * @throws Error if job could not be updated
+ */  
+export const updateJob = async (id: number, jobData: jobData) => {
+  try {
+    // update one job from database
+    return await prisma.tAJob.update({
+      where: {
+        id: id
+      },
+      //update partial data from body request
+      data: jobData
+    });
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
+};
+
