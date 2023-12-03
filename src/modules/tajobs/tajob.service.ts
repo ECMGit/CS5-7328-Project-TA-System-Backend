@@ -103,3 +103,36 @@ export const getTAJobsWithFilters = async (filters: FilterParams) => {
 export const getTAJobsByFacultyId = async (facultyId: number) => {
   return await prisma.tAJob.findMany({ where: { facultyId } });
 };
+
+
+// setting jobData type for use in createJob and updateJob route functions
+export type jobData = {
+  title: string;
+  courseId: number;
+  courseSchedule: string;
+  totalHoursPerWeek: number;
+  maxNumberOfTAs: number;
+  requiredCourses: string;
+  requiredSkills: string;
+  TAStats: string;
+  notes?: string;
+  deadlineToApply: Date; // should be formatted as ISO date
+  facultyId: number;
+};
+/**
+ * @param jobData Job data to be stored
+ * @returns The job that was created
+ * @throws Error if job could not be created
+ */
+export const createJob = async (jobData: jobData) => {
+
+  try {
+    return await prisma.tAJob.create({
+      data: jobData,
+    });
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
+};
+
