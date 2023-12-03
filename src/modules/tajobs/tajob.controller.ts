@@ -89,16 +89,16 @@ export const getTAJobsWithFilters = async (
 export const getTAJobsByFacultyId = async (req: Request, res: Response, next: NextFunction) => {
   try {
     // return jobs with matching faculty ID
-      const taJobs = await JobService.getTAJobsByFacultyId(Number(req.params.facultyId));
-      if (taJobs.length == 0) {
+    const taJobs = await JobService.getTAJobsByFacultyId(Number(req.params.facultyId));
+    if (taJobs.length == 0) {
       //const user = await JobService.getTAJobsByFacultyId(Number(req.params.facultyId));
       //if (!user) {
-        // if there are no jobs posted by the faculty member or if the faculty is not found, return this message
-          return res.status(404).json({ message: 'No TA jobs found' });
-      }
-      res.json(taJobs);
+      // if there are no jobs posted by the faculty member or if the faculty is not found, return this message
+      return res.status(404).json({ message: 'No TA jobs found' });
+    }
+    res.json(taJobs);
   } catch (error) {
-      next(error);
+    next(error);
   }
 };
 
@@ -113,8 +113,9 @@ export const createJob = async (
   next: NextFunction
 ) => {
   try {
-    const newJob = await JobService.createJob(req.body);
-    res.status(201).json(newJob);
+    // TODO
+    // const newJob = await JobService.createJob(req.body);
+    // res.status(201).json(newJob);
   } catch (error) {
     next(error);
   }

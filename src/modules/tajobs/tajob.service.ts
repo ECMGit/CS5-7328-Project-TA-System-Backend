@@ -50,8 +50,8 @@ export const getTAJobsWithFilters = async (filters: FilterParams) => {
     // TODO: above'any' could be replaced with more specific types based on your conditions
     // 'any' could be replaced with more specific types based on your conditions
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const queryConditions: Record<string, any> = {}; 
-    
+    const queryConditions: Record<string, any> = {};
+
     for (const [key, value] of Object.entries(filters)) {
       if (value) {
         // Check if the value is one of the properties that need to be converted to a number
@@ -101,5 +101,5 @@ export const getTAJobsWithFilters = async (filters: FilterParams) => {
 };
 
 export const getTAJobsByFacultyId = async (facultyId: number) => {
-  return await prisma.tAJob.findMany({ where:{ facultyId } } );
+  return await prisma.tAJob.findMany({ where: { facultyId } });
 };
