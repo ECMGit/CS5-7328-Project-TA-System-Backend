@@ -42,9 +42,9 @@ app.use((req, res, next) => {
 app.use('/user', userRoutes);
 // routes that require middleware
 
-app.use('/faculty-jobs', jobRoutes);
-app.use('/ta-application', taApplicationRoutes);
-app.use('/jobs', tajobRoutes);
+app.use('/faculty-jobs', verifyToken, jobRoutes);
+app.use('/ta-application', verifyToken, taApplicationRoutes);
+app.use('/jobs', verifyToken, tajobRoutes);
 
 app.get('/', (req, res) => {
   res.status(200).send('Hello World!');
