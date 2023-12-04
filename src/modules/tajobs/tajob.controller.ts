@@ -3,11 +3,11 @@ import * as JobService from './tajob.service';
 import { Request, Response, NextFunction } from 'express';
 
 /**
- * 
- * @param req 
- * @param res 
- * @param next 
- * @returns 
+ *
+ * @param req
+ * @param res
+ * @param next
+ * @returns
  */
 
 //this get function returns all available TA jobs
@@ -80,16 +80,22 @@ export const getTAJobsWithFilters = async (
 
 /**
  * get user by id
- * @param req 
- * @param res 
- * @param next 
- * @returns 
+ * @param req
+ * @param res
+ * @param next
+ * @returns
  */
 //this function returns a list of jobs posted by the faculty member with the passed-in ID
-export const getTAJobsByFacultyId = async (req: Request, res: Response, next: NextFunction) => {
+export const getTAJobsByFacultyId = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
   try {
     // return jobs with matching faculty ID
-    const taJobs = await JobService.getTAJobsByFacultyId(Number(req.params.facultyId));
+    const taJobs = await JobService.getTAJobsByFacultyId(
+      Number(req.params.facultyId)
+    );
     if (taJobs.length == 0) {
       //const user = await JobService.getTAJobsByFacultyId(Number(req.params.facultyId));
       //if (!user) {
@@ -113,13 +119,13 @@ export const createJob = async (
   next: NextFunction
 ) => {
   try {
+    console.log('in create ',req.body);
     const newJob = await JobService.createJob(req.body);
     res.status(201).json(newJob);
   } catch (error) {
     next(error);
   }
 };
-
 
 //udpate job by id passed as param
 /**

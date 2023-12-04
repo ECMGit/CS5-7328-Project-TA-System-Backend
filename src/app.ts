@@ -1,7 +1,6 @@
 import express from 'express';
 import bodyParser from 'body-parser';
 import userRoutes from './modules/user/user.routes';
-import jobRoutes from './modules/job/job.routes';
 import taApplicationRoutes from './modules/taApplication/taApplication.routes';
 import tajobRoutes from './modules/tajobs/tajob.routes';
 
@@ -41,10 +40,8 @@ app.use((req, res, next) => {
 // import routes which are defined in modules
 app.use('/user', userRoutes);
 // routes that require middleware
-
-app.use('/faculty-jobs', verifyToken, jobRoutes);
 app.use('/ta-application', verifyToken, taApplicationRoutes);
-app.use('/jobs', verifyToken, tajobRoutes);
+app.use('/jobs', tajobRoutes);
 
 app.get('/', (req, res) => {
   res.status(200).send('Hello World!');
