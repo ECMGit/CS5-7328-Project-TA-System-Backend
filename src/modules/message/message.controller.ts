@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 import * as MessageService from './message.service';
 import { Request, Response, NextFunction } from 'express';
 
