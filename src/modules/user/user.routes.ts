@@ -18,7 +18,7 @@ router.post('/login', UserController.login);
 
 // reset password functionality
 router.post('/password-reset-link', UserController.sendPasswordResetLink);
-router.get('/reset-password', UserController.confirmResetPassword);
+router.post('/password-reset/confirm', UserController.confirmResetPassword);
 
 // testing purpose
 router.post('/import', UserController.importUsers);

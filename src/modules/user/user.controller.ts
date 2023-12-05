@@ -345,7 +345,7 @@ export const sendPasswordResetLink = async (req: Request, res: Response) => {
  */
 export const confirmResetPassword = async (req: Request, res: Response) => {
   const { token, password } = req.body;
-  // console.log(token, password);
+
 
   // 1. Find the user by the token
   const user = await UserService.findUserByResetToken(token);
