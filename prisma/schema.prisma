@@ -6,7 +6,6 @@ datasource db {
 }
 
 // define the data model here
-
 model User {
     id               Int       @id @default(autoincrement())
     smuNo            Int
@@ -22,10 +21,8 @@ model User {
     student          Student?
     faculty          Faculty?
     admin            Admin?
-
     sentMessages     UserMessage[] @relation(name: "MessageSender") // Relation to sent messages
     receivedMessages UserMessage[] @relation(name: "MessageReceiver") // Relation to received messages
-
 }
 
 model Faculty {
@@ -125,7 +122,6 @@ model TAApplication {
   taJobId             Int
   taJob               TAJob   @relation(fields: [taJobId], references: [id])
   messages        UserMessage[]  @relation(name: "ApplicationMessages") // Relation to UserMessage
-
 }
 
 model UserMessage {

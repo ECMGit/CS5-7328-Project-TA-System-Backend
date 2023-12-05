@@ -50,8 +50,8 @@ export const getTAJobsWithFilters = async (filters: FilterParams) => {
     // TODO: above'any' could be replaced with more specific types based on your conditions
     // 'any' could be replaced with more specific types based on your conditions
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const queryConditions: Record<string, any> = {}; 
-    
+    const queryConditions: Record<string, any> = {};
+
     for (const [key, value] of Object.entries(filters)) {
       if (value) {
         // Check if the value is one of the properties that need to be converted to a number
@@ -101,5 +101,62 @@ export const getTAJobsWithFilters = async (filters: FilterParams) => {
 };
 
 export const getTAJobsByFacultyId = async (facultyId: number) => {
-  return await prisma.tAJob.findMany({ where:{ facultyId } } );
+  return await prisma.tAJob.findMany({ where: { facultyId } });
 };
+
+
+// setting jobData type for use in createJob and updateJob route functions
+export type jobData = {
+  title: string;
+  courseId: number;
+  courseSchedule: string;
+  totalHoursPerWeek: number;
+  maxNumberOfTAs: number;
+  requiredCourses: string;
+  requiredSkills: string;
+  TAStats: string;
+  notes?: string;
+  deadlineToApply: Date; // should be formatted as ISO date
+  facultyId: number;
+};
+/**
+ * @param jobData Job data to be stored
+ * @returns The job that was created
+ * @throws Error if job could not be created
+ */
+export const createJob = async (jobData: jobData) => {
+  console.log(jobData);
+  
+  try {
+    return await prisma.tAJob.create({
+      data: jobData,
+    });
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
+};
+
+//udpate job by id passed as param
+/**
+ * @param id id of the job to be updated
+ * @param jobData data to be updated
+ * @returns the job that was updated
+ * @throws Error if job could not be updated
+ */  
+export const updateJob = async (id: number, jobData: jobData) => {
+  try {
+    // update one job from database
+    return await prisma.tAJob.update({
+      where: {
+        id: id
+      },
+      //update partial data from body request
+      data: jobData
+    });
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
+};
+
