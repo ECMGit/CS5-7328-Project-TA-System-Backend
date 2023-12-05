@@ -134,7 +134,6 @@ model UserMessage {
   sender          User        @relation(name: "MessageSender", fields: [senderId], references: [id])
   receiver        User        @relation(name: "MessageReceiver", fields: [receiverId], references: [id])
   application     TAApplication  @relation(name: "ApplicationMessages", fields: [applicationId], references: [id])
-
 }
 
 generator client {
