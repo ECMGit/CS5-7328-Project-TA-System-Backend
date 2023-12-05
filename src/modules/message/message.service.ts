@@ -16,7 +16,7 @@ import { prisma } from 'prisma';
 
 export const getMessagesByApplication = async (appID: number) => {
   try{
-    return await prisma.message.findMany ({where: { appID },});
+    return await prisma.userMessage.findMany ({where: { applicationId: appID },});
   } catch (error) {
     console.log(error); 
   }
@@ -24,7 +24,7 @@ export const getMessagesByApplication = async (appID: number) => {
 
 export const getMessagesByReceiverId = async (rID: number) => {
   try{
-    return await prisma.message.findMany({where: { rID },});
+    return await prisma.userMessage.findMany({where: { receiverId: rID },});
   } catch (error){
     console.log(error);
   }
@@ -32,7 +32,7 @@ export const getMessagesByReceiverId = async (rID: number) => {
 
 export const getMessagesBySenderId = async (sID: number) => {
   try{
-    return await prisma.message.findMany({where: {sID},}); 
+    return await prisma.userMessage.findMany({where: {senderId: sID},}); 
   } catch (error){
     console.log(error); 
   }
