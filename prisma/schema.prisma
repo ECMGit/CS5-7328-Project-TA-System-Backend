@@ -123,7 +123,6 @@ model TAApplication {
   requiredSkills      String // A comma separated list of required skills
   resumeFile          String // URL or path to the file. This depends on how you handle file uploads.
   taJobId             Int
-  userMessage         UserMessage[]
   taJob               TAJob   @relation(fields: [taJobId], references: [id])
   messages        UserMessage[]  @relation(name: "ApplicationMessages") // Relation to UserMessage
 
