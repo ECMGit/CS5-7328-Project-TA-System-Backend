@@ -22,8 +22,10 @@ model User {
     student          Student?
     faculty          Faculty?
     admin            Admin?
-    sentMessages     UserMessage[] @relation("MessageSender")
-    receivedMessages UserMessage[] @relation("MessageReceiver")
+
+    sentMessages     UserMessage[] @relation(name: "MessageSender") // Relation to sent messages
+    receivedMessages UserMessage[] @relation(name: "MessageReceiver") // Relation to received messages
+
 }
 
 model Faculty {
@@ -123,7 +125,8 @@ model TAApplication {
   taJobId             Int
   userMessage         UserMessage[]
   taJob               TAJob   @relation(fields: [taJobId], references: [id])
-  messages            UserMessage[]
+  messages        UserMessage[]  @relation(name: "ApplicationMessages") // Relation to UserMessage
+
 }
 
 model UserMessage {
@@ -133,7 +136,10 @@ model UserMessage {
   senderId        Int
   receiverId      Int
   applicationId   Int
-  application     TAApplication @relation(fields: [applicationId], references: [id])
+  sender          User        @relation(name: "MessageSender", fields: [senderId], references: [id])
+  receiver        User        @relation(name: "MessageReceiver", fields: [receiverId], references: [id])
+  application     TAApplication  @relation(name: "ApplicationMessages", fields: [applicationId], references: [id])
+
 }
 
 generator client {
