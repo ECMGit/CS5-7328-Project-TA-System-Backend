@@ -119,6 +119,7 @@ model TAApplication {
   requiredSkills      String // A comma separated list of required skills
   resumeFile          String // URL or path to the file. This depends on how you handle file uploads.
   taJobId             Int
+  userMessage         UserMessage[]
   taJob               TAJob   @relation(fields: [taJobId], references: [id])
 }
 
@@ -129,8 +130,6 @@ model UserMessage {
   senderId        Int
   receiverId      Int
   applicationId   Int
-  sender          User        @relation(name: "MessageSender", fields: [senderId], references: [id])
-  receiver        User        @relation(name: "MessageReceiver", fields: [receiverId], references: [id])
   application     TAApplication @relation(fields: [applicationId], references: [id])
 }
 
