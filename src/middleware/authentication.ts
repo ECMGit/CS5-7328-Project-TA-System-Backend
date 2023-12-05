@@ -14,9 +14,9 @@ const JWT_SECRET = 'my-secret-key';
  * @returns 
  */
 export const verifyToken = (req: Request, res: Response, next: NextFunction) =>{
-  const token = req.headers.authorization?.split(' ')[1];
-  console.log('token '+token);
-  
+  const token = req.headers.authorization;
+  // console.log('token '+token);
+  // console.log('req.headers.authorization '+req.headers.authorization);
   if (!token) {
     return res.status(401).json({ error: 'Unauthorized' });
   }

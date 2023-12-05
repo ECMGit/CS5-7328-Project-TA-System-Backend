@@ -3,7 +3,7 @@ import bodyParser from 'body-parser';
 import userRoutes from './modules/user/user.routes';
 import taApplicationRoutes from './modules/taApplication/taApplication.routes';
 import tajobRoutes from './modules/tajobs/tajob.routes';
-
+import messageRoutes from './modules/message/message.routes';
 // middleware
 import { verifyToken } from './middleware/authentication';
 
@@ -40,6 +40,7 @@ app.use((req, res, next) => {
 // import routes which are defined in modules
 app.use('/user', userRoutes);
 // routes that require middleware
+app.use('/message', verifyToken, messageRoutes);
 app.use('/ta-application', verifyToken, taApplicationRoutes);
 app.use('/jobs', verifyToken, tajobRoutes);
 
