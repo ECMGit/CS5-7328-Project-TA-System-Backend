@@ -49,10 +49,21 @@ export const getApplication = async (
  * Get all applications
  */
 export const getTaApplications = async () => {
-  console.log('getUsers');
   return await prisma.tAApplication.findMany();
 };
 
+
+export const getTaApplicationsByStudentId = async (
+  studentId: number
+) => {
+  return await prisma.tAApplication.findMany(
+    {
+      where: {
+        studentId: studentId
+      },
+    }
+  );
+};
 
 export const updateApplication = async (
   id: number
