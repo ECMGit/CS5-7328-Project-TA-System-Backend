@@ -6,7 +6,8 @@ const router = Router();
 
 router.get('/:app', MessageService.getMessagesByApplication);
 router.get('/:senderID', MessageService.getMessagesBySenderId);
-router.get('/:recieverID', MessageService.getMessagesByReceiverId);
+router.get('/:receiverID', MessageService.getMessagesByReceiverId);
 router.post('/mark-read/:messageID', MessageController.markMessageAsRead);
+router.post('/create', MessageController.createMessage);
 
 export default router; 
