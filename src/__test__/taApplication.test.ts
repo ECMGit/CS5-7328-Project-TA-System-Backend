@@ -231,4 +231,32 @@ describe('TA Application API', () => {
       expect(response.statusCode).not.toBe(200);
     });
   });
+    
+  describe('POST /ta-application/student/:studentId', () => {
+    it('should successfully return all the applications that applied by this student', async () => {
+      const response = await request(app)
+        .get(`/ta-application/student/${studentId}`)
+        .set('Authorization', `Bearer ${token}`);
+  
+      expect(response.statusCode).toBe(200);
+      expect(response.body).toEqual(
+        expect.arrayContaining(
+          [
+            expect.objectContaining({
+              studentId: studentId
+            })
+          ]
+        ));
+    });
+      
+    it('should return empty when invalid studentId was given', async () => {
+      const invalidId: number = 9999999;
+      const response = await request(app)
+        .get(`/ta-application/student/${invalidId}`)
+        .set('Authorization', `Bearer ${token}`);
+        
+      expect(response.statusCode).toBe(200);
+      expect(response.body).toHaveLength(0);
+    });
+  });
 });

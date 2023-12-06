@@ -96,12 +96,12 @@ export const getTAJobsByFacultyId = async (
     const taJobs = await JobService.getTAJobsByFacultyId(
       Number(req.params.facultyId)
     );
-    if (taJobs.length == 0) {
-      //const user = await JobService.getTAJobsByFacultyId(Number(req.params.facultyId));
-      //if (!user) {
-      // if there are no jobs posted by the faculty member or if the faculty is not found, return this message
-      return res.status(404).json({ message: 'No TA jobs found' });
-    }
+    // if (taJobs.length == 0) {
+    //   //const user = await JobService.getTAJobsByFacultyId(Number(req.params.facultyId));
+    //   //if (!user) {
+    //   // if there are no jobs posted by the faculty member or if the faculty is not found, return this message
+    //   return res.status(404).json({ message: 'No TA jobs found' });
+    // }
     res.json(taJobs);
   } catch (error) {
     next(error);
