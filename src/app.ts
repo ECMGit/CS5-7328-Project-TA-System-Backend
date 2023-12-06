@@ -40,7 +40,7 @@ app.use((req, res, next) => {
 // import routes which are defined in modules
 app.use('/user', userRoutes);
 // routes that require middleware
-app.use('/message', verifyToken, messageRoutes);
+app.use('/message', messageRoutes);
 app.use('/ta-application', verifyToken, taApplicationRoutes);
 app.use('/jobs', verifyToken, tajobRoutes);
 
