@@ -6,7 +6,7 @@ const router = express.Router();
 router.post( '/', TaApplicationController.save );
 router.get('/', TaApplicationController.getTaApplications); // route is not protected by authentication middleware
 router.get('/:id', TaApplicationController.getTaApplication);
-router.get('/getByStudent/:id', TaApplicationController.getTaApplicationByStudentId);
+router.get('/student/:studentId', TaApplicationController.getTaApplicationByStudentId);
 router.post('/:id', TaApplicationController.updateTaApplication);
 router.delete('/:id', TaApplicationController.deleteTaApplication);
 

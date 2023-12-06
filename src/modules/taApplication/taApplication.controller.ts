@@ -97,7 +97,7 @@ export const getTaApplications = async (
 export const getTaApplicationByStudentId = async (
   req: Request, res: Response, next: NextFunction
 ) => {
-  const studentId: number = Number(req.params.id);
+  const studentId: number = Number(req.params.studentId);
   try {
     // call the service layer function and pass req.query as the parameter
     const taApplications
