@@ -9,7 +9,7 @@ export const getMessagesByApplication = async (
   next: NextFunction
 ) => {
   try {
-    const message = await MessageService.getMessagesByApplication(Number(req.params.appID));
+    const message = await MessageService.getMessagesByApplication(Number(req.params.app));
     if (!message) {
       return res.status(404).json({message: 'Messages not found'});
     }

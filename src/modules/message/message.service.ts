@@ -1,4 +1,5 @@
 import { prisma } from 'prisma';
+import { UserMessage } from '@prisma/client';
 
 
 //TODO: add comments to all functions
@@ -14,11 +15,12 @@ import { prisma } from 'prisma';
     getMessagesBySenderId
  */
 
-export const getMessagesByApplication = async (appID: number) => {
-  try{
-    return await prisma.userMessage.findMany ({where: { applicationId: appID },});
+export const getMessagesByApplication = async (appID: number) : Promise<UserMessage[]> => {
+  try {
+    return await prisma.userMessage.findMany({where: { applicationId: appID } });
   } catch (error) {
-    console.log(error); 
+    console.log(error);
+    return []; // return an empty array in case of error
   }
 };
 
