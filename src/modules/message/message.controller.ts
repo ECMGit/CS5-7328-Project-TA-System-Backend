@@ -53,3 +53,15 @@ export const getMessagesByReceicerId = async (
     next(error); 
   }
 };
+
+// Controller function to handle adding a message
+export const addMessage = async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const { senderId, receiverId, content, applicationId } = req.body;
+    const newMessage = await MessageService.addMessage(senderId, receiverId, content, applicationId);
+    res.status(201).json(newMessage);
+  } catch (error) {
+    console.error("Error in controller while adding message", error);
+    next(error);
+  }
+};

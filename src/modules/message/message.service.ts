@@ -39,3 +39,21 @@ export const getMessagesBySenderId = async (sID: number) => {
     console.log(error); 
   }
 };
+
+// Service function to add a message
+export const addMessage = async (senderId: number, receiverId: number, content: string, applicationId: number): Promise<UserMessage> => {
+  try {
+    const newMessage = await prisma.userMessage.create({
+      data: {
+        senderId,
+        receiverId,
+        content,
+        applicationId,
+      },
+    });
+    return newMessage;
+  } catch (error) {
+    console.error("Error adding message to database", error);
+    throw error;
+  }
+};
