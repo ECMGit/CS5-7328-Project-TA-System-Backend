@@ -1,5 +1,5 @@
-// custom path issue, need to fix, for now use this import
-import { prisma } from 'prisma';
+import { PrismaClient } from '@prisma/client';
+const prisma = new PrismaClient();
 
 //get all Ta jobs
 export const getAllTAJobs = async () => {

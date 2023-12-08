@@ -15,7 +15,11 @@
   "author": "Junhao Shen <junhaos@smu.edu>",
   "license": "MIT",
   "dependencies": {
+    "@emotion/react": "^11.11.1",
+    "@emotion/styled": "^11.11.0",
     "@faker-js/faker": "^8.1.0",
+    "@mui/material": "^5.14.18",
+    "@mui/x-data-grid": "^6.18.1",
     "@prisma/client": "^5.4.2",
     "@types/bcrypt": "^5.0.0",
     "@types/nodemailer": "^6.4.9",
