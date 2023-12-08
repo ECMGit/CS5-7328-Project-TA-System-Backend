@@ -4,3 +4,4 @@ node_modules/
 prisma/migrations/
 .vscode
 uploads
+env
