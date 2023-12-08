@@ -6,7 +6,6 @@ datasource db {
 }
 
 // define the data model here
-
 model User {
     id               Int       @id @default(autoincrement())
     smuNo            Int
@@ -22,6 +21,8 @@ model User {
     student          Student?
     faculty          Faculty?
     admin            Admin?
+    sentMessages     UserMessage[] @relation(name: "MessageSender") // Relation to sent messages
+    receivedMessages UserMessage[] @relation(name: "MessageReceiver") // Relation to received messages
 }
 
 model Faculty {
@@ -120,6 +121,7 @@ model TAApplication {
   resumeFile          String // URL or path to the file. This depends on how you handle file uploads.
   taJobId             Int
   taJob               TAJob   @relation(fields: [taJobId], references: [id])
+  messages        UserMessage[]  @relation(name: "ApplicationMessages") // Relation to UserMessage
 }
 
 model UserMessage {
@@ -131,7 +133,7 @@ model UserMessage {
   applicationId   Int
   sender          User        @relation(name: "MessageSender", fields: [senderId], references: [id])
   receiver        User        @relation(name: "MessageReceiver", fields: [receiverId], references: [id])
-  application     TAApplication @relation(fields: [applicationId], references: [id])
+  application     TAApplication  @relation(name: "ApplicationMessages", fields: [applicationId], references: [id])
 }
 
 generator client {

@@ -14,17 +14,27 @@ export const createUser = async (data: any) => {
     data,
   });
     
-  //TODO: should create student or faculty accordingly
-    
   return user;  
     
 };
 
-export const createStudent = async (data: any) => {
+interface CreateStudentData {
+    userId: number; 
+    year: number;
+  }
+
+export const createStudent = async (data: CreateStudentData) => {
   return await prisma.student.create({
-      data,
+    data: {
+      year: data.year,
+      user: {
+        connect: {
+          id: data.userId
+        }
+      }
+    }
   });
-}
+};
 
 interface CreateFacultyData {
     userId: number; // Adjust the data type as needed
@@ -35,9 +45,13 @@ interface CreateFacultyData {
 export const createFaculty = async (data: CreateFacultyData) => {
   return await prisma.faculty.create({
     data: {
-      userId: data.userId,
       designation: data.designation,
-      department: data.department
+      department: data.department,
+      user: {
+        connect: {
+          id: data.userId
+        }
+      }
     }
   });
 };
@@ -45,9 +59,9 @@ export const createFaculty = async (data: CreateFacultyData) => {
 
 export const createAdmin = async (data: any) => {
   return await prisma.admin.create({
-      data,
+    data,
   });
-}
+};
 
 export const getUsers = async () => {
   return await prisma.user.findMany();
@@ -68,7 +82,7 @@ export const findUserByUsername = async (username: string) => {
       }
     }
   );
-  console.log("user", user);
+  console.log('user', user);
   if (user === null || user === undefined) {
     return null;
   }

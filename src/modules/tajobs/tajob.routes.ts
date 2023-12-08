@@ -8,6 +8,12 @@ const router = Router();
 router.get('/query', TajobController.getTAJobsWithFilters);
 router.get('/:id', TajobController.getTAJobById);
 router.get('/', TajobController.getAllTAJobs);
-router.get("/:facultyId", TajobController.getTAJobsByFacultyId)
+router.get('/faculty/:facultyId', TajobController.getTAJobsByFacultyId);
+
+// post one job
+router.post('/', TajobController.createJob);
+
+//udpate one job by id passed as param
+router.put('/edit/:id', TajobController.updateJob);
 
 export default router;

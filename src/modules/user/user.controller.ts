@@ -99,6 +99,10 @@ export const getUserDetailById = async (
     if (!user) {
       return res.status(404).json({ message: 'User not found' });
     }
+
+    // Convert BigInt to String
+    bigIntToString(user);
+
     res.json(user);
   } catch (error) {
     next(error);
@@ -135,8 +139,7 @@ export async function signUp(req: Request, res: Response) {
       password: hashedPassword,
       smuNo: smuNo_int,
       firstName,
-      lastName,
-      userType
+      lastName
     });
       
     if (!user) {
@@ -342,7 +345,7 @@ export const sendPasswordResetLink = async (req: Request, res: Response) => {
  */
 export const confirmResetPassword = async (req: Request, res: Response) => {
   const { token, password } = req.body;
-  // console.log(token, password);
+
 
   // 1. Find the user by the token
   const user = await UserService.findUserByResetToken(token);

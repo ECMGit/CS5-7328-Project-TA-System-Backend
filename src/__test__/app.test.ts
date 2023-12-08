@@ -1,8 +1,9 @@
 import request from 'supertest';
 import app from '../app'; // Import your Express app
-import { User } from '@prisma/client';
-import {faker} from '@faker-js/faker';
 import * as UserService from '../modules/user/user.service';
+// import { User } from '@prisma/client';
+// import {faker} from '@faker-js/faker';
+// import { jobData } from 'src/modules/job/job.types';
 
 describe('GET /', () => {
   it('should return "Hello, World!"', async () => {
@@ -32,19 +33,19 @@ describe('POST /signUp', () => {
     expect(response.statusCode).toBe(201);
     expect(response.body.message).toBe('User registered successfully');
   });
-});
 
-it('should return 409 if username already exists', async () => {
-  const mockFindUser = jest.fn().mockResolvedValue({ username: 'existinguser' });
-  jest.spyOn(UserService, 'findUserByUsername').mockImplementation(mockFindUser);
+  it('should return 409 if username already exists', async () => {
+    const mockFindUser = jest.fn().mockResolvedValue({ username: 'existinguser' });
+    jest.spyOn(UserService, 'findUserByUsername').mockImplementation(mockFindUser);
 
-  const response = await request(app).post('/user/signUp').send({
-    username: 'existinguser',
-    // other fields...
-  });
-  expect(response.statusCode).toBe(409);
-  expect(response.body).toEqual({
-    error: 'Username already taken'
+    const response = await request(app).post('/user/signUp').send({
+      username: 'existinguser',
+      // other fields...
+    });
+    expect(response.statusCode).toBe(409);
+    expect(response.body).toEqual({
+      error: 'Username already taken'
+    });
   });
 });
 

@@ -1,13 +1,13 @@
-import * as UserService from './tajob.service';
+import * as JobService from './tajob.service';
 //do we have to import the TA service?
 import { Request, Response, NextFunction } from 'express';
 
 /**
- * 
- * @param req 
- * @param res 
- * @param next 
- * @returns 
+ *
+ * @param req
+ * @param res
+ * @param next
+ * @returns
  */
 
 //this get function returns all available TA jobs
@@ -20,7 +20,7 @@ export const getAllTAJobs = async (
 
   try {
     // return all jobs that have been published
-    const taJobs = await UserService.getAllTAJobs();
+    const taJobs = await JobService.getAllTAJobs();
     if (taJobs.length == 0) {
       console.log('No job listings found.');
       // if there are no jobs found, return message that no jobs are found
@@ -41,7 +41,7 @@ export const getTAJobById = async (
 ) => {
   try {
     // return jobs with matching job ID
-    const taJob = await UserService.getTAJobById(Number(req.params.id));
+    const taJob = await JobService.getTAJobById(Number(req.params.id));
     if (!taJob) {
       // if no TA job is found with the required ID, return message indicating issue
       return res.status(404).json({ message: 'TA job not found' });
@@ -68,7 +68,7 @@ export const getTAJobsWithFilters = async (
     const queryParams = req.query;
 
     // Call the service function, passing in the filters.
-    const filteredTAJobs = await UserService.getTAJobsWithFilters(queryParams);
+    const filteredTAJobs = await JobService.getTAJobsWithFilters(queryParams);
 
     // Send back the filtered data.
     res.json(filteredTAJobs);
@@ -80,22 +80,68 @@ export const getTAJobsWithFilters = async (
 
 /**
  * get user by id
- * @param req 
- * @param res 
- * @param next 
- * @returns 
+ * @param req
+ * @param res
+ * @param next
+ * @returns
  */
 //this function returns a list of jobs posted by the faculty member with the passed-in ID
-export const getTAJobsByFacultyId = async (req: Request, res: Response, next: NextFunction) => {
+export const getTAJobsByFacultyId = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
   try {
     // return jobs with matching faculty ID
-      const user = await UserService.getTAJobsByFacultyId(Number(req.params.facultyId));
-      if (!user) {
-        // if there are no jobs posted by the faculty member or if the faculty is not found, return this message
-          return res.status(404).json({ message: 'User not found' });
-      }
-      res.json(user);
+    const taJobs = await JobService.getTAJobsByFacultyId(
+      Number(req.params.facultyId)
+    );
+    if (taJobs.length == 0) {
+      //const user = await JobService.getTAJobsByFacultyId(Number(req.params.facultyId));
+      //if (!user) {
+      // if there are no jobs posted by the faculty member or if the faculty is not found, return this message
+      return res.status(404).json({ message: 'No TA jobs found' });
+    }
+    res.json(taJobs);
   } catch (error) {
-      next(error);
+    next(error);
+  }
+};
+
+/**
+ * @param req
+ * @param res
+ * @param next
+ */
+export const createJob = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    console.log('in create ',req.body);
+    const newJob = await JobService.createJob(req.body);
+    res.status(201).json(newJob);
+  } catch (error) {
+    next(error);
+  }
+};
+
+//udpate job by id passed as param
+/**
+ * @param req
+ * @param res
+ * @param next
+ */
+export const updateJob = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const job = await JobService.updateJob(parseInt(req.params.id), req.body);
+    res.json(job);
+  } catch (error) {
+    next(error);
   }
 };
