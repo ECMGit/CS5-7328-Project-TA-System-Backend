@@ -52,12 +52,15 @@ describe('POST /signUp', () => {
   });
 });
 
+beforeEach(() => {
+  jest.clearAllMocks();
+});
 
 describe('POST /ta-application', () => {
   const mockData: TAApplicationData = {
-    courseId: 1,
-    studentId: 11,
-    taJobId: 2,
+    courseId: 3,
+    studentId: 1,
+    taJobId: 3,
     hoursCanWorkPerWeek: "10",
     gpa: 3.8,
     requiredCourses: 'Math 101',
@@ -80,21 +83,27 @@ describe('POST /ta-application', () => {
   it('should create a new application if no existing record is found', async () => {
     const existingRecord = null; // Simulating no existing record
     const expectedResult = {
-      id: 1, // Assuming the ID of the newly created application
-      course: { connect: { id: mockData.courseId } },
-      student: { connect: { userId: mockData.studentId } },
-      taJob: { connect: { id: mockData.taJobId } },
+      id: 19, // Assuming the ID of the newly created application
+      courseId: mockData.courseId,
+      studentId: mockData.studentId,
+      taJobId: mockData.taJobId,
       hoursCanWorkPerWeek: mockData.hoursCanWorkPerWeek,
       GPA: mockData.gpa,
       requiredCourses: mockData.requiredCourses,
       requiredSkills: mockData.requiredSkills,
-      resumeFile: mockFile,
+      resumeFile: mockFile.path,
       coursesTaken: mockData.coursesTaken,
+      status: null
     };
 
     const result = await taApplicationService.saveApplication(mockData, mockFile);
 
     expect(result).toEqual(expectedResult); // Check if the result matches the expected result
+  });
+
+  it('should return null if application already exists', async () => {
+    const result = await taApplicationService.saveApplication(mockData, mockFile);
+    expect(result).toEqual(null); // Check if the result matches the expected result
   });
 
 

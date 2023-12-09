@@ -69,7 +69,7 @@ export const getApplication = async (
  * Get all applications
  */
 export const getTaApplications = async () => {
-  console.log('getUsers');
+  // console.log('getUsers');
   return await prisma.tAApplication.findMany();
 };
 
