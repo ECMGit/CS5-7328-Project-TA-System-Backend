@@ -28,11 +28,15 @@ export const save = (req: Request, res: Response, next: NextFunction) => {
         if (!file) {
           return res.status(400).json({ message: 'No file uploaded' });
         }
+        
 
         const savedApplication = await taApplicationService.saveApplication(
           applicationData,
           file
         );
+        if (!savedApplication) {
+          return res.status(400).json({ message: 'Application already exists' });
+        }
         res.status(201).json(savedApplication);
       } catch (error) {
         console.error(error);

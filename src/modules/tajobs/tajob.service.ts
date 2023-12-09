@@ -127,6 +127,7 @@ export type jobData = {
 export const createJob = async (jobData: jobData) => {
   console.log(jobData);
   
+  
   try {
     return await prisma.tAJob.create({
       data: jobData,
