@@ -9,7 +9,7 @@ import { prisma } from '../../../prisma';
  * @param file  resume file
  */
 
-async function createMessagesForFaculty(applicationData: TAApplicationData) {
+async function createMessagesForFaculty(applicationData: TAApplicationData, appId: number) {
   // Retrieve the course faculties
   const faculties = await prisma.facultyCourse.findMany({
     where: {
@@ -58,7 +58,7 @@ async function createMessagesForFaculty(applicationData: TAApplicationData) {
           content: personalizedMessage,
           senderId: student.userId,
           receiverId: fc.faculty.userId,
-          applicationId: applicationData.taJobId, // Assuming this is the correct field to link the message to the application
+          applicationId: appId
         },
       });
     })
@@ -70,14 +70,7 @@ export const saveApplication =
   async (data: TAApplicationData, file: Express.Multer.File)
     : Promise<TAApplication | null> => {
     const filePath = file.path;
-    try {
-      createMessagesForFaculty(data);
-    }
-    catch (error) {
-      // This error should not prevent application submission
-      console.log(error);
-    }
-    return await prisma.tAApplication.create({
+    const result = await prisma.tAApplication.create({
       data: {
         course: { connect: { id: data.courseId } },
         student: { connect: { userId: data.studentId } },
@@ -91,6 +84,8 @@ export const saveApplication =
         coursesTaken: data.coursesTaken,
       },
     });
+    await createMessagesForFaculty(data, result.id);
+    return result;
   };
 
 /**
