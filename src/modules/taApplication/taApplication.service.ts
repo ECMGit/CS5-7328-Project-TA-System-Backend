@@ -4,16 +4,16 @@ import { TAApplicationData } from './taApplication.types';
 import { prisma } from '../../../prisma';
 
 /**
- * Save application with associated courses and tajob
- * @param data  Ta application data
- * @param file  resume file
+ * Generate message from applicant to all faculty in course
+ * @param data  TAApplicationData
+ * @param appId The ID of the TAApplication the message should be associated with
  */
 
-async function createMessagesForFaculty(applicationData: TAApplicationData, appId: number) {
+async function createMessagesForFaculty(data: TAApplicationData, appId: number) {
   // Retrieve the course faculties
   const faculties = await prisma.facultyCourse.findMany({
     where: {
-      courseId: applicationData.courseId,
+      courseId: data.courseId,
     },
     include: {
       faculty: {
@@ -27,7 +27,7 @@ async function createMessagesForFaculty(applicationData: TAApplicationData, appI
   // Retrieve the student's name and TA job title
   const student = await prisma.student.findUnique({
     where: {
-      userId: applicationData.studentId,
+      userId: data.studentId,
     },
     include: {
       user: true,
@@ -36,7 +36,7 @@ async function createMessagesForFaculty(applicationData: TAApplicationData, appI
 
   const taJob = await prisma.tAJob.findUnique({
     where: {
-      id: applicationData.taJobId,
+      id: data.taJobId,
     },
   });
 
@@ -64,6 +64,12 @@ async function createMessagesForFaculty(applicationData: TAApplicationData, appI
     })
   );
 }
+
+/**
+ * Save application with associated courses and tajob
+ * @param data  Ta application data
+ * @param file  resume file
+ */
 
 export const saveApplication =
   // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
