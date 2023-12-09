@@ -1,4 +1,4 @@
-import { prisma } from 'prisma';
+import { prisma } from '../../../prisma';
 import { UserMessage } from '@prisma/client';
 
 
@@ -69,6 +69,18 @@ export const addMessage = async (senderId: number, receiverId: number, content: 
         content,
         applicationId,
       },
+      include: {
+        sender: {
+          select: {
+            username: true,
+          }
+        },
+        receiver: {
+          select: {
+            username: true,
+          }
+        },
+      }
     });
     return newMessage;
   } catch (error) {
