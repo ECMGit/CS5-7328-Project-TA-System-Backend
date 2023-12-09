@@ -17,7 +17,26 @@ import { UserMessage } from '@prisma/client';
 
 export const getMessagesByApplication = async (appID: number) : Promise<UserMessage[]> => {
   try {
-    return await prisma.userMessage.findMany({where: { applicationId: appID } });
+    return await prisma.userMessage.findMany({
+      where: {
+        applicationId: appID
+      },
+      orderBy: {
+        createdAt: 'asc'
+      },
+      include: {
+        sender: {
+          select: {
+            username: true,
+          }
+        },
+        receiver: {
+          select: {
+            username: true,
+          }
+        },
+      },
+    });
   } catch (error) {
     console.log(error);
     return []; // return an empty array in case of error
