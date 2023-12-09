@@ -22,13 +22,12 @@ export const save = (req: Request, res: Response, next: NextFunction) => {
 
     (async () => {
       try {
-        const applicationData: TAApplicationData = JSON.parse(req.body.data);
         const file = req.file;
-
         if (!file) {
           return res.status(400).json({ message: 'No file uploaded' });
         }
 
+        const applicationData: TAApplicationData = JSON.parse(req.body.data);
         const savedApplication = await taApplicationService.saveApplication(
           applicationData,
           file
