@@ -2,7 +2,7 @@ import request from 'supertest';
 import app from '../app';
 import * as MessageService from '../modules/message/message.service';
 
-describe('POST /signUp', () => {
+describe('POST /message/mark-read/:messageID', () => {
   it('should mark a message as read', async () => {
     jest.spyOn(MessageService, 'markMessageAsRead').mockResolvedValue(true);
     const response = await request(app).post('/message/mark-read/0').send();

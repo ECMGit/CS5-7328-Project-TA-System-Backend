@@ -1,5 +1,4 @@
 /* eslint-disable max-len */
-import { emitWarning } from 'process';
 import * as MessageService from './message.service';
 import { Request, Response, NextFunction } from 'express';
 
@@ -66,26 +65,6 @@ export const markMessageAsRead = async (
       return res.status(404).json({message: 'Message not found'});
     }
     return res.status(200).json({message: 'Marked message as read'});
-  } catch (error) {
-    console.log(error);
-    next(error);
-  }
-};
-
-export const createMessage = async (
-  req: Request,
-  res: Response,
-  next: NextFunction
-) => {
-  try {
-    const body = JSON.parse(req.body);
-    await MessageService.createMessage(
-      body.senderID,
-      body.receiverID,
-      body.applicationId,
-      body.content
-    );
-    return res.status(200).json({message: 'Create message'});
   } catch (error) {
     console.log(error);
     next(error);
