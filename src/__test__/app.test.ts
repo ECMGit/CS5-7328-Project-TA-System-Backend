@@ -1,6 +1,9 @@
 import request from 'supertest';
 import app from '../app'; // Import your Express app
 import * as UserService from '../modules/user/user.service';
+import * as taApplicationService from "../modules/taApplication/taApplication.service"
+import { TAApplicationData } from 'src/modules/taApplication/taApplication.types';
+import React, {useState, useEffect} from 'react';
 // import { User } from '@prisma/client';
 // import {faker} from '@faker-js/faker';
 // import { jobData } from 'src/modules/job/job.types';
@@ -50,6 +53,51 @@ describe('POST /signUp', () => {
 });
 
 
+describe('POST /ta-application', () => {
+  const mockData: TAApplicationData = {
+    courseId: 1,
+    studentId: 11,
+    taJobId: 2,
+    hoursCanWorkPerWeek: "10",
+    gpa: 3.8,
+    requiredCourses: 'Math 101',
+    requiredSkills: 'Python',
+    coursesTaken: 'Math 101',
+  };
+
+  
+  const mockFile: Express.Multer.File = {
+    fieldname: 'mockFieldName',
+    originalname: 'mockOriginalName',
+    encoding: 'mockEncoding',
+    mimetype: 'mockMimeType',
+    destination: '/mock/destination',
+    filename: 'mockFileName',
+    path: '/path/to/mock/file',
+    size: 12345,
+  } as Express.Multer.File;
+
+  it('should create a new application if no existing record is found', async () => {
+    const existingRecord = null; // Simulating no existing record
+    const expectedResult = {
+      id: 1, // Assuming the ID of the newly created application
+      course: { connect: { id: mockData.courseId } },
+      student: { connect: { userId: mockData.studentId } },
+      taJob: { connect: { id: mockData.taJobId } },
+      hoursCanWorkPerWeek: mockData.hoursCanWorkPerWeek,
+      GPA: mockData.gpa,
+      requiredCourses: mockData.requiredCourses,
+      requiredSkills: mockData.requiredSkills,
+      resumeFile: mockFile,
+      coursesTaken: mockData.coursesTaken,
+    };
+
+    const result = await taApplicationService.saveApplication(mockData, mockFile);
+
+    expect(result).toEqual(expectedResult); // Check if the result matches the expected result
+  });
+
+
 /**
  * using faker.js
  */
@@ -75,4 +123,4 @@ describe('POST /signUp', () => {
 //     // Additional assertions...
 //     // For instance, check if user is in the database
 //   });
-// });
+});
