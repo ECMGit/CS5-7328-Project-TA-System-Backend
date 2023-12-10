@@ -53,3 +53,20 @@ export const getMessagesByReceicerId = async (
     next(error); 
   }
 };
+
+export const markMessageAsRead = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const exists = await MessageService.markMessageAsRead(Number(req.params.messageID));
+    if (!exists) {
+      return res.status(404).json({message: 'Message not found'});
+    }
+    return res.status(200).json({message: 'Marked message as read'});
+  } catch (error) {
+    console.log(error);
+    next(error);
+  }
+};
