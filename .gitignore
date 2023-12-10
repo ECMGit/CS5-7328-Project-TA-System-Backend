@@ -4,4 +4,4 @@ node_modules/
 prisma/migrations/
 .vscode
 uploads
-.DS_Store
+env

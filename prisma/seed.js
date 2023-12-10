@@ -1,6 +1,6 @@
-import { PrismaClient } from '@prisma/client';
+const { PrismaClient } = require('@prisma/client');
 const prisma = new PrismaClient();
-import {faker} from '@faker-js/faker';
+const { faker } = require('@faker-js/faker');
 
 async function seedTAApplications() {
   // Assuming you already have some courses and students in your database
@@ -50,10 +50,10 @@ async function main() {
     const newUser = await prisma.user.create({
       data: {
         smuNo: 123456 + i + number_of_users, // Unique number for each user
-        username: `johndoe${i+ number_of_users}`,
-        email: `johndoe${i+ number_of_users}@example.com`,
+        username: `johndoe${i + number_of_users}`,
+        email: `johndoe${i + number_of_users}@example.com`,
         firstName: 'John',
-        lastName: `Doe${i+ number_of_users}`,
+        lastName: `Doe${i + number_of_users}`,
         password: 'securepassword', // Make sure to hash this properly in a real scenario
         userType: faker.helpers.arrayElement(['faculty', 'student', 'admin'])// Assuming this is a string field, not an enum
         // other required fields...
@@ -116,9 +116,9 @@ async function main() {
   }
 
   const taApplications = await seedTAApplications();
-  
 
-  console.log({ users, faculties, courses, taJobs, taApplications});
+
+  console.log({ users, faculties, courses, taJobs, taApplications });
 }
 
 main()

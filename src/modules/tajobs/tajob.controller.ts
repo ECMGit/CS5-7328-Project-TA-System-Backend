@@ -119,7 +119,7 @@ export const createJob = async (
   next: NextFunction
 ) => {
   try {
-    console.log('in create ',req.body);
+    console.log('in create ', req.body);
     const newJob = await JobService.createJob(req.body);
     res.status(201).json(newJob);
   } catch (error) {
