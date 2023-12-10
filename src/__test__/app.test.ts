@@ -1,6 +1,9 @@
 import request from 'supertest';
 import app from '../app'; // Import your Express app
 import * as UserService from '../modules/user/user.service';
+import * as taApplicationService from "../modules/taApplication/taApplication.service"
+import { TAApplicationData } from 'src/modules/taApplication/taApplication.types';
+
 // import { User } from '@prisma/client';
 // import {faker} from '@faker-js/faker';
 // import { jobData } from 'src/modules/job/job.types';
@@ -49,6 +52,60 @@ describe('POST /signUp', () => {
   });
 });
 
+beforeEach(() => {
+  jest.clearAllMocks();
+});
+
+describe('POST /ta-application', () => {
+  const mockData: TAApplicationData = {
+    courseId: 3,
+    studentId: 1,
+    taJobId: 3,
+    hoursCanWorkPerWeek: "10",
+    gpa: 3.8,
+    requiredCourses: 'Math 101',
+    requiredSkills: 'Python',
+    coursesTaken: 'Math 101',
+  };
+
+  
+  const mockFile: Express.Multer.File = {
+    fieldname: 'mockFieldName',
+    originalname: 'mockOriginalName',
+    encoding: 'mockEncoding',
+    mimetype: 'mockMimeType',
+    destination: '/mock/destination',
+    filename: 'mockFileName',
+    path: '/path/to/mock/file',
+    size: 12345,
+  } as Express.Multer.File;
+
+  it('should create a new application if no existing record is found', async () => {
+    const existingRecord = null; // Simulating no existing record
+    const expectedResult = {
+      id: 19, // Assuming the ID of the newly created application
+      courseId: mockData.courseId,
+      studentId: mockData.studentId,
+      taJobId: mockData.taJobId,
+      hoursCanWorkPerWeek: mockData.hoursCanWorkPerWeek,
+      GPA: mockData.gpa,
+      requiredCourses: mockData.requiredCourses,
+      requiredSkills: mockData.requiredSkills,
+      resumeFile: mockFile.path,
+      coursesTaken: mockData.coursesTaken,
+      status: null
+    };
+
+    const result = await taApplicationService.saveApplication(mockData, mockFile);
+
+    expect(result).toEqual(expectedResult); // Check if the result matches the expected result
+  });
+
+  it('should return null if application already exists', async () => {
+    const result = await taApplicationService.saveApplication(mockData, mockFile);
+    expect(result).toEqual(null); // Check if the result matches the expected result
+  });
+
 
 /**
  * using faker.js
@@ -75,133 +132,5 @@ describe('POST /signUp', () => {
 //     // Additional assertions...
 //     // For instance, check if user is in the database
 //   });
-// });
+});
 
-
-
-
-
-
-
-
-
-
-
-// import request from "supertest";
-// import app from "../app"; // Import your Express app
-// import * as UserService from '../modules/user/user.service';
-// import * as  getUserRoleById from '../modules/user/user.service';
-// import * as  getRole from '../modules/user/user.controller';
-// import { createRequest, createResponse } from 'node-mocks-http';
-
-
-
-// // Mocking Prisma functions
-// jest.mock('prisma', () => ({
-//   prisma: {
-//     user: {
-//       findUnique: jest.fn(),
-//     },
-//   },
-// }));
-
-// describe('getRole function', () => {
-
-//   it('should return 200 and user role for valid user', async () => {
-
-//     const userId = 123;
-//     const userRole = 'faculty';
-
-//     jest.spyOn(UserService, 'getUserRoleById')
-//       .mockResolvedValueOnce(userRole);
-
-//     const req = createRequest({
-//       params: {
-//         id: userId
-//       }
-//     });
-
-//     const res = createResponse();
-//     res.status = jest.fn().mockReturnThis();
-//     res.json = jest.fn();
-
-//     await getRole.getUserById(req, res, jest.fn());
-
-//     expect(res.status).toHaveBeenCalledWith(200);
-//     expect(res.json).toHaveBeenCalledWith({
-//       role: userRole
-//     });
-
-//   });
-
-// });
-
-// describe('signUp function', () => {
-//   it('should return 201 and token on successful signup', async () => {
-//     const userData = {
-//       id: 1,
-//       smuNo: 123456789,
-//       username: 'test',
-//       email: 'test@example.com',
-//       firstName: 'Test',
-//       lastName: 'User',
-//       password: 'password123',
-//       resetToken: null,
-//       resetTokenExpiry: null,
-//       role: 'student',
-//       faculty: null,
-//       student: {
-//         userId: 1,
-//         year: 2022
-//       },
-//       admin: null,
-//       updatedAt: null,
-//       userType: null,
-//       // other required fields
-//     };
-
-//     jest.spyOn(UserService, 'findUserByUsername').mockResolvedValueOnce(null);
-//     jest.spyOn(UserService, 'createUser').mockResolvedValueOnce(userData);
-
-//     const res = await request(app)
-//       .post('/api/auth/signup')
-//       .send(userData);
-
-//     expect(res.statusCode).toBe(201);
-//     expect(res.body.token).toBeDefined();
-//     expect(UserService.createUser).toHaveBeenCalledWith(userData);
-//   });
-
-//   it('should return 409 if username is taken', async () => {
-//     jest.spyOn(UserService, 'findUserByUsername').mockResolvedValueOnce({
-//       id: 1,
-//       smuNo: 123456789,
-//       username: 'test',
-//       email: 'test@example.com',
-//       firstName: 'Test',
-//       lastName: 'User',
-//       password: 'password123',
-//       resetToken: null,
-//       resetTokenExpiry: null,
-//       role: 'student',
-//       faculty: null,
-//       student: {
-//         userId: 1,
-//         year: 2022
-//       },
-//       admin: null,
-//       updatedAt: null,
-//       userType: null,
-//       // include other properties as required
-//     });
-
-//     const res = await request(app)
-//       .post('/api/auth/signup')
-//       .send({
-//         username: 'test'
-//       });
-
-//     expect(res.statusCode).toBe(409);
-//   });
-
-// });

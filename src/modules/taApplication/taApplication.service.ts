@@ -72,27 +72,68 @@ async function createMessagesForFaculty(data: TAApplicationData, appId: number) 
  */
 
 export const saveApplication =
-  // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
-  async (data: TAApplicationData, file: Express.Multer.File)
-    : Promise<TAApplication | null> => {
-    const filePath = file.path;
-    const result = await prisma.tAApplication.create({
-      data: {
-        course: { connect: { id: data.courseId } },
-        student: { connect: { userId: data.studentId } },
-        taJob: { connect: { id: data.taJobId } },
-        hoursCanWorkPerWeek: data.hoursCanWorkPerWeek,
-        // eslint-disable-next-line @typescript-eslint/naming-convention
-        GPA: data.gpa,
-        requiredCourses: data.requiredCourses,
-        requiredSkills: data.requiredSkills,
-        resumeFile: filePath,
-        coursesTaken: data.coursesTaken,
-      },
-    });
-    await createMessagesForFaculty(data, result.id);
-    return result;
-  };
+
+//   // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
+//   async (data: TAApplicationData, file: Express.Multer.File)
+//     : Promise<TAApplication | null> => {
+//     const filePath = file.path;
+//     const result = await prisma.tAApplication.create({
+//       data: {
+//         course: { connect: { id: data.courseId } },
+//         student: { connect: { userId: data.studentId } },
+//         taJob: { connect: { id: data.taJobId } },
+//         hoursCanWorkPerWeek: data.hoursCanWorkPerWeek,
+//         // eslint-disable-next-line @typescript-eslint/naming-convention
+//         GPA: data.gpa,
+//         requiredCourses: data.requiredCourses,
+//         requiredSkills: data.requiredSkills,
+//         resumeFile: filePath,
+//         coursesTaken: data.coursesTaken,
+//       },
+//     });
+//     await createMessagesForFaculty(data, result.id);
+//     return result;
+//   };
+
+// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
+    async (data: TAApplicationData, file: Express.Multer.File)
+        : Promise<TAApplication | null> => {
+      const filePath = file.path;
+      
+      // Check if there is already a record with the same studentId and taJobId
+      const existingRecord = await prisma.tAApplication.findFirst({
+        where: {
+          studentId: data.studentId,
+          taJobId: data.taJobId,
+        },
+      });
+      console.log('existingRecord', existingRecord);
+      // If there is no such record, create a new one
+      if (!existingRecord) {
+        return await prisma.tAApplication.create({
+          data: {
+            course: { connect: { id: data.courseId } },
+            student: { connect: { userId: data.studentId } },
+            taJob: { connect: { id: data.taJobId } },
+            hoursCanWorkPerWeek: data.hoursCanWorkPerWeek,
+            // eslint-disable-next-line @typescript-eslint/naming-convention
+            GPA: data.gpa,
+            requiredCourses: data.requiredCourses,
+            requiredSkills: data.requiredSkills,
+            resumeFile: filePath,
+            coursesTaken: data.coursesTaken,
+          },
+        });
+      }
+      
+      // If there is such a record, return null or an error message
+      else {
+        console.log('Application already exists');
+        //return proper error message 400
+        
+        return null;
+      }
+    };
 
 /**
  * Get a application by id
