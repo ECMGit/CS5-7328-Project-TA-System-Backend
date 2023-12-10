@@ -4,14 +4,6 @@ const prisma = new PrismaClient();
 //get all Ta jobs
 export const getAllTAJobs = async () => {
   //using Prisma's findMany() method to retrieve all TA jobs from the database.
-  console.log(
-    await prisma.tAJob.findMany({
-      include: {
-        course: true,
-        faculty: true,
-      },
-    })
-  );
 
   return await prisma.tAJob.findMany({
     include: {
