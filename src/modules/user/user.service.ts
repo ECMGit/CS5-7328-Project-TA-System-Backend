@@ -13,15 +13,15 @@ export const createUser = async (data: any) => {
   const user = await prisma.user.create({
     data,
   });
-    
-  return user;  
-    
+
+  return user;
+
 };
 
 interface CreateStudentData {
-    userId: number; 
-    year: number;
-  }
+  userId: number;
+  year: number;
+}
 
 export const createStudent = async (data: CreateStudentData) => {
   return await prisma.student.create({
@@ -37,11 +37,11 @@ export const createStudent = async (data: CreateStudentData) => {
 };
 
 interface CreateFacultyData {
-    userId: number; // Adjust the data type as needed
-    designation: string;
-    department: string;
-  }
-  
+  userId: number; // Adjust the data type as needed
+  designation: string;
+  department: string;
+}
+
 export const createFaculty = async (data: CreateFacultyData) => {
   return await prisma.faculty.create({
     data: {
@@ -94,7 +94,7 @@ export const findUserByUsername = async (username: string) => {
   } else if (user.faculty) {
     role = 'faculty';
   } else if (user.student) {
-    role ='student';
+    role = 'student';
   }
   // Add user role according to joiner table
   return {
@@ -109,10 +109,10 @@ export const getUserDetailById = async (id: number) => {
   });
 };
 
-export const getUserRoleById = async (userId: number): Promise<string | null>=>{
+export const getUserRoleById = async (userId: number): Promise<string | null> => {
   const facultyUser = await prisma.faculty.findUnique({ where: { userId } });
   const studentUser = await prisma.student.findUnique({ where: { userId } });
-    
+
   if (facultyUser) {
     return 'faculty'; // User is a faculty member
   } else if (studentUser) {

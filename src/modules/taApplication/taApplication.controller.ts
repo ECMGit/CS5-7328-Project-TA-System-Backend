@@ -4,7 +4,6 @@ import * as taApplicationService from './taApplication.service';
 import { upload } from 'utils/fileUtils';
 // import { prisma } from '../../../prisma';
 
-
 /**
  * Save a TA application
  * @param req 
