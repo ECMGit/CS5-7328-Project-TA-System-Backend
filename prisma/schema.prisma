@@ -1,7 +1,7 @@
 // define your database configuration here
 
 datasource db {
-    provider = "mysql"
+    provider = "postgresql"
     url      = env("DATABASE_URL")
 }
 
