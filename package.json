@@ -62,5 +62,9 @@
   },
   "prisma": {
     "seed": "node prisma/seed.js"
-  }
+  },
+  "engines": {
+    "node": "16.19.1",
+    "npm": "9.6.0"
+  }  
 }
