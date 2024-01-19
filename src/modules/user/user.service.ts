@@ -82,7 +82,7 @@ export const findUserByUsername = async (username: string) => {
       }
     }
   );
-  console.log('user', user);
+  // console.log('user', user);
   if (user === null || user === undefined) {
     return null;
   }
