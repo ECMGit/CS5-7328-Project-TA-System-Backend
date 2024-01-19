@@ -1,4 +1,5 @@
 // eslint-disable-next-line @typescript-eslint/no-var-requires
+require('module-alias/register');
 require('dotenv').config();
 import app from './app';
 
