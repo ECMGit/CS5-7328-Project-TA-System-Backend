@@ -56,10 +56,21 @@ export const createFaculty = async (data: CreateFacultyData) => {
   });
 };
 
-
+interface CreateAdminData {
+  userId: number;
+  role: string;
+}
 export const createAdmin = async (data: any) => {
   return await prisma.admin.create({
-    data,
+    data: {
+      role: data.role,
+      user: {
+        connect: {
+          id: data.userId
+        }
+      }
+    }
+    
   });
 };
 

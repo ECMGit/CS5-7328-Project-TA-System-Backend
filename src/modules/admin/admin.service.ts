@@ -25,8 +25,12 @@ export const getAllCourse = async () => {
 
 export const getAllFaculty = async () => {
   try {
-    const faculty = await prisma.faculty.findMany();
-    return faculty;
+    
+    return await prisma.faculty.findMany({
+      include: {
+        user: true
+      },
+    });;
   } catch (error) {
     console.error('Error fetching faculty:', error);
     throw error;

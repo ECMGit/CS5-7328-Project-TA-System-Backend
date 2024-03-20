@@ -161,6 +161,7 @@ export async function signUp(req: Request, res: Response) {
     } else if (userType === 'admin') {
       await UserService.createAdmin({
         userId: user.id,
+        role:'admin',
       });
     }
 
