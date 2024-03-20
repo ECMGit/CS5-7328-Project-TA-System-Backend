@@ -117,6 +117,8 @@ export const getUserRoleById = async (userId: number): Promise<string | null> =>
     return 'faculty'; // User is a faculty member
   } else if (studentUser) {
     return 'student'; // User is a student
+  }else if('admin'){
+    return 'admin';// User is a admin
   }
 
   return null; // User not found or has no specific role
