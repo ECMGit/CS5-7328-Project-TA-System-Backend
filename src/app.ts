@@ -43,6 +43,7 @@ app.use('/user', userRoutes);
 app.use('/message', verifyToken, messageRoutes);
 app.use('/ta-application', verifyToken, taApplicationRoutes);
 app.use('/jobs', verifyToken, tajobRoutes);
+app.use('/admin', verifyToken, adminRoutes);
 
 app.get('/', (req, res) => {
   res.status(200).send('Hello World!');
