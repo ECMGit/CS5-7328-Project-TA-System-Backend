@@ -166,4 +166,5 @@ model FeedbackComment {
 
 generator client {
     provider = "prisma-client-js"
+    output = "../dist/prisma"
 }
