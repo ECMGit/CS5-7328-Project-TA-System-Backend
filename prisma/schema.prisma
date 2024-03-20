@@ -23,6 +23,8 @@ model User {
     admin            Admin?
     sentMessages     UserMessage[] @relation(name: "MessageSender") // Relation to sent messages
     receivedMessages UserMessage[] @relation(name: "MessageReceiver") // Relation to received messages
+    Feedback         Feedback[]
+    FeedbackComments         FeedbackComment[]
 }
 
 model Faculty {
@@ -135,6 +137,31 @@ model UserMessage {
   sender          User        @relation(name: "MessageSender", fields: [senderId], references: [id])
   receiver        User        @relation(name: "MessageReceiver", fields: [receiverId], references: [id])
   application     TAApplication  @relation(name: "ApplicationMessages", fields: [applicationId], references: [id])
+}
+
+model Feedback {
+    id       Int      @id @default(autoincrement())
+    leftById Int
+    leftBy   User     @relation(fields: [leftById], references: [id])
+
+    content String
+    complete Boolean
+
+    timeSubmitted DateTime @default(now())
+
+    comments FeedbackComment[]
+}
+
+model FeedbackComment {
+    id          Int      @id @default(autoincrement())
+    feedbackId  Int
+    feedback    Feedback @relation(fields: [feedbackId], references: [id])
+
+    leftById    Int
+    leftBy      User     @relation(fields: [leftById], references: [id])
+
+    content     String
+    timeSubmitted DateTime @default(now())
 }
 
 generator client {
