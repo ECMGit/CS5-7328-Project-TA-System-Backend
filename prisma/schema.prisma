@@ -1,7 +1,7 @@
 // define your database configuration here
 
 datasource db {
-    provider = env("DB_PROVIDER")
+    provider = "mysql"
     url      = env("DATABASE_URL")
 }
 
@@ -53,7 +53,7 @@ model Course {
     id            Int             @id @default(autoincrement())
     courseCode    String          @unique
     title         String
-    description   String?
+    description   String?         @db.Text
     faculties     FacultyCourse[]
     students      StudentCourse[]
     tas           CourseTA[] // Opposite relation field for CourseTA

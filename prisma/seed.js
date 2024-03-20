@@ -1,6 +1,7 @@
 const { PrismaClient } = require('@prisma/client');
 const prisma = new PrismaClient();
 const { faker } = require('@faker-js/faker');
+const { csCoursesObject } = require("./data/CSCourseData")
 
 async function seedTAApplications() {
   // Assuming you already have some courses and students in your database
@@ -80,16 +81,28 @@ async function main() {
     faculties.push(newFaculty);
   }
 
-  // Loop to create multiple courses
-  for (let i = 0; i < 3; i++) {
+  // // Loop to create multiple courses
+  // for (let i = 0; i < 3; i++) {
+  //   const newCourse = await prisma.course.create({
+  //     data: {
+  //       courseCode: `CS101${i}`,
+  //       title: `Introduction to Computer Science ${i}`,
+  //       // other required fields...
+  //     },
+  //   });
+
+  //   courses.push(newCourse);
+  // }
+
+  for (let i = 0; i < csCoursesObject.length; i++) {
+    const course = csCoursesObject[i];
     const newCourse = await prisma.course.create({
       data: {
-        courseCode: `CS101${i}`,
-        title: `Introduction to Computer Science ${i}`,
-        // other required fields...
-      },
+        courseCode: course.courseCode,
+        title: course.title,
+        description: course.courseDescription
+      }
     });
-
     courses.push(newCourse);
   }
 
@@ -116,7 +129,6 @@ async function main() {
   }
 
   const taApplications = await seedTAApplications();
-
 
   console.log({ users, faculties, courses, taJobs, taApplications });
 }
