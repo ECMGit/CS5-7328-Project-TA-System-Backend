@@ -2,7 +2,7 @@ import { Router } from "express";
 import * as adminbController from "./admin.controller";
 
 const router = Router();
-router.get('/', adminbController.getAllStudent);
+router.get('/students', adminbController.getAllStudent);
 
 router.get("/course", adminbController.getAllCourse);
 
