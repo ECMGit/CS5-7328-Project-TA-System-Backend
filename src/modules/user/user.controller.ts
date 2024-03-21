@@ -135,6 +135,7 @@ export async function signUp(req: Request, res: Response) {
       username,
       email,
       password: hashedPassword,
+      userType,
       smuNo: smuNo_int,
       firstName,
       lastName
