@@ -54,4 +54,9 @@ export const verifyToken = (
   //   next();
   // });
 
+    console.log('valid token');
+
+    res.locals.user = decoded;
+    next();
+  });
 };
