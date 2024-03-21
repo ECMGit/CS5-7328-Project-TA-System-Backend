@@ -122,6 +122,27 @@ CREATE TABLE "UserMessage" (
     CONSTRAINT "UserMessage_pkey" PRIMARY KEY ("id")
 );
 
+-- CreateTable
+CREATE TABLE "TAEvaluation"
+(
+    "id"                     SERIAL       NOT NULL,
+    "taUserId"               INTEGER      NOT NULL,
+    "facultyUserId"          INTEGER      NOT NULL,
+    "courseId"               INTEGER      NOT NULL,
+    "teachingSkill"          INTEGER      NOT NULL,
+    "mentoringSkill"         INTEGER      NOT NULL,
+    "effectiveCommunication" INTEGER      NOT NULL,
+    "comments"               TEXT         NOT NULL,
+    "createdAt"              TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+
+    CONSTRAINT "TAEvaluation_pkey" PRIMARY KEY ("id"),
+    FOREIGN KEY ("taUserId") REFERENCES "User"("id") ON DELETE CASCADE ON UPDATE CASCADE,
+    FOREIGN KEY ("facultyUserId") REFERENCES "User"("id") ON DELETE CASCADE ON UPDATE CASCADE,
+    FOREIGN KEY ("courseId") REFERENCES "Course"("id") ON DELETE CASCADE ON UPDATE CASCADE
+);
+
+
+
 -- CreateIndex
 CREATE UNIQUE INDEX "User_username_key" ON "User"("username");
 
