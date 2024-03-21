@@ -142,8 +142,8 @@ generator client {
 }
 
 model Task {
-  facultyId       Int
-  studentId       Int
+  facultyId       String
+  studentId       String
   title           String
   description     String?
   TaskId          Int         @id @default(autoincrement())
