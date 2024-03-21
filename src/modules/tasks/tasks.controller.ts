@@ -9,11 +9,13 @@ import { Request, Response, NextFunction } from 'express';
  */
 
 export const createTask = async (req: Request, res: Response, next: NextFunction) => {
+    console.log("In create tasks");
     try {
         const taskInfo = req.body; // Assuming task information is sent in the request body
         const newTask = await TaskService.createTask(taskInfo);
         res.status(201).json(newTask);
     } catch (error) {
+        console.log("error")
         next(error); // Pass the error to the error handling middleware
     }
 };
@@ -26,7 +28,7 @@ export const createTask = async (req: Request, res: Response, next: NextFunction
  */
 export const viewCompleted = async (req: Request, res: Response, next: NextFunction) => {
     try {
-        const facultyId = req.params.facultyId; // Assuming faculty ID is passed as a route parameter
+        const facultyId = parseInt(req.params.facultyId); // Assuming faculty ID is passed as a route parameter
         const completedTasks = await TaskService.viewCompleted(facultyId);
         res.json(completedTasks);
     } catch (error) {
@@ -43,7 +45,7 @@ export const viewCompleted = async (req: Request, res: Response, next: NextFunct
 export const viewPending = async (req: Request, res: Response, next: NextFunction) => {
     try {
         const facultyId = req.params.facultyId; // Assuming faculty ID is passed as a route parameter
-        const pendingTasks = await TaskService.viewPending(facultyId);
+        const pendingTasks = await TaskService.viewPending(parseInt(facultyId));
         res.json(pendingTasks);
     } catch (error) {
         next(error); // Pass the error to the error handling middleware
@@ -80,7 +82,7 @@ export const checkoff = async (req: Request, res: Response, next: NextFunction) 
 export const viewCurrent = async (req: Request, res: Response, next: NextFunction) => {
     try {
         const studentId = req.params.studentId; // Assuming student ID is passed as a route parameter
-        const currentTasks = await TaskService.viewCurrent(studentId);
+        const currentTasks = await TaskService.viewCurrent(parseInt(studentId));
         res.json(currentTasks);
     } catch (error) {
         next(error); // Pass the error to the error handling middleware
@@ -96,7 +98,7 @@ export const viewCurrent = async (req: Request, res: Response, next: NextFunctio
 export const viewCompletedByStudent = async (req: Request, res: Response, next: NextFunction) => {
     try {
         const studentId = req.params.studentId; // Assuming student ID is passed as a route parameter
-        const completedTasks = await TaskService.viewCompletedByStudent(studentId);
+        const completedTasks = await TaskService.viewCompletedByStudent(parseInt(studentId));
         res.json(completedTasks);
     } catch (error) {
         next(error); // Pass the error to the error handling middleware

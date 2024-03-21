@@ -1,7 +1,7 @@
 // define your database configuration here
 
 datasource db {
-    provider = env("DB_PROVIDER")
+    provider = "mysql"
     url      = env("DATABASE_URL")
 }
 
@@ -145,7 +145,7 @@ model Task {
   facultyId       Int
   studentId       Int
   title           String
-  description     String
+  description     String?
   TaskId          Int         @id @default(autoincrement())
   completed       Boolean     @default(false)
 }

@@ -1,18 +1,19 @@
 import { Router } from 'express';
 import * as TaskController from './tasks.controller';
-
+import { Request, Response } from 'express';
 const router = Router();
 
-// Create task
-router.post('/tasks', TaskController.createTask);
 
 // Get Tasks
-router.get('/tasks/completed/:facultyId', TaskController.viewCompleted);
-router.get('/tasks/pending/:facultyId', TaskController.viewPending);
-router.get('/tasks/current/:studentId', TaskController.viewCurrent);
-router.get('/tasks/completed/:studentId', TaskController.viewCompletedByStudent);
+router.get('/completed/:facultyId', TaskController.viewCompleted);
+router.get('/pending/:facultyId', TaskController.viewPending);
+router.get('/current/:studentId', TaskController.viewCurrent);
+router.get('/completed/:studentId', TaskController.viewCompletedByStudent);
 
 // Update Tasks
-router.put('/tasks/checkoff/:studentId/:taskId', TaskController.checkoff);
+router.put('/checkoff/:studentId/:taskId', TaskController.checkoff);
+
+// Create task
+router.post('/', TaskController.createTask);
 
 export default router;
