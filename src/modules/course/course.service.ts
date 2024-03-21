@@ -1,3 +1,4 @@
+import { Course } from '@prisma/client';
 import { courseData } from './course.types';
 import { prisma } from 'prisma';
 
@@ -53,4 +54,15 @@ export const addCourses = async (courseDataList: courseData[]) => {
     console.log(error);
     throw error;
   }
+};
+
+// Add an edit function
+export const editCourse = async (
+  id: number, updateData: Partial<courseData>): Promise<Course> => {
+  return await prisma.course.update({
+    where: { id },
+    data: {
+      ...updateData
+    },
+  });
 };

@@ -116,9 +116,9 @@ export const getUserDetailById = async (
  * @returns {Promise<Response>} <- this is just the error code
  */
 export async function signUp(req: Request, res: Response) {
-  const { username, email, password, smuNo, firstName, lastName, 
+  const { username, email, password, smuNo, firstName, lastName,
     year, userType } = req.body;
-    
+
   // Convert number to integer
   const smuNo_int = parseInt(smuNo);
 
@@ -131,7 +131,7 @@ export async function signUp(req: Request, res: Response) {
 
     // Hash password
     const hashedPassword = await bcrypt.hash(password, 10);
-    
+
     // Create a new user
     const user = await UserService.createUser({
       username,
@@ -141,11 +141,11 @@ export async function signUp(req: Request, res: Response) {
       firstName,
       lastName
     });
-      
+
     if (!user) {
       return res.status(500).json({ error: 'Internal server error' });
     }
-          
+
 
     if (userType === 'student') {
       await UserService.createStudent({
@@ -193,17 +193,22 @@ export async function login(req: Request, res: Response) {
     }
 
     // Compare the provided password with the stored password
-    const result = await bcrypt.compare(password, user.password);
-    if (!result) {
+
+    //const result = await bcrypt.compare(password, user.password);
+    //if (!result) {
+    //  return res.status(402).json({ error: 'Invalid username or password' });
+    //}
+    if (password !== user.password) {
       return res.status(401).json({ error: 'Invalid username or password' });
     }
+
 
     // Exclude password and other sensitive fields before sending
     // and before generating the jwt token
     // console.log(user);
     const { password: _, ...safeUser } = user;
     console.log(safeUser);
-    
+
     // TODO: Replace JWT_SECRET with process.env.JWT_SECRET and update .env accordingly
     const token = jwt.sign({ userId: user.id }, JWT_SECRET); // Replace 'your-secret-key' with your actual secret key
     res.status(200).json({
@@ -221,7 +226,7 @@ export async function getRole(req: Request, res: Response) {
   const { id } = req.params; // Get the userId from the URL parameter
   const userId = parseInt(id, 10); // Convert id to a number if needed
   // console.log('getrole' + id, "userID"+userId);
-  
+
   try {
     // Find the user's role
     const userRole = await UserService.getUserRoleById(userId);
