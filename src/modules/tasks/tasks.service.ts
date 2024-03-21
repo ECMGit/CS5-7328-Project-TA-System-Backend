@@ -4,8 +4,8 @@ const prisma = new PrismaClient();
 
 // setting createTask type for createTask function 
 export type TaskInfo = {
-    studentId: string;
-    facultyId: string;
+    studentId: number;
+    facultyId: number;
     title: string;
     description: string;
 
