@@ -12,6 +12,17 @@ export const getAllTAJobs = async () => {
     },
   });
 };
+//Update student TA assignment
+export const makeTAService = async (studentId: number, courseId: number) => {
+  const taAssignment = await prisma.courseTA.create({
+    data: {
+      student: { connect: { userId: studentId } },
+      course: { connect: { id: courseId } },
+    },
+  });
+
+  return taAssignment;
+};
 
 //find TA Job by job id
 export const getTAJobById = async (id: number) => {

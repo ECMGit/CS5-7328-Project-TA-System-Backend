@@ -1,4 +1,5 @@
 import * as JobService from './tajob.service';
+import { makeTAService } from './tajob.service';
 //do we have to import the TA service?
 import { Request, Response, NextFunction } from 'express';
 
@@ -124,6 +125,16 @@ export const createJob = async (
     res.status(201).json(newJob);
   } catch (error) {
     next(error);
+  }
+};
+
+export const makeStudentTA = async (req: Request, res: Response) => {
+  const { studentId, courseId } = req.params;
+  try {
+    await makeTAService(parseInt(studentId), parseInt(courseId));
+    res.status(200).json({ message: 'Student has been made a TA successfully' });
+  } catch (error) {
+    res.status(500).json({ message: 'Failed to make the student a TA', error });
   }
 };
 
