@@ -450,5 +450,329 @@ export const csCoursesObject: courseData[] = [
         title: "Senior Thesis",
         courseCode: "CS 5396",
         courseDescription: "Prerequisite: Admission to the departmental distinction program."
-    }
+    },
+    {
+        title: "Master’s Full-Time Status",
+        courseCode: "CS 7049",
+        courseDescription: "Full-time status for students in the master’s program."
+      },
+      
+      {
+        title: "Master’s Thesis",
+        courseCode: "CS 7096",
+        courseDescription: "Students may need to register in several master’s thesis courses to obtain the desired number of credit hours, with a limit of no more than 6 credit hours in a single term and no more than 4 credit hours in the summer terms."
+      },
+      
+      {
+        title: "Special Topics",
+        courseCode: "CS 7190",
+        courseDescription: "Individual or group study of selected topics in computer science. Prerequisite: Permission of instructor."
+      },
+      
+      {
+        title: "Special Topics",
+        courseCode: "CS 7191",
+        courseDescription: "Individual or group study of selected topics in computer science. Prerequisite: Permission of instructor."
+      },
+      
+      {
+        title: "Special Topics",
+        courseCode: "CS 7192",
+        courseDescription: "Individual or group study of selected topics in computer science. Prerequisite: Permission of instructor."
+      },
+      
+      {
+        title: "Special Topics",
+        courseCode: "CS 7193",
+        courseDescription: "Individual or group study of selected topics in computer science. Prerequisite: Permission of instructor."
+      },
+      
+      {
+        title: "Special Topics",
+        courseCode: "CS 7194",
+        courseDescription: "Individual or group study of selected topics in computer science. Prerequisite: Permission of instructor."
+      },
+      
+      {
+        title: "Master’s Thesis",
+        courseCode: "CS 7196",
+        courseDescription: "Students may need to register in several master’s thesis courses to obtain the desired number of credit hours, with a limit of no more than 6 credit hours in a single term and no more than 4 credit hours in the summer terms."
+      },
+
+      {
+        title: "Special Topics",
+        courseCode: "CS 7290",
+        courseDescription: "Individual or group study of selected topics in computer science. Prerequisite: Permission of instructor.",
+      },
+      
+      {
+        title: "Special Topics",
+        courseCode: "CS 7291",
+        courseDescription: "Individual or group study of selected topics in computer science. Prerequisite: Permission of instructor.",
+      },
+      
+      {
+        title: "Special Topics",
+        courseCode: "CS 7292",
+        courseDescription: "Individual or group study of selected topics in computer science. Prerequisite: Permission of instructor.",
+      },
+      
+      {
+        title: "Special Topics",
+        courseCode: "CS 7293",
+        courseDescription: "Individual or group study of selected topics in computer science. Prerequisite: Permission of instructor.",
+      },
+      
+      {
+        title: "Special Topics",
+        courseCode: "CS 7294",
+        courseDescription: "Individual or group study of selected topics in computer science. Prerequisite: Permission of instructor.",
+      },
+      
+      {
+        title: "Master’s Thesis",
+        courseCode: "CS 7296",
+        courseDescription: "Students may need to register in several master’s thesis courses to obtain the desired number of credit hours, with a limit of no more than 6 credit hours in a single term and no more than 4 credit hours in the summer terms.",
+      },
+      
+      {
+        title: "Python for Computer Science",
+        courseCode: "CS 7310",
+        courseDescription: "Provides a grounding in the Python programming language for students pursing study in artificial intelligence and data science. Topics include Python language fundamentals, data structures, functional programming, object-oriented programming, concurrency/multi-threading, software testing, plotting and visualization. Intended as articulation for students entering the computer science master’s degree programs.",
+      },
+      
+      {
+        title: "Foundations of Computing",
+        courseCode: "CS 7311",
+        courseDescription: "A comprehensive foundation course covering the major topic areas of computer science. Topics include computer organization, compilation and execution processes, data structures, algorithmic analysis and order of growth, function abstraction and the run-time stack, pointers and dynamic allocation, recursion, object-oriented programming concepts, processes and threads, concurrency and deadlock, and memory management. Prepares students without a computer science background for master’s degree work in the Computer Science Department. Credit cannot be applied toward a master’s degree in computer science, software engineering, or security engineering. Prerequisite: Ability to program in a high-level language such as Python, Java or C++.",
+      },
+      
+      {
+        title: "User Interfaces, User Experience",
+        courseCode: "CS 7312",
+        courseDescription: "Design and evaluation methodologies for user interfaces (UI) to enhance user experience (UX) and usability. Includes introduction to HCI (human-computer interaction) and UI/UX; usability concept and measurement; UI development process; user/usage characterization and analysis; prototyping; UCD (user-centered design) and other design techniques, usability evaluation, and feedback for usability improvement. Different types of user interactions supported by UI or different interaction styles are studied, ranging from 1) direct manipulation using GUI (graphical user interface), multi-sensory/multi-media UI and VR/AR (virtual reality and augmented reality), 2) navigation using menus and forms, and 3) command and natural language UI. Students perform the analysis, design, and evaluation of a UI through course projects and homework assignments.",
+      },
+      
+      {
+        title: "Software Configuration Management",
+        courseCode: "CS 7313",
+        courseDescription: "Successful software development and maintenance requires an understanding and application of many activities and functions throughout the software engineering process. One of the key areas is software configuration management. Students explore the principles and practices of the software configuration management function and mandatory role, including how CM is defined, planned, implemented, and measured over the life cycle of any development or maintenance project. Focuses on understanding specific roles of project team members and the tasks they plan and execute: managers who must support the CM efforts; project managers who must plan and design the CM system for their projects; those who implement the system; those who manage and administer the system; and the testers, engineers, and quality assurance personnel who are affected by the system.",
+      },
+      
+      {
+        title: "Software Testing and Quality Assurance",
+        courseCode: "CS 7314",
+        courseDescription: "Examines the relationship of software testing to quality, with emphasis on testing techniques and the role of testing in the validation of system requirements. Topics include module and unit testing, integration, code inspection, peer reviews, verification and validation, statistical testing methods, preventing and detecting errors, selecting and implementing project metrics, and defining test plans and strategies that map to system requirements. Testing principles, formal models of testing, performance monitoring, and measurement also are examined.",
+      },
+      
+      {
+        title: "Software Project Planning and Management",
+        courseCode: "CS 7315",
+        courseDescription: "Intended for individuals who seek to plan and/or lead a software development project in industry or academia. Covers the process of...",
+      },
+      {
+        title: "Computer Networks",
+        courseCode: "CS 7316",
+        courseDescription: "Provides an introduction to the fundamental concepts and principles of computer networks. Topics include network architecture and protocols, OSI and TCP/IP models, data transmission and encoding, switching and routing, LAN technologies, wireless networks, network security, and network management. Emphasis is placed on understanding the design principles and performance issues of computer networks.",
+      },
+      
+      {
+        title: "Cloud Computing",
+        courseCode: "CS 7317",
+        courseDescription: "Introduces the principles, technologies, and challenges of cloud computing. Topics include cloud service models (IaaS, PaaS, SaaS), deployment models (public, private, hybrid), virtualization, scalability, elasticity, cloud storage, cloud security, cloud performance, and cloud economics. Students will also gain hands-on experience with popular cloud platforms and tools.",
+      },
+      
+      {
+        title: "Database Systems",
+        courseCode: "CS 7318",
+        courseDescription: "Introduces fundamental concepts and principles of database systems. Topics include data models, database design, relational algebra, SQL, normalization, indexing, query optimization, transaction management, concurrency control, database security, and emerging trends in database systems.",
+      },
+      
+      {
+        title: "Data Mining",
+        courseCode: "CS 7319",
+        courseDescription: "Introduces fundamental concepts and techniques of data mining for extracting useful knowledge from large datasets. Topics include data preprocessing, classification, clustering, association analysis, anomaly detection, text mining, web mining, and social network analysis. Emphasis is placed on understanding the theoretical foundations and practical applications of data mining algorithms.",
+      },
+      
+      {
+        title: "Parallel and Distributed Computing",
+        courseCode: "CS 7320",
+        courseDescription: "Covers principles, models, algorithms, and programming techniques for parallel and distributed computing systems. Topics include parallel architectures, parallel programming models (e.g., shared-memory, distributed-memory, message-passing), parallel algorithm design and analysis, performance optimization, distributed systems concepts (e.g., client-server computing, peer-to-peer systems, distributed file systems), and emerging trends in parallel and distributed computing.",
+      },
+      
+      {
+        title: "Artificial Intelligence",
+        courseCode: "CS 7321",
+        courseDescription: "Introduces the fundamental concepts, techniques, and applications of artificial intelligence. Topics include intelligent agents, problem-solving and search, knowledge representation and reasoning, machine learning, neural networks, natural language processing, computer vision, robotics, and ethical issues in AI. Emphasis is placed on understanding the theoretical foundations and practical implementations of AI techniques.",
+      },
+      
+      {
+        title: "Cybersecurity",
+        courseCode: "CS 7322",
+        courseDescription: "Provides an overview of cybersecurity principles, technologies, and practices. Topics include threat analysis, cryptography, network security, access control, security policies, secure software development, security testing, incident response, digital forensics, and legal and ethical issues in cybersecurity. Emphasis is placed on understanding the security challenges and countermeasures in modern computing environments.",
+      },
+      
+      {
+        title: "Machine Learning",
+        courseCode: "CS 7323",
+        courseDescription: "Provides a comprehensive introduction to machine learning techniques and algorithms. Topics include supervised learning, unsupervised learning, semi-supervised learning, reinforcement learning, deep learning, ensemble learning, feature selection and extraction, model evaluation and selection, and practical applications of machine learning in various domains. Emphasis is placed on understanding the theoretical foundations and practical implementations of machine learning algorithms.",
+      },
+      
+      {
+        title: "Big Data Analytics",
+        courseCode: "CS 7324",
+        courseDescription: "Introduces the fundamental concepts and techniques of big data analytics. Topics include big data characteristics and challenges, distributed file systems (e.g., HDFS), distributed computing frameworks (e.g., MapReduce, Spark), data storage and retrieval, data preprocessing and cleaning, data analysis and visualization, machine learning on big data, and scalable data analytics platforms. Emphasis is placed on understanding the scalability, performance, and reliability issues in big data analytics.",
+      },
+      
+      {
+        title: "Internet of Things (IoT)",
+        courseCode: "CS 7325",
+        courseDescription: "Introduces the fundamental concepts, architectures, and applications of the Internet of Things (IoT). Topics include IoT devices and sensors, IoT communication protocols (e.g., MQTT, CoAP), IoT data management and processing, IoT security and privacy, IoT applications (e.g., smart cities, smart homes, industrial IoT), and emerging trends in IoT technology. Emphasis is placed on understanding the design principles and challenges in developing IoT systems.",
+      },
+      
+      {
+        title: "Software Engineering",
+        courseCode: "CS 7326",
+        courseDescription: "Provides a comprehensive overview of software engineering principles, methodologies, and practices. Topics include software development life cycle models, requirements engineering, software design, software testing, software maintenance, software project management, software quality assurance, and emerging trends in software engineering. Emphasis is placed on understanding the software development process and applying software engineering techniques to real-world projects.",
+      },
+      {
+        title: "Human-Computer Interaction",
+        courseCode: "CS 7327",
+        courseDescription: "Introduces principles and techniques for designing effective and user-friendly human-computer interfaces. Topics include user-centered design, usability testing, interaction design, information architecture, user interface prototyping, accessibility, and emerging trends in HCI. Emphasis is placed on understanding the needs and behaviors of users and designing interactive systems that meet those needs.",
+      },
+      
+      {
+        title: "Computer Graphics",
+        courseCode: "CS 7328",
+        courseDescription: "Covers fundamental concepts and techniques in computer graphics. Topics include 2D and 3D graphics primitives, geometric transformations, rendering pipelines, shading and lighting models, texture mapping, rasterization, ray tracing, animation techniques, and virtual reality. Emphasis is placed on understanding the theoretical foundations and practical implementations of computer graphics algorithms.",
+      },
+      
+      {
+        title: "Natural Language Processing",
+        courseCode: "CS 7329",
+        courseDescription: "Introduces the principles and techniques for processing and understanding natural language text. Topics include text preprocessing, lexical analysis, syntactic analysis, semantic analysis, discourse analysis, machine translation, information retrieval, sentiment analysis, and applications of NLP in areas such as question answering, summarization, and dialogue systems. Emphasis is placed on understanding the linguistic aspects of natural language and developing computational models for NLP tasks.",
+      },
+      
+      {
+        title: "Computer Vision",
+        courseCode: "CS 7330",
+        courseDescription: "Covers principles and techniques for analyzing and understanding digital images and videos. Topics include image formation, image enhancement, image segmentation, feature extraction, object detection and recognition, motion analysis, stereo vision, and 3D reconstruction. Emphasis is placed on understanding the mathematical models and algorithms used in computer vision applications.",
+      },
+      
+      {
+        title: "Advanced Topics in Computer Science",
+        courseCode: "CS 7331",
+        courseDescription: "Covers advanced topics in computer science that are not covered in other courses. Topics may vary depending on current research trends and faculty expertise. Examples of possible topics include quantum computing, bioinformatics, computational biology, computational finance, data science, and advanced algorithms. Emphasis is placed on exploring cutting-edge research topics and developing critical thinking and problem-solving skills.",
+      },
+      {
+        title: "Artificial Intelligence and Robotics",
+        courseCode: "CS 7332",
+        courseDescription: "Explores advanced concepts and techniques in artificial intelligence and robotics. Topics include planning and decision-making under uncertainty, reinforcement learning, probabilistic graphical models, deep learning, robotic perception and control, motion planning, and robot learning. Emphasis is placed on understanding the theoretical foundations and practical applications of AI and robotics."
+      },
+      {
+        title: "Big Data Analytics",
+        courseCode: "CS 7333",
+        courseDescription: "Introduces principles and techniques for analyzing large-scale datasets. Topics include data preprocessing, data mining, machine learning, distributed computing frameworks (e.g., MapReduce, Spark), parallel algorithms, statistical modeling, and visualization. Emphasis is placed on developing scalable and efficient algorithms for extracting insights from big data and solving real-world problems."
+      },
+      {
+        title: "Cloud Computing Security",
+        courseCode: "CS 7334",
+        courseDescription: "Focuses on security issues and challenges in cloud computing environments. Topics include cloud architecture and deployment models, virtualization technology, access control mechanisms, data encryption and privacy, identity management, threat detection and mitigation, compliance and legal issues, and best practices for securing cloud-based systems. Emphasis is placed on understanding the unique security risks associated with cloud computing and developing strategies to mitigate these risks."
+      },
+      {
+        title: "Cyber-Physical Systems",
+        courseCode: "CS 7335",
+        courseDescription: "Covers the design, analysis, and implementation of cyber-physical systems (CPS). Topics include modeling and simulation of CPS, real-time embedded systems, sensor networks, control theory, distributed algorithms, and security and privacy issues in CPS. Emphasis is placed on understanding the integration of computing, communication, and control technologies in CPS and developing solutions for practical applications."
+      },
+      {
+        title: "Data Visualization",
+        courseCode: "CS 7336",
+        courseDescription: "Explores principles and techniques for visualizing and interpreting complex datasets. Topics include perceptual principles, visualization design principles, data representation techniques, interactive visualization tools, and evaluation methods. Emphasis is placed on developing effective visualizations for exploring and communicating insights from various domains, including scientific data, business analytics, and social networks."
+      },
+      {
+        title: "Information Retrieval and Web Search",
+        courseCode: "CS 7337",
+        courseDescription: "Introduces the field of information retrieval, with an emphasis on its application in Web search. Also introduces the basic concepts of stemming, tokenizing and inverted indices, text similarity metrics, and the vector-space model. Students study popular Web search engines and apply the concepts in several Java-based projects. Prerequisite: Knowledge of CS 3353 or permission of instructor."
+      },
+      {
+        title: "Computer System Security",
+        courseCode: "CS 7339",
+        courseDescription: "Investigates a broad selection of contemporary issues in computer security, including an assessment of state-of-the-art technology used to address security problems. Includes sources for computer security threats and appropriate reactions, basic encryption and decryption, secure encryption systems, program security, trusted operating systems, database security, network and distributed systems security, administering security, and legal and ethical issues. Prerequisite: Knowledge equivalent to CS 5343."
+      },
+      {
+        title: "Service-Oriented Software Engineering",
+        courseCode: "CS 7340",
+        courseDescription: "Discusses the contemporary third generation of software engineering, which focuses on the development of software systems by composition of reusable services (remotely accessible software programs) often provided by other service providers. Students learn some major enabling technologies and solution methods in the field of Service-Oriented Software Engineering (SOSE), including Software as a Service (SaaS), API and mashup, service-oriented architecture, software search engine, machine learning-powered software categorization, artificial
+      },
+      {
+        title: "Compiler Construction",
+        courseCode: "CS 7341",
+        courseDescription: "Reviews programming language structures, loading, execution, and storage allocation; the compilation of simple expressions and statements; and the organization of a compiler, including compile-time and run-time symbol tables, lexical analysis, syntax analysis, code generation, error diagnostics, and simple code optimization techniques. Also, the use of a recursive high-level language to implement a complete compiler. Prerequisites: Knowledge of material taught in CS 2341, CS 3342."
+      },
+      {
+        title: "Operating Systems",
+        courseCode: "CS 7343",
+        courseDescription: "Theoretical and practical aspects of operating systems: timesharing and multiprogramming operating systems, network operating systems and the Internet, virtual memory management, interprocess communication and synchronization, file organization, and case studies. Prerequisites: Knowledge equivalent to material taught in CS 2340, CS 3341, and CS 3353."
+      },
+      {
+        title: "Computer Networks and Distributed Systems",
+        courseCode: "CS 7344",
+        courseDescription: "Introduces network protocols, layered communication architecture, wired and wireless data transmission, data link protocols, network routing, TCP/IP and UDP, email and the World Wide Web, distributed computing, mutual exclusion, linearizability, and locks. Prerequisite: Knowledge equivalent to material taught in CS 3341."
+      },
+      {
+        title: "Advanced Application Programming",
+        courseCode: "CS 7345",
+        courseDescription: "Covers advanced programming techniques that span a range of programming languages and technologies. Topics include server-side application development, client graphical user interface implementation, application frameworks, design patterns, model-based development, and multithreading. The specific programming language or languages covered may vary from term to term. Prerequisite: Knowledge of material taught in...
+      },
+      {
+        title: "Cloud Computing",
+        courseCode: "CS 7346",
+        courseDescription: "Explores architectures for cloud computing, and provides hands-on experience with virtualization technologies. Topics include cloud computing architectures such as infrastructure as a service, platform as a service, and software as a service. Covers programming models for cloud computing, the fundamentals of virtualization technologies that enable scalability, and an introduction to the security and energy efficiency challenges of cloud computing."
+      },
+      {
+        title: "Data and Network Security",
+        courseCode: "CS 7349",
+        courseDescription: "Investigates a broad selection of contemporary issues in computer security, including an assessment of state-of-the-art technology used to address security problems. Includes sources for computer security threats and appropriate reactions, basic encryption and decryption, secure encryption systems, program security, trusted operating systems, database security, network and distributed systems security, administering security, and legal and ethical issues. Prerequisite: CS 7339."
+      },
+      {
+        title: "Algorithm Engineering",
+        courseCode: "CS 7350",
+        courseDescription: "Covers algorithm design techniques; methods for evaluating algorithm efficiency; data structure specification and implementation; and applications to fundamental computational problems in sorting and selection, graphs and networks, scheduling and combinatorial optimization, computational geometry, and arithmetic and matrix computation. Also, introduction to parallel algorithms and to computational complexity and a survey of NP-complete problems. Prerequisites: Knowledge of material covered in CS 2341 and CS 3353."
+      },
+      {
+        title: "Software Security",
+        courseCode: "CS 7359",
+        courseDescription: "As software is delivered across network and Web-based environments, security is critical to successful software deployment. This course focuses on software security issues that pertain to the network application layer in the classic OSI model. At the application network layer, issues related to encryption, validation, and authentication are handled programmatically rather than at the network level. Students work with APIs for cryptography, digital signatures, and third-party certificate authorities. The course also explores issues related to XML and Web services security by examining standards and technologies for securing data and programs across collaborative networks. Prerequisite: CS 7339."
+      },
+      {
+        title: "Hardware Security and Trojan Detection",
+        courseCode: "CS 7369",
+        courseDescription: "Introduces several contemporary topics in hardware security, with a particular emphasis on hardware Trojans. Other topics include physically unclonable functions, the problem of counterfeiting, security implications of design for testability in hardware, intellectual property protection, and secure coprocessors and smart cards."
+      },
+      {
+        title: "Probability and Statistics for Scientists and Engineers",
+        courseCode: "CS 7370",
+        courseDescription: "Introduction to fundamentals of probability, probability distributions, and statistical techniques used by engineers and physical scientists. Topics include basic concepts and rules of probability, random variables, probability distributions, expectation and variance, sampling and sampling distributions, statistical analysis techniques, statistical inference estimation and tests of hypothesis, correlation and regression, and analysis of variance. Prerequisite: Knowledge of calculus required."
+      },
+      {
+        title: "Computer Architecture",
+        courseCode: "CS 7381",
+        courseDescription: "Introduces the state of the art in uniprocessor computer architecture, with a focus on the quantitative analysis and cost-performance trade-offs in instruction set, pipeline, and memory design. Topics include quantitative analysis of performance and hardware costs, instruction set design, pipeline, delayed branch, memory organization, and advanced instruction-level parallelism. Prerequisite: Knowledge of material taught in CS 4381."
+      },
+      {
+        title: "Computer Graphics",
+        courseCode: "CS 7382",
+        courseDescription: "Introduction to classic computer graphics pipeline concepts including modeling, texturing, light and shading, 2D and 3D transformations, and image formation using GPU computing techniques and an industry standard graphics shading language. Prerequisite: Knowledge of material covered in CS 3353."
+      },
+      {
+        title: "Microcontroller Architecture and Interfacing",
+        courseCode: "CS 7385",
+        courseDescription: "Emphasizes the design of embedded systems using microcontrollers. Briefly reviews microcontroller architecture. Includes hierarchical memory systems and interfacing of memory and peripherals, industry standard bus interfaces and other applicable standards, and topics in real-time operating systems and system-level design considerations. The corequisite laboratory requires students to develop software using assembler and high-level languages. Prerequisite: Knowledge of material covered in CS 3381 or ECE 3181, ECE 3381."
+      },
+      {
+        title: "Digital Systems Design",
+        courseCode: "CS 7387",
+        courseDescription: "Modern topics in digital systems design, including the use of HDLs for circuit specification and automated synthesis tools for realization. Programmable logic devices are emphasized and used throughout the course. The course has heavy laboratory assignment content and a design project. Prerequisite: Knowledge of material taught in CS 3381."
+      },
+      
 ]
