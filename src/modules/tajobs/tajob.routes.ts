@@ -1,6 +1,6 @@
 import { Router } from 'express';
 import * as TajobController from './tajob.controller';
-
+import { makeStudentTA } from './tajob.controller';
 // import { authenticate } from 'middleware/authentication';
 
 const router = Router();
@@ -12,7 +12,7 @@ router.get('/faculty/:facultyId', TajobController.getTAJobsByFacultyId);
 
 // post one job
 router.post('/', TajobController.createJob);
-
+router.post('/student/:studentId/course/:courseId/make-ta', makeStudentTA);
 //udpate one job by id passed as param
 router.put('/edit/:id', TajobController.updateJob);
 
