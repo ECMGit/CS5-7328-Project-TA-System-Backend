@@ -702,7 +702,7 @@ export const csCoursesObject: courseData[] = [
       {
         title: "Service-Oriented Software Engineering",
         courseCode: "CS 7340",
-        courseDescription: "Discusses the contemporary third generation of software engineering, which focuses on the development of software systems by composition of reusable services (remotely accessible software programs) often provided by other service providers. Students learn some major enabling technologies and solution methods in the field of Service-Oriented Software Engineering (SOSE), including Software as a Service (SaaS), API and mashup, service-oriented architecture, software search engine, machine learning-powered software categorization, artificial
+        courseDescription: "Discusses the contemporary third generation of software engineering, which focuses on the development of software systems by composition of reusable services (remotely accessible software programs) often provided by other service providers. Students learn some major enabling technologies and solution methods in the field of Service-Oriented Software Engineering (SOSE), including Software as a Service (SaaS), API and mashup, service-oriented architecture, software search engine, machine learning-powered software categorization, artificial."
       },
       {
         title: "Compiler Construction",
@@ -722,7 +722,7 @@ export const csCoursesObject: courseData[] = [
       {
         title: "Advanced Application Programming",
         courseCode: "CS 7345",
-        courseDescription: "Covers advanced programming techniques that span a range of programming languages and technologies. Topics include server-side application development, client graphical user interface implementation, application frameworks, design patterns, model-based development, and multithreading. The specific programming language or languages covered may vary from term to term. Prerequisite: Knowledge of material taught in...
+        courseDescription: "Covers advanced programming techniques that span a range of programming languages and technologies. Topics include server-side application development, client graphical user interface implementation, application frameworks, design patterns, model-based development, and multithreading. The specific programming language or languages covered may vary from term to term. Prerequisite: Knowledge of material taught in..."
       },
       {
         title: "Cloud Computing",
