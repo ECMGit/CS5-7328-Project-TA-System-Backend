@@ -130,6 +130,13 @@ export const createJob = async (
 
 export const makeStudentTA = async (req: Request, res: Response) => {
   const { studentId, courseId } = req.params;
+
+  console.log('try make student into ta', req.body);
+
+  if (isNaN(parseInt(studentId)) || isNaN(parseInt(courseId))) {
+    return res.status(400).json({ message: 'Invalid studentId or courseId' });
+  }
+
   try {
     await makeTAService(parseInt(studentId), parseInt(courseId));
     res.status(200).json({ message: 'Student has been made a TA successfully' });
@@ -138,7 +145,7 @@ export const makeStudentTA = async (req: Request, res: Response) => {
   }
 };
 
-//udpate job by id passed as param
+//update job by id passed as param
 /**
  * @param req
  * @param res
