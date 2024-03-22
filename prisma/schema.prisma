@@ -1,22 +1,27 @@
 // define your database configuration here
 
 datasource db {
-    provider = env("DB_PROVIDER")
+    provider = "mysql"
     url      = env("DATABASE_URL")
+}
+
+generator client {
+    provider = "prisma-client-js"
+    output   = "../dist/prisma"
 }
 
 // define the data model here
 model User {
-    id               Int       @id @default(autoincrement())
+    id               Int           @id @default(autoincrement())
     smuNo            Int
-    username         String    @unique
-    email            String    @unique
+    username         String        @unique
+    email            String        @unique
     firstName        String
     lastName         String
     password         String
-    resetToken       String?   @unique
+    resetToken       String?       @unique
     resetTokenExpiry BigInt?
-    updatedAt        DateTime? @updatedAt
+    updatedAt        DateTime?     @updatedAt
     userType         String?
     student          Student?
     faculty          Faculty?
@@ -107,36 +112,32 @@ model TAJob {
 }
 
 model TAApplication {
-  id                  Int     @id @default(autoincrement())
-  courseId            Int
-  course              Course  @relation(fields: [courseId], references: [id])
-  studentId           Int
-  student             Student @relation(fields: [studentId], references: [userId])
-  hoursCanWorkPerWeek String
-  coursesTaken        String?
-  status              String?
-  GPA                 Float
-  requiredCourses     String // A comma separated list of required courses taken
-  requiredSkills      String // A comma separated list of required skills
-  resumeFile          String // URL or path to the file. This depends on how you handle file uploads.
-  taJobId             Int
-  taJob               TAJob   @relation(fields: [taJobId], references: [id])
-  messages        UserMessage[]  @relation(name: "ApplicationMessages") // Relation to UserMessage
+    id                  Int           @id @default(autoincrement())
+    courseId            Int
+    course              Course        @relation(fields: [courseId], references: [id])
+    studentId           Int
+    student             Student       @relation(fields: [studentId], references: [userId])
+    hoursCanWorkPerWeek String
+    coursesTaken        String?
+    status              String?
+    GPA                 Float
+    requiredCourses     String // A comma separated list of required courses taken
+    requiredSkills      String // A comma separated list of required skills
+    resumeFile          String // URL or path to the file. This depends on how you handle file uploads.
+    taJobId             Int
+    taJob               TAJob         @relation(fields: [taJobId], references: [id])
+    messages            UserMessage[] @relation(name: "ApplicationMessages") // Relation to UserMessage
 }
 
 model UserMessage {
-  id              Int         @id @default(autoincrement())
-  content         String
-  createdAt       DateTime    @default(now())
-  senderId        Int
-  receiverId      Int
-  applicationId   Int
-  isRead          Boolean @default(false)
-  sender          User        @relation(name: "MessageSender", fields: [senderId], references: [id])
-  receiver        User        @relation(name: "MessageReceiver", fields: [receiverId], references: [id])
-  application     TAApplication  @relation(name: "ApplicationMessages", fields: [applicationId], references: [id])
-}
-
-generator client {
-    provider = "prisma-client-js"
+    id            Int           @id @default(autoincrement())
+    content       String
+    createdAt     DateTime      @default(now())
+    senderId      Int
+    receiverId    Int
+    applicationId Int
+    isRead        Boolean       @default(false)
+    sender        User          @relation(name: "MessageSender", fields: [senderId], references: [id])
+    receiver      User          @relation(name: "MessageReceiver", fields: [receiverId], references: [id])
+    application   TAApplication @relation(name: "ApplicationMessages", fields: [applicationId], references: [id])
 }
