@@ -6,6 +6,7 @@ import tajobRoutes from './modules/tajobs/tajob.routes';
 import messageRoutes from './modules/message/message.routes';
 // middleware
 import { verifyToken } from './middleware/authentication';
+import { feedbackRouter } from './modules/feedback';
 
 const app = express();
 
@@ -43,6 +44,7 @@ app.use('/user', userRoutes);
 app.use('/message', verifyToken, messageRoutes);
 app.use('/ta-application', verifyToken, taApplicationRoutes);
 app.use('/jobs', verifyToken, tajobRoutes);
+app.use('/feedback', feedbackRouter);
 
 app.get('/', (req, res) => {
   res.status(200).send('Hello World!');

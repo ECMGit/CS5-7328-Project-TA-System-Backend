@@ -36,6 +36,7 @@ export const verifyToken = (req: Request, res: Response, next: NextFunction) => 
 
     console.log('valid token');
 
+    res.locals.user = decoded;
     next();
   });
 };
