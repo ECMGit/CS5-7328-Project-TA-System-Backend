@@ -131,7 +131,7 @@ export const createJob = async (
 export const makeStudentTA = async (req: Request, res: Response) => {
   const { studentId, courseId } = req.params;
 
-  console.log('try make student into ta', req.body)
+  console.log('try make student into ta', req.body);
 
   if (isNaN(parseInt(studentId)) || isNaN(parseInt(courseId))) {
     return res.status(400).json({ message: 'Invalid studentId or courseId' });
