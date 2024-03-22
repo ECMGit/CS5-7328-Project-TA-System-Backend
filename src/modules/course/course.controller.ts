@@ -19,3 +19,25 @@ export const importCoursesBatch = async (
     next(error);
   }
 };
+
+
+export const getAllCoursesWithoutDetail = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const courses = await CourseService.getAllCourses();
+    
+    // Map into courseCode - title format
+    const formattedCourses = courses.map((course: any) => ({
+      courseCode: course.courseCode,
+      title: course.title
+    }));
+
+    res.json(formattedCourses);
+  }catch (error){
+    console.log(error);
+    next(error); 
+  }
+};
