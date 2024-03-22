@@ -1,32 +1,34 @@
 // define your database configuration here
 
 datasource db {
-    provider = "mysql"
-    url      = env("DATABASE_URL")
+  provider = "mysql"
+  url      = env("DATABASE_URL")
 }
 
 // define the data model here
 model User {
-    id               Int       @id @default(autoincrement())
-    smuNo            Int
-    username         String    @unique
-    email            String    @unique
-    firstName        String
-    lastName         String
-    password         String
-    resetToken       String?   @unique
-    resetTokenExpiry BigInt?
-    updatedAt        DateTime? @updatedAt
-    userType         String?
-    student          Student?
-    faculty          Faculty?
-    admin            Admin?
-    sentMessages     UserMessage[] @relation(name: "MessageSender") // Relation to sent messages
-    receivedMessages UserMessage[] @relation(name: "MessageReceiver") // Relation to received messages
-    Feedback         Feedback[]
-    FeedbackComments         FeedbackComment[]
-    taEvaluationsAsTA      TAEvaluation[] @relation("TaEvaluations")
-    taEvaluationsAsFaculty TAEvaluation[] @relation("FacultyEvaluations")
+  id                     Int                @id @default(autoincrement())
+  smuNo                  Int
+  username               String             @unique
+  email                  String             @unique
+  firstName              String
+  lastName               String
+  password               String
+  resetToken             String?            @unique
+  resetTokenExpiry       BigInt?
+  updatedAt              DateTime?          @updatedAt
+  userType               String?
+  student                Student?
+  faculty                Faculty?
+  admin                  Admin?
+  sentMessages           UserMessage[]      @relation(name: "MessageSender") // Relation to sent messages
+  receivedMessages       UserMessage[]      @relation(name: "MessageReceiver") // Relation to received messages
+  Feedback               Feedback[]
+  FeedbackComments       FeedbackComment[]
+  taEvaluationsAsTA      TAEvaluation[]     @relation("TaEvaluations")
+  taEvaluationsAsFaculty TAEvaluation[]     @relation("FacultyEvaluations")
+  BugReport              BugReport[]
+  BugReportComment       BugReportComment[]
 }
 
 model Faculty {
@@ -160,40 +162,64 @@ model TAEvaluation {
 
 //added new schema module notification
 model Task {
-  facultyId       Int
-  studentId       Int
-  title           String
-  description     String?
-  TaskId          Int         @id @default(autoincrement())
-  completed       Boolean     @default(false)
+  facultyId   Int
+  studentId   Int
+  title       String
+  description String?
+  TaskId      Int     @id @default(autoincrement())
+  completed   Boolean @default(false)
 }
 
 model Feedback {
-    id       Int      @id @default(autoincrement())
-    leftById Int
-    leftBy   User     @relation(fields: [leftById], references: [id])
+  id       Int  @id @default(autoincrement())
+  leftById Int
+  leftBy   User @relation(fields: [leftById], references: [id])
 
-    content String
-    complete Boolean
+  content  String
+  complete Boolean
 
-    timeSubmitted DateTime @default(now())
+  timeSubmitted DateTime @default(now())
 
-    comments FeedbackComment[]
+  comments FeedbackComment[]
 }
 
 model FeedbackComment {
-    id          Int      @id @default(autoincrement())
-    feedbackId  Int
-    feedback    Feedback @relation(fields: [feedbackId], references: [id])
+  id         Int      @id @default(autoincrement())
+  feedbackId Int
+  feedback   Feedback @relation(fields: [feedbackId], references: [id])
 
-    leftById    Int
-    leftBy      User     @relation(fields: [leftById], references: [id])
+  leftById Int
+  leftBy   User @relation(fields: [leftById], references: [id])
 
-    content     String
-    timeSubmitted DateTime @default(now())
+  content       String
+  timeSubmitted DateTime @default(now())
+}
+
+model BugReport {
+  id       Int  @id @default(autoincrement())
+  leftById Int
+  leftBy   User @relation(fields: [leftById], references: [id])
+
+  content  String
+  complete Boolean
+
+  timeSubmitted DateTime @default(now())
+
+  comments BugReportComment[]
+}
+
+model BugReportComment {
+  id        Int       @id @default(autoincrement())
+  bugId     Int
+  bugReport BugReport @relation(fields: [bugId], references: [id])
+
+  leftById Int
+  leftBy   User @relation(fields: [leftById], references: [id])
+
+  content       String
+  timeSubmitted DateTime @default(now())
 }
 
 generator client {
-    provider = "prisma-client-js"
+  provider = "prisma-client-js"
 }
-
