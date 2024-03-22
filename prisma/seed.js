@@ -209,6 +209,7 @@ const csCoursesObject = [
         courseCode: "CS 5191",
         courseDescription: "Individual or group study of selected topics in computer science. Prerequisite: Permission of instructor."
     },
+    
     {
         title: "Special Topics",
         courseCode: "CS 5192",
