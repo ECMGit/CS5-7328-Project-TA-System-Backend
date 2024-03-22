@@ -5,10 +5,10 @@ const router = Router();
 
 
 // Get Tasks
-router.get('/completed/:facultyId', TaskController.viewCompleted);
+router.get('/completed/faculty/:facultyId', TaskController.viewCompleted);
 router.get('/pending/:facultyId', TaskController.viewPending);
 router.get('/current/:studentId', TaskController.viewCurrent);
-router.get('/completed/:studentId', TaskController.viewCompletedByStudent);
+router.get('/completed/student/:studentId', TaskController.viewCompletedByStudent);
 
 // Update Tasks
 router.put('/checkoff/:studentId/:taskId', TaskController.checkoff);
