@@ -113,6 +113,27 @@ export const getTaApplicationByStudentId = async (
 };
 
 /**
+ * Gets Ta applications by course id
+ * @param req 
+ * @param res 
+ * @param next 
+ */
+export const getTaApplicationByCourseId = async (
+  req: Request, res: Response, next: NextFunction
+) => {
+  const courseId: number = Number(req.params.courseId);
+  try{
+    const taApplications
+          = await taApplicationService.getTaApplicationsByCourseId(courseId);
+    console.log(taApplications);
+    res.json(taApplications);
+  } catch (error) {
+    next(error)
+  }
+
+};
+
+/**
  * Update a TA application
  * @param req 
  * @param res 
