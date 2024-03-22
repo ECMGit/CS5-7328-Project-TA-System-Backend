@@ -141,6 +141,7 @@ generator client {
     provider = "prisma-client-js"
 }
 
+//added new schema module
 model Task {
   facultyId       String
   studentId       String
