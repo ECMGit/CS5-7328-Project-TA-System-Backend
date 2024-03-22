@@ -57,7 +57,7 @@ This is a collaborative work from students of SMU's software engineering class C
 Start your database server on port 3306, and run the following command to create the database schema:
 ### `npx prisma db push`
 
-### `npx ts-node ./prisma/seed.ts`
+### `npx ts-node prisma/seed.js`
 import testing data to database, if any duplicate happend, try remove all data in your database
 
 ## Available Script

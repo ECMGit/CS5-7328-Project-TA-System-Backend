@@ -78,6 +78,19 @@ async function main() {
     });
     users.push(newUser);
     faculties.push(newFaculty);
+
+    // Create admin if the user type is 'admin'
+    if (newUser.userType === 'admin') {
+      const newAdmin = await prisma.admin.create({
+        data: {
+          userId: newUser.id,
+          role: 'dmin',
+        },
+      });
+
+      console.log({ newAdmin });
+    }
+        
   }
 
   // Loop to create multiple courses
