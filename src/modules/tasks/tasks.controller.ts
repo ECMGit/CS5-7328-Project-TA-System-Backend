@@ -9,7 +9,7 @@ import { Request, Response, NextFunction } from 'express';
  */
 
 export const createTask = async (req: Request, res: Response, next: NextFunction) => {
-    console.log("In create tasks");
+    
     try {
         const taskInfo = req.body; // Assuming task information is sent in the request body
         const newTask = await TaskService.createTask(taskInfo);
@@ -28,7 +28,7 @@ export const createTask = async (req: Request, res: Response, next: NextFunction
  */
 export const viewCompleted = async (req: Request, res: Response, next: NextFunction) => {
     try {
-        const facultyId = parseInt(req.params.facultyId); // Assuming faculty ID is passed as a route parameter
+        const facultyId =parseInt(req.params.facultyId); // Assuming faculty ID is passed as a route parameter
         const completedTasks = await TaskService.viewCompleted(facultyId);
         res.json(completedTasks);
     } catch (error) {

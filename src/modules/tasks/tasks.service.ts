@@ -4,8 +4,8 @@ const prisma = new PrismaClient();
 
 // setting createTask type for createTask function 
 export type TaskInfo = {
-    studentId: string;
-    facultyId: string;
+    studentId: number;
+    facultyId: number;
     title: string;
     description: string;
 };
@@ -30,7 +30,7 @@ export const createTask = async (taskInfo: TaskInfo) => {
 };
     
 // View completed tasks as faculty member for tasks they assigned 
-export const viewCompleted = async (facultyId: string) => {
+export const viewCompleted = async (facultyId: number) => {
     try {
         const completedTasks = await prisma.task.findMany({
             where: {
@@ -45,7 +45,7 @@ export const viewCompleted = async (facultyId: string) => {
 }
 
 // View pending tasks(non-complete tasks) as faculty member for tasks they assigned
-export const viewPending = async (facultyId: string) => {
+export const viewPending = async (facultyId: number) => {
     try {
         const pendingTasks = await prisma.task.findMany({
             where: {
@@ -60,7 +60,7 @@ export const viewPending = async (facultyId: string) => {
 }
 
 // Check off tasks as student who is assigned tasks
-export const checkoff = async (studentId: string, taskId: string) => {
+export const checkoff = async (studentId: number, taskId: number) => {
     try {
         // Update completion status of the task
         const updatedTask = await prisma.task.update({
@@ -84,7 +84,7 @@ export const checkoff = async (studentId: string, taskId: string) => {
 }
 
 // View current tasks as a student based on their Id
-export const viewCurrent = async (studentId: string) => {
+export const viewCurrent = async (studentId: number) => {
     try {
         const currentTasks = await prisma.task.findMany({
             where: {
@@ -99,7 +99,7 @@ export const viewCurrent = async (studentId: string) => {
 }
 
 // View completed tasks as a student based on their Id
-export const viewCompletedByStudent = async (studentId: string) => {
+export const viewCompletedByStudent = async (studentId: number) => {
     try {
         const completedTasks = await prisma.task.findMany({
             where: {
