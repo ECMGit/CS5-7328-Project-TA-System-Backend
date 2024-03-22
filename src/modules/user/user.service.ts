@@ -1,5 +1,6 @@
 // custom path issue, need to fix, for now use this import
-import { prisma } from 'prisma';
+import { prisma } from '../../../prisma';
+
 
 /**
  * This file is for containing all the operation directly to database
@@ -9,13 +10,16 @@ import { prisma } from 'prisma';
 
 
 export const createUser = async (data: any) => {
-  //First create the user
-  const user = await prisma.user.create({
-    data,
-  });
-
-  return user;
-
+  try {
+    const user = await prisma.user.create({
+      data,
+    });
+    console.log('User created:', user); // Logging for debugging
+    return user;
+  } catch (error) {
+    console.error('Error creating user:', error);
+    throw error; // Rethrow the error to handle it in the calling function
+  }
 };
 
 interface CreateStudentData {
