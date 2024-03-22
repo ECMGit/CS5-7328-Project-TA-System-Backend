@@ -16,7 +16,7 @@ import { UserMessage } from '@prisma/client';
     getMessagesBySenderId
  */
 
-export const getMessagesByApplication = async (appID: number) : Promise<UserMessage[]> => {
+export const getMessagesByApplication = async (appID: number): Promise<UserMessage[]> => {
   try {
     return await prisma.userMessage.findMany({
       where: {
@@ -45,18 +45,18 @@ export const getMessagesByApplication = async (appID: number) : Promise<UserMess
 };
 
 export const getMessagesByReceiverId = async (rID: number) => {
-  try{
-    return await prisma.userMessage.findMany({where: { receiverId: rID },});
-  } catch (error){
-    console.log(error);
+  try {
+    return await prisma.userMessage.findMany({ where: { receiverId: rID }, });
+  } catch (error) {
+    console.log('error');
   }
 };
 
 export const getMessagesBySenderId = async (sID: number) => {
-  try{
-    return await prisma.userMessage.findMany({where: {senderId: sID},}); 
-  } catch (error){
-    console.log(error); 
+  try {
+    return await prisma.userMessage.findMany({ where: { senderId: sID }, });
+  } catch (error) {
+    console.log(error);
   }
 };
 
@@ -82,8 +82,8 @@ export const markMessageAsRead = async (messageID: number) => {
   }
 };
 
-export const createMessage =async (senderId: number, 
-  receiverId: number, 
+export const createMessage = async (senderId: number,
+  receiverId: number,
   applicationId: number,
   content: string) => {
 
@@ -93,7 +93,8 @@ export const createMessage =async (senderId: number,
       receiverId: receiverId,
       applicationId: applicationId,
       content: content
-    }}
+    }
+  }
   )
 }
 
@@ -122,7 +123,7 @@ export const addMessage = async (senderId: number, receiverId: number, content: 
     });
     return newMessage;
   } catch (error) {
-    console.error("Error adding message to database", error);
+    console.error('Error adding message to database', error);
     throw error;
   }
 };
