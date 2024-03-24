@@ -1,7 +1,7 @@
 // define your database configuration here
 
 datasource db {
-    provider = env("DB_PROVIDER")
+    provider = "mysql"
     url      = env("DATABASE_URL")
 }
 
@@ -139,4 +139,14 @@ model UserMessage {
 
 generator client {
     provider = "prisma-client-js"
+}
+
+//added new schema module notification
+model Task {
+  facultyId       String
+  studentId       String
+  title           String
+  description     String?
+  TaskId          Int         @id @default(autoincrement())
+  completed       Boolean     @default(false)
 }
