@@ -1,33 +1,12 @@
-import { Router, Request, Response } from 'express';
-import { PrismaClient } from '@prisma/client';
+import { Router } from 'express';
+import * as TaPerformanceController from './taPerformance.controller';
 
-const router = Router();  //  create a new Router entity
-const prisma = new PrismaClient();
+const router = Router();
 
-router.post('/ta-evaluation', async (req: Request, res: Response) => {
-    console.log("Received request for TA evaluation"); // try
-    try {
-        // get data from req.body
-        const { taUserId, facultyUserId, courseId, teachingSkill, mentoringSkill, effectiveCommunication, comments } = req.body;
+// Define a POST route for creating a new TA evaluation
+router.post('/ta-evaluation', TaPerformanceController.createTaEvaluation);
 
-        // use Prisma created the database TAEvaluation
-        const newEvaluation = await prisma.tAEvaluation.create({
-            data: {
-                taUserId,
-                facultyUserId,
-                courseId,
-                teachingSkill,
-                mentoringSkill,
-                effectiveCommunication,
-                comments
-            }
-        });
-
-        res.status(201).json(newEvaluation);
-    } catch (error: any) {
-        // catch and solute the mistake
-        res.status(500).json({ message: error.message });
-    }
-});
+// Define a GET route for retrieving all TA evaluations
+router.get('/performance-results', TaPerformanceController.getAllTaEvaluations);
 
 export default router;
