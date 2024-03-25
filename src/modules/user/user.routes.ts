@@ -22,4 +22,12 @@ router.post('/password-reset/confirm', UserController.confirmResetPassword);
 
 // testing purpose
 router.post('/import', UserController.importUsers);
+
+
+router.get('/students', UserController.getAllStudent);
+
+router.get("/course", UserController.getAllCourse);
+
+router.get("/faculty", UserController.getAllFaculty);
+
 export default router;

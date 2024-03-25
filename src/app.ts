@@ -4,7 +4,7 @@ import userRoutes from "./modules/user/user.routes";
 import taApplicationRoutes from "./modules/taApplication/taApplication.routes";
 import tajobRoutes from "./modules/tajobs/tajob.routes";
 import messageRoutes from "./modules/message/message.routes";
-import adminRoutes from "./modules/admin/admin.routes";
+
 // middleware
 import { verifyToken } from "./middleware/authentication";
 
@@ -44,7 +44,7 @@ app.use("/user", userRoutes);
 app.use("/message", verifyToken, messageRoutes);
 app.use("/ta-application", verifyToken, taApplicationRoutes);
 app.use("/jobs", verifyToken, tajobRoutes);
-app.use("/admin", verifyToken, adminRoutes);
+
 
 app.get("/", (req, res) => {
   res.status(200).send("Hello World!");
