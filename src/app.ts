@@ -6,7 +6,7 @@ import tajobRoutes from './modules/tajobs/tajob.routes';
 import messageRoutes from './modules/message/message.routes';
 import taPerformanceRoute from './modules/taPerformance/taPerformance.routes';
 import cors from 'cors';
-import taPerformanceResultRouter from './modules/taPerformance/taPerformanceResult.routes';
+
 
 // middleware
 import { verifyToken } from './middleware/authentication';
@@ -51,7 +51,6 @@ app.use('/message', verifyToken, messageRoutes);
 app.use('/ta-application', verifyToken, taApplicationRoutes);
 app.use('/jobs', verifyToken, tajobRoutes);
 app.use('/api/ta-performance', taPerformanceRoute);
-app.use('/api/ta-performance', taPerformanceResultRouter);
 app.get('/', (req, res) => {
   res.status(200).send('Hello World!');
 });

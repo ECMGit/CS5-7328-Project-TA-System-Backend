@@ -37,9 +37,9 @@ function bigIntToString(obj: any) {
  * @param next
  */
 export const getUsers = async (
-  req: Request,
-  res: Response,
-  next: NextFunction
+    req: Request,
+    res: Response,
+    next: NextFunction
 ) => {
   try {
     const users = await UserService.getUsers();
@@ -62,9 +62,9 @@ export const getUsers = async (
  * @returns
  */
 export const getUserById = async (
-  req: Request,
-  res: Response,
-  next: NextFunction
+    req: Request,
+    res: Response,
+    next: NextFunction
 ) => {
 
   try {
@@ -90,9 +90,9 @@ export const getUserById = async (
  * @returns
  */
 export const getUserDetailById = async (
-  req: Request,
-  res: Response,
-  next: NextFunction
+    req: Request,
+    res: Response,
+    next: NextFunction
 ) => {
   try {
     const user = await UserService.getUserDetailById(Number(req.params.id));
@@ -116,9 +116,9 @@ export const getUserDetailById = async (
  * @returns {Promise<Response>} <- this is just the error code
  */
 export async function signUp(req: Request, res: Response) {
-  const { username, email, password, smuNo, firstName, lastName, 
+  const { username, email, password, smuNo, firstName, lastName,
     year, userType } = req.body;
-    
+
   // Convert number to integer
   const smuNo_int = parseInt(smuNo);
 
@@ -131,7 +131,7 @@ export async function signUp(req: Request, res: Response) {
 
     // Hash password
     const hashedPassword = await bcrypt.hash(password, 10);
-    
+
     // Create a new user
     const user = await UserService.createUser({
       username,
@@ -141,11 +141,11 @@ export async function signUp(req: Request, res: Response) {
       firstName,
       lastName
     });
-      
+
     if (!user) {
       return res.status(500).json({ error: 'Internal server error' });
     }
-          
+
 
     if (userType === 'student') {
       await UserService.createStudent({
@@ -193,25 +193,19 @@ export async function login(req: Request, res: Response) {
     }
 
     // Compare the provided password with the stored password
-    //const result = await bcrypt.compare(password, user.password);
-    // if (!result) {
-    //   return res.status(401).json({ error: 'Invalid username or password' });
-    // }
-    if (password !== user.password) {
-      return res.status(401).json({ error: 'Invalid password' });
+    const result = await bcrypt.compare(password, user.password);
+    if (!result) {
+      return res.status(401).json({ error: 'Invalid username or password' });
     }
 
     // Exclude password and other sensitive fields before sending
     // and before generating the jwt token
     // console.log(user);
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { password: _, ...safeUser } = user;
     console.log(safeUser);
 
-    
     // TODO: Replace JWT_SECRET with process.env.JWT_SECRET and update .env accordingly
-    // Replace 'your-secret-key' with your actual secret key
-    const token = jwt.sign({ userId: user.id }, JWT_SECRET);
+    const token = jwt.sign({ userId: user.id }, JWT_SECRET); // Replace 'your-secret-key' with your actual secret key
     res.status(200).json({
       message: 'Login successful',
       user: safeUser,
@@ -227,7 +221,7 @@ export async function getRole(req: Request, res: Response) {
   const { id } = req.params; // Get the userId from the URL parameter
   const userId = parseInt(id, 10); // Convert id to a number if needed
   // console.log('getrole' + id, "userID"+userId);
-  
+
   try {
     // Find the user's role
     const userRole = await UserService.getUserRoleById(userId);
@@ -272,8 +266,8 @@ export async function importUsers(req: Request, res: Response) {
     // Batch create users
     const createdUsers = await UserService.createUserBatch(users);
     return res
-      .status(201)
-      .json({ message: `${createdUsers.count} users imported successfully` });
+        .status(201)
+        .json({ message: `${createdUsers.count} users imported successfully` });
   } catch (error) {
     console.error(error);
     return res.status(500).json({ error: 'Internal Server Error' });
@@ -312,7 +306,7 @@ export const sendPasswordResetLink = async (req: Request, res: Response) => {
   // Alert the user if EMAIL_USER or EMAIL_PASS are not set
   if (!process.env.EMAIL_USER || !process.env.EMAIL_PASS) {
     console.error(
-      'ERROR: EMAIL_USER or EMAIL_PASS environment variables not set. Set it in .env\n'
+        'ERROR: EMAIL_USER or EMAIL_PASS environment variables not set. Set it in .env\n'
     );
   }
 
