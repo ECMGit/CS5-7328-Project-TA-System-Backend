@@ -2,6 +2,12 @@
 import * as MessageService from './message.service';
 import { Request, Response, NextFunction } from 'express';
 
+/**
+ * Get messages by application id
+ * @param req 
+ * @param res 
+ * @param next 
+ */
 export const getMessagesByApplication = async (
   req: Request,
   res: Response,
@@ -18,6 +24,12 @@ export const getMessagesByApplication = async (
   }
 };
 
+/**
+ * Get messages by sender id
+ * @param req 
+ * @param res 
+ * @param next 
+ */
 export const getMessagesBySenderId = async (
   req: Request,
   res: Response,
@@ -34,6 +46,12 @@ export const getMessagesBySenderId = async (
   }
 };
 
+/**
+ * Get messages by receiver id
+ * @param req 
+ * @param res 
+ * @param next 
+ */
 export const getMessagesByReceiverId = async (
   req: Request,
   res: Response,
@@ -50,6 +68,12 @@ export const getMessagesByReceiverId = async (
   }
 };
 
+/**
+ * Mark message as read by message id
+ * @param req 
+ * @param res 
+ * @returns 
+ */
 export const markMessageAsRead = async (req: Request, res: Response) => {
   try {
     const exists = await MessageService.markMessageAsRead(
