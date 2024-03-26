@@ -28,8 +28,6 @@ function bigIntToString(obj: any) {
   }
 }
 
-
-
 /**
  * get all users
  * @param req
@@ -161,6 +159,7 @@ export async function signUp(req: Request, res: Response) {
     } else if (userType === 'admin') {
       await UserService.createAdmin({
         userId: user.id,
+        role: 'admin',
       });
     }
 
@@ -194,13 +193,13 @@ export async function login(req: Request, res: Response) {
 
     // Compare the provided password with the stored password
 
-    //const result = await bcrypt.compare(password, user.password);
-    //if (!result) {
-    //  return res.status(402).json({ error: 'Invalid username or password' });
-    //}
-    if (password !== user.password) {
-      return res.status(401).json({ error: 'Invalid username or password' });
+    const result = await bcrypt.compare(password, user.password);
+    if (!result) {
+     return res.status(402).json({ error: 'Invalid username or password' });
     }
+    // if (password !== user.password) {
+    //   return res.status(401).json({ error: 'Invalid username or password' });
+    // }
 
 
     // Exclude password and other sensitive fields before sending
@@ -222,6 +221,13 @@ export async function login(req: Request, res: Response) {
   }
 }
 
+
+/**
+ * Get user's role by userId
+ * @param req 
+ * @param res 
+ * @returns 
+ */
 export async function getRole(req: Request, res: Response) {
   const { id } = req.params; // Get the userId from the URL parameter
   const userId = parseInt(id, 10); // Convert id to a number if needed
