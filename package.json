@@ -6,7 +6,7 @@
   "scripts": {
     "start": "node dist/src/server.js",
     "build": "tsc",
-    "dev": "ts-node-dev -r tsconfig-paths/register src/server.ts",
+    "dev": "ts-node -r tsconfig-paths/register src/server.ts",
     "test": "jest --detectOpenHandles",
     "seed": "npx ts-node prisma/seed.js"
   },
