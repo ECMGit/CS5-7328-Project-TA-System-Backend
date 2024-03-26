@@ -53,7 +53,7 @@ model Course {
     id            Int             @id @default(autoincrement())
     courseCode    String          @unique
     title         String
-    description   String?
+    description   String?         @db.Text
     faculties     FacultyCourse[]
     students      StudentCourse[]
     tas           CourseTA[] // Opposite relation field for CourseTA
