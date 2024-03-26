@@ -1,12 +1,11 @@
 // custom path issue, need to fix, for now use this import
-import { prisma } from 'prisma';
+import { prisma } from "prisma";
 
 /**
  * This file is for containing all the operation directly to database
  * You can use this file to create, update, delete, or get data from database
  * And you can use the value returned from this file to do complex logic in the controller
  */
-
 
 export const createUser = async (data: any) => {
   //First create the user
@@ -15,7 +14,6 @@ export const createUser = async (data: any) => {
   });
 
   return user;
-
 };
 
 interface CreateStudentData {
@@ -29,10 +27,10 @@ export const createStudent = async (data: CreateStudentData) => {
       year: data.year,
       user: {
         connect: {
-          id: data.userId
-        }
-      }
-    }
+          id: data.userId,
+        },
+      },
+    },
   });
 };
 
@@ -49,17 +47,27 @@ export const createFaculty = async (data: CreateFacultyData) => {
       department: data.department,
       user: {
         connect: {
-          id: data.userId
-        }
-      }
-    }
+          id: data.userId,
+        },
+      },
+    },
   });
 };
 
-
-export const createAdmin = async (data: any) => {
+interface CreateAdminData {
+  userId: number;
+  role: string;
+}
+export const createAdmin = async (data: CreateAdminData) => {
   return await prisma.admin.create({
-    data,
+    data: {
+      role: data.role,
+      user: {
+        connect: {
+          id: data.userId,
+        },
+      },
+    },
   });
 };
 
@@ -72,34 +80,32 @@ export const getUserById = async (id: number) => {
 };
 
 export const findUserByUsername = async (username: string) => {
-  const user = await prisma.user.findUnique(
-    {
-      where: { username }
-      , include: {
-        faculty: true
-        , student: true
-        , admin: true
-      }
-    }
-  );
+  const user = await prisma.user.findUnique({
+    where: { username },
+    include: {
+      faculty: true,
+      student: true,
+      admin: true,
+    },
+  });
   // console.log('user', user);
   if (user === null || user === undefined) {
     return null;
   }
   //TODO: set default role to student for now
-  let role = 'student';
+  let role = "student";
 
   if (user.admin) {
-    role = 'admin';
+    role = "admin";
   } else if (user.faculty) {
-    role = 'faculty';
+    role = "faculty";
   } else if (user.student) {
-    role = 'student';
+    role = "student";
   }
   // Add user role according to joiner table
   return {
-    ...user
-    , role: role
+    ...user,
+    role: role,
   };
 };
 
@@ -109,14 +115,19 @@ export const getUserDetailById = async (id: number) => {
   });
 };
 
-export const getUserRoleById = async (userId: number): Promise<string | null> => {
+export const getUserRoleById = async (
+  userId: number
+): Promise<string | null> => {
   const facultyUser = await prisma.faculty.findUnique({ where: { userId } });
   const studentUser = await prisma.student.findUnique({ where: { userId } });
+  const adminUser = await prisma.admin.findUnique({ where: { userId } });
 
   if (facultyUser) {
-    return 'faculty'; // User is a faculty member
+    return "faculty"; // User is a faculty member
   } else if (studentUser) {
-    return 'student'; // User is a student
+    return "student"; // User is a student
+  } else if (adminUser) {
+    return "admin"; // User is a admin
   }
 
   return null; // User not found or has no specific role
@@ -162,4 +173,40 @@ export const updateUserWithResetToken = async (
     where: { email: email },
     data: updateData,
   });
+};
+
+
+export const getAllStudent = async () => {
+  //using Prisma's findMany() method to retrieve all student from the database.
+
+  return await prisma.student.findMany({
+    include: {
+      user: true
+    },
+  });
+};
+
+
+export const getAllCourse = async () => {
+  try {
+    const course = await prisma.course.findMany();
+    return course;
+  } catch (error) {
+    console.error('Error fetching course:', error);
+    throw error;
+  }
+};
+
+export const getAllFaculty = async () => {
+  try {
+    
+    return await prisma.faculty.findMany({
+      include: {
+        user: true
+      },
+    });;
+  } catch (error) {
+    console.error('Error fetching faculty:', error);
+    throw error;
+  }
 };

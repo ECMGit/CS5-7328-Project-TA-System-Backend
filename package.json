@@ -72,5 +72,5 @@
     "prisma": "./dist/prisma",
     "middleware": "./dist/middleware",
     "utils": "./dist/utils"
-  }  
+  }
 }

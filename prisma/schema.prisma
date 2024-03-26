@@ -1,8 +1,8 @@
 // define your database configuration here
 
 datasource db {
-    provider = env("DB_PROVIDER")
-    url      = env("DATABASE_URL")
+    provider = "mysql"
+    url      = env("DATABASE_URL")//TEST
 }
 
 // define the data model here

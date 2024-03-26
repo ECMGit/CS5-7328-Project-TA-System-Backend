@@ -20,6 +20,14 @@ router.post('/login', UserController.login);
 router.post('/password-reset-link', UserController.sendPasswordResetLink);
 router.post('/password-reset/confirm', UserController.confirmResetPassword);
 
+// admin user only routes
+router.get('/admin/students', UserController.getAllStudent);
+router.get("/admin/course", UserController.getAllCourse);
+router.get("/admin/faculty", UserController.getAllFaculty);
+
+
 // testing purpose
 router.post('/import', UserController.importUsers);
+
+
 export default router;
