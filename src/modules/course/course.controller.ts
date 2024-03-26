@@ -20,7 +20,12 @@ export const importCoursesBatch = async (
   }
 };
 
-
+/**
+ * Get all courses without detail, for showing the list of courses in dropdowns
+ * @param req
+ * @param res 
+ * @param next 
+ */
 export const getAllCoursesWithoutDetail = async (
   req: Request,
   res: Response,
