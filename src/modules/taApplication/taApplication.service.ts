@@ -1,7 +1,7 @@
 import { TAApplication } from '@prisma/client';
 import { TAApplicationData } from './taApplication.types';
 // custom path issue, need to fix, for now use this import
-import { prisma } from '../../../prisma';
+import { prisma } from 'prisma'; // I have preset the path to prisma in tsconfig.json, import as singleton pattern
 
 /**
  * Generate message from applicant to all faculty in course

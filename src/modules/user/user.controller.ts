@@ -187,6 +187,7 @@ export async function login(req: Request, res: Response) {
   try {
     // Find the user in the database
     const user = await UserService.findUserByUsername(username);
+    // console.log("user", user); // for testing purposes
     if (!user) {
       return res.status(401).json({ error: 'Invalid username or password' });
     }

@@ -1,6 +1,8 @@
 import { Router } from 'express';
 import * as UserController from './user.controller';
-// import { authenticate } from 'middleware/authentication';
+// import { authenticate } from 'middleware/authentication'; // add extra middleware here if you need to protect any route
+
+// Bridge Pattern!
 
 const router = Router();
 

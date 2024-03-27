@@ -89,7 +89,12 @@ export const markMessageAsRead = async (req: Request, res: Response) => {
   }
 };
 
-// Controller function to handle adding a message
+/**
+ * add Message
+ * @param req 
+ * @param res 
+ * @param next 
+ */
 export const addMessage = async (
   req: Request,
   res: Response,

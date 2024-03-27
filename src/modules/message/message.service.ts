@@ -1,5 +1,4 @@
-import { Prisma } from '@prisma/client';
-import { prisma } from '../../../prisma';
+import { prisma } from 'prisma'; // singleton instance of PrismaClient
 import { UserMessage } from '@prisma/client';
 
 
@@ -73,8 +72,9 @@ export const markMessageAsRead = async (messageID: number) => {
     });
     return true;
   } catch (error) {
-    if (error instanceof Prisma.PrismaClientKnownRequestError && error.code === 'P2025') {
+    if (error) {
       // No message found with messageID
+      console.error("Error marking message as read", error);
       return false;
     } else {
       throw error;

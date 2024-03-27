@@ -1,5 +1,5 @@
-// custom path issue, need to fix, for now use this import
-import { prisma } from "prisma";
+import { prisma } from "prisma"; // singleton pattern, we initialized under prisma/index.ts
+//import the presetted prisma from prisma/index.ts which I defined a shortcut in tsconfig.json
 
 
 /**
@@ -26,6 +26,12 @@ interface CreateStudentData {
   year: number;
 }
 
+
+/**
+ * Create a student record in the database
+ * @param data 
+ * @returns 
+ */
 export const createStudent = async (data: CreateStudentData) => {
   return await prisma.student.create({
     data: {
@@ -180,6 +186,10 @@ export const updateUserWithResetToken = async (
 };
 
 
+/**
+ * Get all students from the database
+ * @returns 
+ */
 export const getAllStudent = async () => {
   //using Prisma's findMany() method to retrieve all student from the database.
 
@@ -190,7 +200,11 @@ export const getAllStudent = async () => {
   });
 };
 
-
+/**
+ * Get all courses from the database, 
+ * TODO: Add pagination
+ * @returns 
+ */
 export const getAllCourse = async () => {
   try {
     const course = await prisma.course.findMany();
@@ -201,6 +215,11 @@ export const getAllCourse = async () => {
   }
 };
 
+/**
+ * Get all faculty from the database,
+ * TODO: add pagination
+ * @returns 
+ */
 export const getAllFaculty = async () => {
   try {
     
