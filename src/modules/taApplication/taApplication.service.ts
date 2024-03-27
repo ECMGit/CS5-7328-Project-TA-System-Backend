@@ -171,6 +171,18 @@ export const getTaApplicationsByStudentId = async (
   );
 };
 
+export const getTaApplicationsByCourseId = async (
+  courseId: number
+) => {
+  return await prisma.tAApplication.findMany(
+    {
+      where: {
+        courseId: courseId
+      },
+    }
+  )
+};
+
 export const updateApplication = async (
   id: number
   , updateData: Partial<TAApplicationData>

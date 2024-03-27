@@ -1,4 +1,5 @@
 import * as JobService from './tajob.service';
+import { makeTAService } from './tajob.service';
 //do we have to import the TA service?
 import { Request, Response, NextFunction } from 'express';
 
@@ -127,7 +128,24 @@ export const createJob = async (
   }
 };
 
-//udpate job by id passed as param
+export const makeStudentTA = async (req: Request, res: Response) => {
+  const { studentId, courseId } = req.params;
+
+  console.log('try make student into ta', req.body);
+
+  if (isNaN(parseInt(studentId)) || isNaN(parseInt(courseId))) {
+    return res.status(400).json({ message: 'Invalid studentId or courseId' });
+  }
+
+  try {
+    await makeTAService(parseInt(studentId), parseInt(courseId));
+    res.status(200).json({ message: 'Student has been made a TA successfully' });
+  } catch (error) {
+    res.status(500).json({ message: 'Failed to make the student a TA', error });
+  }
+};
+
+//update job by id passed as param
 /**
  * @param req
  * @param res
