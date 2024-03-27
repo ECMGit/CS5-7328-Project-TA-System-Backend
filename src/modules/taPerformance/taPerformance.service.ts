@@ -1,7 +1,7 @@
-import { PrismaClient } from '@prisma/client';
+import { prisma } from 'prisma';
 import { TAEvaluationData } from './taPerformance.types';
 
-const prisma = new PrismaClient();
+
 
 /**
  * Create a new TA evaluation record in the database
