@@ -120,19 +120,18 @@ export const getUserDetailById = async (id: number) => {
   });
 };
 
-export const getUserRoleById = async (
-  userId: number
-): Promise<string | null> => {
+
+export const getUserRoleById = async (userId: number): Promise<string | null> => {
   const facultyUser = await prisma.faculty.findUnique({ where: { userId } });
   const studentUser = await prisma.student.findUnique({ where: { userId } });
   const adminUser = await prisma.admin.findUnique({ where: { userId } });
 
-  if (facultyUser) {
-    return "faculty"; // User is a faculty member
+  if (adminUser) {
+    return 'admin';// User is a admin
+  } else if (facultyUser) {
+    return 'faculty'; // User is a faculty member
   } else if (studentUser) {
     return "student"; // User is a student
-  } else if (adminUser) {
-    return "admin"; // User is a admin
   }
 
   return null; // User not found or has no specific role

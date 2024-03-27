@@ -10,6 +10,7 @@ import courseRoutes from './modules/course/course.routes';
 // middleware
 import { verifyToken } from "./middleware/authentication";
 
+
 const app = express();
 
 // Middleware
