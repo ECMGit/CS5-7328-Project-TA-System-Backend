@@ -1,7 +1,9 @@
 import { prisma } from "prisma"; // singleton pattern, we initialized under prisma/index.ts
 //import the presetted prisma from prisma/index.ts which I defined a shortcut in tsconfig.json
 
+// import { PrismaClient } from '@prisma/client';
 
+// const prisma = new PrismaClient();
 /**
  * This file is for containing all the operation directly to database
  * You can use this file to create, update, delete, or get data from database
@@ -91,6 +93,7 @@ export const getUserById = async (id: number) => {
 };
 
 export const findUserByUsername = async (username: string) => {
+  console.log('username', username);
   const user = await prisma.user.findUnique({
     where: { username },
     include: {
@@ -99,7 +102,7 @@ export const findUserByUsername = async (username: string) => {
       admin: true,
     },
   });
-  // console.log('user', user);
+  console.log('user', user);
   if (user === null || user === undefined) {
     return null;
   }

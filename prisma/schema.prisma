@@ -1,13 +1,8 @@
 // define your database configuration here
 
 datasource db {
-    provider = "postgres"
+    provider = "postgresql"
     url      = env("DATABASE_URL")
-}
-
-generator client {
-    provider = "prisma-client-js"
-    output   = "../dist/prisma"
 }
 
 // define the data model here
@@ -140,4 +135,8 @@ model UserMessage {
     sender        User          @relation(name: "MessageSender", fields: [senderId], references: [id])
     receiver      User          @relation(name: "MessageReceiver", fields: [receiverId], references: [id])
     application   TAApplication @relation(name: "ApplicationMessages", fields: [applicationId], references: [id])
+}
+
+generator client {
+    provider = "prisma-client-js"
 }
