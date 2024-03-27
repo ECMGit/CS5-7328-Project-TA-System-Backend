@@ -28,8 +28,6 @@ function bigIntToString(obj: any) {
   }
 }
 
-
-
 /**
  * get all users
  * @param req
@@ -44,7 +42,7 @@ export const getUsers = async (
   try {
     const users = await UserService.getUsers();
 
-    // Convert BigInt to String
+    // Convert BigInt to Stringio.ebean
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     users.forEach((user: any) => bigIntToString(user));
 
@@ -161,6 +159,7 @@ export async function signUp(req: Request, res: Response) {
     } else if (userType === 'admin') {
       await UserService.createAdmin({
         userId: user.id,
+        role:'admin',
       });
     }
 
@@ -193,10 +192,15 @@ export async function login(req: Request, res: Response) {
     }
 
     // Compare the provided password with the stored password
+
     const result = await bcrypt.compare(password, user.password);
     if (!result) {
-      return res.status(401).json({ error: 'Invalid username or password' });
+     return res.status(402).json({ error: 'Invalid username or password' });
     }
+    // if (password !== user.password) {
+    //   return res.status(401).json({ error: 'Invalid username or password' });
+    // }
+
 
     // Exclude password and other sensitive fields before sending
     // and before generating the jwt token
@@ -217,6 +221,13 @@ export async function login(req: Request, res: Response) {
   }
 }
 
+
+/**
+ * Get user's role by userId
+ * @param req 
+ * @param res 
+ * @returns 
+ */
 export async function getRole(req: Request, res: Response) {
   const { id } = req.params; // Get the userId from the URL parameter
   const userId = parseInt(id, 10); // Convert id to a number if needed
@@ -367,4 +378,98 @@ export const confirmResetPassword = async (req: Request, res: Response) => {
 
   // 6. Send a response to the frontend
   res.status(200).json({ message: 'Password reset successful' });
+};
+
+
+/**
+ *
+ * @param req
+ * @param res
+ * @param next
+ * @returns
+ */
+
+//this get function returns all available student 
+export const getAllStudent = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  console.log('in get all');
+
+  try {
+    // return all jobs that have been published
+    const students = await UserService.getAllStudent();
+    if (students.length == 0) {
+      console.log('No student listings found.');
+      // if there are no jobs found, return message that no jobs are found
+      return res.status(404).json({ message: 'No student listings found.' });
+    }
+    res.json(students);
+  } catch (error) {
+    console.log(error);
+    next(error);
+  }
+};
+
+/**
+ *
+ * @param req
+ * @param res
+ * @param next
+ * @returns
+ */
+
+//this get function returns all available course
+export const getAllCourse = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  console.log('in get all');
+
+  try {
+    // return all Course
+    const course = await UserService.getAllCourse();
+    if (course.length == 0) {
+      console.log('No Course listings found.');
+      
+      return res.status(404).json({ message: 'No Course listings found.' });
+    }
+    res.json(course);
+  } catch (error) {
+    console.log(error);
+    next(error);
+  }
+};
+
+/**
+ *
+ * @param req
+ * @param res
+ * @param next
+ * @returns
+ */
+
+//this get function returns all available Faculty
+export const getAllFaculty = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  console.log('in get all');
+
+  try {
+    // return all Faculty
+    const faculty = await UserService.getAllFaculty();
+    if (faculty.length == 0) {
+      console.log('No Faculty listings found.');
+      
+      return res.status(404).json({ message: 'No Faculty listings found.' });
+    }
+    res.json(faculty);
+  } catch (error) {
+    console.log(error);
+    next(error);
+  }
 };

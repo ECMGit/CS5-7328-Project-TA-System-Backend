@@ -158,7 +158,11 @@ export const getTaApplications = async () => {
   return await prisma.tAApplication.findMany();
 };
 
-
+/**
+ * Get TAApplications by studentId, not SMU No.
+ * @param studentId 
+ * @returns 
+ */
 export const getTaApplicationsByStudentId = async (
   studentId: number
 ) => {
@@ -169,6 +173,23 @@ export const getTaApplicationsByStudentId = async (
       },
     }
   );
+};
+
+/**
+ * Get Applications by courseID
+ * @param courseId 
+ * @returns 
+ */
+export const getTaApplicationsByCourseId = async (
+  courseId: number
+) => {
+  return await prisma.tAApplication.findMany(
+    {
+      where: {
+        courseId: courseId
+      },
+    }
+  )
 };
 
 export const updateApplication = async (

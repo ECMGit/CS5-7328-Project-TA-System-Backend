@@ -1,8 +1,13 @@
 // define your database configuration here
 
 datasource db {
-  provider = "mysql"
-  url      = "mysql://root:123456@localhost:3306/sprint1yser"
+    provider = "mysql"
+    url      = env("DATABASE_URL")
+}
+
+generator client {
+    provider = "prisma-client-js"
+    output   = "../dist/prisma"
 }
 
 // define the data model here
@@ -154,8 +159,4 @@ model TAEvaluation {
   taUser      User   @relation(name: "TaEvaluations", fields: [taUserId], references: [id])
   facultyUser User   @relation(name: "FacultyEvaluations", fields: [facultyUserId], references: [id])
   course      Course @relation(fields: [courseId], references: [id])
-}
-
-generator client {
-  provider = "prisma-client-js"
 }
