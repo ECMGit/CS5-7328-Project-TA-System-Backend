@@ -35,9 +35,9 @@ function bigIntToString(obj: any) {
  * @param next
  */
 export const getUsers = async (
-  req: Request,
-  res: Response,
-  next: NextFunction
+    req: Request,
+    res: Response,
+    next: NextFunction
 ) => {
   try {
     const users = await UserService.getUsers();
@@ -60,9 +60,9 @@ export const getUsers = async (
  * @returns
  */
 export const getUserById = async (
-  req: Request,
-  res: Response,
-  next: NextFunction
+    req: Request,
+    res: Response,
+    next: NextFunction
 ) => {
 
   try {
@@ -88,9 +88,9 @@ export const getUserById = async (
  * @returns
  */
 export const getUserDetailById = async (
-  req: Request,
-  res: Response,
-  next: NextFunction
+    req: Request,
+    res: Response,
+    next: NextFunction
 ) => {
   try {
     const user = await UserService.getUserDetailById(Number(req.params.id));
@@ -184,6 +184,7 @@ export async function signUp(req: Request, res: Response) {
  */
 export async function login(req: Request, res: Response) {
   const { username, password } = req.body;
+  console.log(username, password);
   try {
     // Find the user in the database
     const user = await UserService.findUserByUsername(username);
@@ -278,8 +279,8 @@ export async function importUsers(req: Request, res: Response) {
     // Batch create users
     const createdUsers = await UserService.createUserBatch(users);
     return res
-      .status(201)
-      .json({ message: `${createdUsers.count} users imported successfully` });
+        .status(201)
+        .json({ message: `${createdUsers.count} users imported successfully` });
   } catch (error) {
     console.error(error);
     return res.status(500).json({ error: 'Internal Server Error' });
@@ -318,7 +319,7 @@ export const sendPasswordResetLink = async (req: Request, res: Response) => {
   // Alert the user if EMAIL_USER or EMAIL_PASS are not set
   if (!process.env.EMAIL_USER || !process.env.EMAIL_PASS) {
     console.error(
-      'ERROR: EMAIL_USER or EMAIL_PASS environment variables not set. Set it in .env\n'
+        'ERROR: EMAIL_USER or EMAIL_PASS environment variables not set. Set it in .env\n'
     );
   }
 
