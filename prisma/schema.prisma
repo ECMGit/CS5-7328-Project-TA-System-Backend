@@ -156,6 +156,17 @@ model TAEvaluation {
   course      Course @relation(fields: [courseId], references: [id])
 }
 
+//added new schema module notification
+model Task {
+  facultyId       Int
+  studentId       Int
+  title           String
+  description     String?
+  TaskId          Int         @id @default(autoincrement())
+  completed       Boolean     @default(false)
+}
+
 generator client {
     provider = "prisma-client-js"
 }
+
