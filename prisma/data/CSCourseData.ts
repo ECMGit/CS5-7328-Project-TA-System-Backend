@@ -1,6 +1,4 @@
-import { courseData } from "src/modules/course/course.types"
-
-export const csCoursesObject: courseData[] = [
+export const csCoursesObject = [
     {
         title: "Introduction to Computing Concepts",
         courseCode: "CS 1340",
