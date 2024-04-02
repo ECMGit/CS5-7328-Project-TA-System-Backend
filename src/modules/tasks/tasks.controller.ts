@@ -28,7 +28,7 @@ export const createTask = async (req: Request, res: Response, next: NextFunction
  */
 export const viewCompleted = async (req: Request, res: Response, next: NextFunction) => {
     try {
-        const facultyId =parseInt(req.params.facultyId); // Assuming faculty ID is passed as a route parameter
+        const facultyId = req.params.facultyId; // Assuming faculty ID is passed as a route parameter
         const completedTasks = await TaskService.viewCompleted(facultyId);
         res.json(completedTasks);
     } catch (error) {
@@ -45,7 +45,7 @@ export const viewCompleted = async (req: Request, res: Response, next: NextFunct
 export const viewPending = async (req: Request, res: Response, next: NextFunction) => {
     try {
         const facultyId = req.params.facultyId; // Assuming faculty ID is passed as a route parameter
-        const pendingTasks = await TaskService.viewPending(parseInt(facultyId));
+        const pendingTasks = await TaskService.viewPending(facultyId);
         res.json(pendingTasks);
     } catch (error) {
         next(error); // Pass the error to the error handling middleware
@@ -82,7 +82,7 @@ export const checkoff = async (req: Request, res: Response, next: NextFunction) 
 export const viewCurrent = async (req: Request, res: Response, next: NextFunction) => {
     try {
         const studentId = req.params.studentId; // Assuming student ID is passed as a route parameter
-        const currentTasks = await TaskService.viewCurrent(parseInt(studentId));
+        const currentTasks = await TaskService.viewCurrent(studentId);
         res.json(currentTasks);
     } catch (error) {
         next(error); // Pass the error to the error handling middleware
@@ -98,7 +98,7 @@ export const viewCurrent = async (req: Request, res: Response, next: NextFunctio
 export const viewCompletedByStudent = async (req: Request, res: Response, next: NextFunction) => {
     try {
         const studentId = req.params.studentId; // Assuming student ID is passed as a route parameter
-        const completedTasks = await TaskService.viewCompletedByStudent(parseInt(studentId));
+        const completedTasks = await TaskService.viewCompletedByStudent(studentId);
         res.json(completedTasks);
     } catch (error) {
         next(error); // Pass the error to the error handling middleware
