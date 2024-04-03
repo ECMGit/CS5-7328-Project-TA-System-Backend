@@ -13,6 +13,7 @@ export const createTask = async (req: Request, res: Response, next: NextFunction
     try {
         const taskInfo = req.body; // Assuming task information is sent in the request body
         const newTask = await TaskService.createTask(taskInfo);
+        
         res.status(201).json(newTask);
     } catch (error) {
         console.log("error")

@@ -8,7 +8,8 @@ export type TaskInfo = {
     facultyId: string;
     title: string;
     description: string;
-    courseId: number;
+    courseId: string;
+    
 };
 /**
  * @param TaskInfo Task Info to be stored
@@ -23,6 +24,7 @@ export const createTask = async (taskInfo: TaskInfo) => {
     try {
         return await prisma.task.create({
             data: taskInfo,
+            
         });
     } catch (error) {
         console.log(error);
