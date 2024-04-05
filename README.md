@@ -58,7 +58,7 @@ Start your database server on port 3306, and run the following command to create
 ### `npx prisma db push`
 
 ### `npx ts-node prisma/seed.ts`
-import testing data to database, if any duplicate happend, try remove all data in your database
+import course data to database, if any duplicate happend, try remove all data in your database
 
 ## Available Script
 ### `npm test`

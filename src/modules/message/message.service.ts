@@ -1,5 +1,4 @@
-import { Prisma } from '@prisma/client';
-import { prisma } from '../../../prisma';
+import { prisma } from 'prisma'; // singleton instance of PrismaClient
 import { UserMessage } from '@prisma/client';
 
 
@@ -16,7 +15,7 @@ import { UserMessage } from '@prisma/client';
     getMessagesBySenderId
  */
 
-export const getMessagesByApplication = async (appID: number) : Promise<UserMessage[]> => {
+export const getMessagesByApplication = async (appID: number): Promise<UserMessage[]> => {
   try {
     return await prisma.userMessage.findMany({
       where: {
@@ -45,18 +44,18 @@ export const getMessagesByApplication = async (appID: number) : Promise<UserMess
 };
 
 export const getMessagesByReceiverId = async (rID: number) => {
-  try{
-    return await prisma.userMessage.findMany({where: { receiverId: rID },});
-  } catch (error){
-    console.log(error);
+  try {
+    return await prisma.userMessage.findMany({ where: { receiverId: rID }, });
+  } catch (error) {
+    console.log('error');
   }
 };
 
 export const getMessagesBySenderId = async (sID: number) => {
-  try{
-    return await prisma.userMessage.findMany({where: {senderId: sID},}); 
-  } catch (error){
-    console.log(error); 
+  try {
+    return await prisma.userMessage.findMany({ where: { senderId: sID }, });
+  } catch (error) {
+    console.log(error);
   }
 };
 
@@ -73,8 +72,9 @@ export const markMessageAsRead = async (messageID: number) => {
     });
     return true;
   } catch (error) {
-    if (error instanceof Prisma.PrismaClientKnownRequestError && error.code === 'P2025') {
+    if (error) {
       // No message found with messageID
+      console.error("Error marking message as read", error);
       return false;
     } else {
       throw error;
@@ -82,8 +82,8 @@ export const markMessageAsRead = async (messageID: number) => {
   }
 };
 
-export const createMessage =async (senderId: number, 
-  receiverId: number, 
+export const createMessage = async (senderId: number,
+  receiverId: number,
   applicationId: number,
   content: string) => {
 
@@ -93,7 +93,8 @@ export const createMessage =async (senderId: number,
       receiverId: receiverId,
       applicationId: applicationId,
       content: content
-    }}
+    }
+  }
   )
 }
 
@@ -122,7 +123,7 @@ export const addMessage = async (senderId: number, receiverId: number, content: 
     });
     return newMessage;
   } catch (error) {
-    console.error("Error adding message to database", error);
+    console.error('Error adding message to database', error);
     throw error;
   }
 };

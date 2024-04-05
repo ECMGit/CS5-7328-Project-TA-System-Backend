@@ -1,7 +1,7 @@
 import { TAApplication } from '@prisma/client';
 import { TAApplicationData } from './taApplication.types';
 // custom path issue, need to fix, for now use this import
-import { prisma } from '../../../prisma';
+import { prisma } from 'prisma'; // I have preset the path to prisma in tsconfig.json, import as singleton pattern
 
 /**
  * Generate message from applicant to all faculty in course
@@ -158,7 +158,11 @@ export const getTaApplications = async () => {
   return await prisma.tAApplication.findMany();
 };
 
-
+/**
+ * Get TAApplications by studentId, not SMU No.
+ * @param studentId 
+ * @returns 
+ */
 export const getTaApplicationsByStudentId = async (
   studentId: number
 ) => {
@@ -171,6 +175,11 @@ export const getTaApplicationsByStudentId = async (
   );
 };
 
+/**
+ * Get Applications by courseID
+ * @param courseId 
+ * @returns 
+ */
 export const getTaApplicationsByCourseId = async (
   courseId: number
 ) => {

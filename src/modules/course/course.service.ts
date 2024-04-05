@@ -1,6 +1,11 @@
+import { Course } from '@prisma/client';
 import { courseData } from './course.types';
 import { prisma } from 'prisma';
 
+/**
+ * get all courses information
+ * @returns list of courses
+ */
 export const getAllCourses = async () => {
   try {
     return await prisma.course.findMany();
@@ -10,6 +15,11 @@ export const getAllCourses = async () => {
   }
 };
 
+/**
+ * just get one course information by course id
+ * @param id 
+ * @returns 
+ */
 export const getOneCourse = async (id: number) => {
   try {
     return await prisma.course.findUnique({
@@ -53,4 +63,15 @@ export const addCourses = async (courseDataList: courseData[]) => {
     console.log(error);
     throw error;
   }
+};
+
+// Add an edit function
+export const editCourse = async (
+  id: number, updateData: Partial<courseData>): Promise<Course> => {
+  return await prisma.course.update({
+    where: { id },
+    data: {
+      ...updateData
+    },
+  });
 };

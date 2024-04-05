@@ -28,8 +28,6 @@ function bigIntToString(obj: any) {
   }
 }
 
-
-
 /**
  * get all users
  * @param req
@@ -37,14 +35,14 @@ function bigIntToString(obj: any) {
  * @param next
  */
 export const getUsers = async (
-  req: Request,
-  res: Response,
-  next: NextFunction
+    req: Request,
+    res: Response,
+    next: NextFunction
 ) => {
   try {
     const users = await UserService.getUsers();
 
-    // Convert BigInt to String
+    // Convert BigInt to Stringio.ebean
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     users.forEach((user: any) => bigIntToString(user));
 
@@ -62,9 +60,9 @@ export const getUsers = async (
  * @returns
  */
 export const getUserById = async (
-  req: Request,
-  res: Response,
-  next: NextFunction
+    req: Request,
+    res: Response,
+    next: NextFunction
 ) => {
 
   try {
@@ -90,9 +88,9 @@ export const getUserById = async (
  * @returns
  */
 export const getUserDetailById = async (
-  req: Request,
-  res: Response,
-  next: NextFunction
+    req: Request,
+    res: Response,
+    next: NextFunction
 ) => {
   try {
     const user = await UserService.getUserDetailById(Number(req.params.id));
@@ -116,9 +114,9 @@ export const getUserDetailById = async (
  * @returns {Promise<Response>} <- this is just the error code
  */
 export async function signUp(req: Request, res: Response) {
-  const { username, email, password, smuNo, firstName, lastName, 
+  const { username, email, password, smuNo, firstName, lastName,
     year, userType } = req.body;
-    
+
   // Convert number to integer
   const smuNo_int = parseInt(smuNo);
 
@@ -131,7 +129,7 @@ export async function signUp(req: Request, res: Response) {
 
     // Hash password
     const hashedPassword = await bcrypt.hash(password, 10);
-    
+
     // Create a new user
     const user = await UserService.createUser({
       username,
@@ -141,11 +139,11 @@ export async function signUp(req: Request, res: Response) {
       firstName,
       lastName
     });
-      
+
     if (!user) {
       return res.status(500).json({ error: 'Internal server error' });
     }
-          
+
 
     if (userType === 'student') {
       await UserService.createStudent({
@@ -161,6 +159,7 @@ export async function signUp(req: Request, res: Response) {
     } else if (userType === 'admin') {
       await UserService.createAdmin({
         userId: user.id,
+        role:'admin',
       });
     }
 
@@ -185,25 +184,32 @@ export async function signUp(req: Request, res: Response) {
  */
 export async function login(req: Request, res: Response) {
   const { username, password } = req.body;
+  console.log(username, password);
   try {
     // Find the user in the database
     const user = await UserService.findUserByUsername(username);
+    // console.log("user", user); // for testing purposes
     if (!user) {
       return res.status(401).json({ error: 'Invalid username or password' });
     }
 
     // Compare the provided password with the stored password
+
     const result = await bcrypt.compare(password, user.password);
     if (!result) {
-      return res.status(401).json({ error: 'Invalid username or password' });
+     return res.status(402).json({ error: 'Invalid username or password' });
     }
+    // if (password !== user.password) {
+    //   return res.status(401).json({ error: 'Invalid username or password' });
+    // }
+
 
     // Exclude password and other sensitive fields before sending
     // and before generating the jwt token
     // console.log(user);
     const { password: _, ...safeUser } = user;
     console.log(safeUser);
-    
+
     // TODO: Replace JWT_SECRET with process.env.JWT_SECRET and update .env accordingly
     const token = jwt.sign({ userId: user.id }, JWT_SECRET); // Replace 'your-secret-key' with your actual secret key
     res.status(200).json({
@@ -217,11 +223,18 @@ export async function login(req: Request, res: Response) {
   }
 }
 
+
+/**
+ * Get user's role by userId
+ * @param req 
+ * @param res 
+ * @returns 
+ */
 export async function getRole(req: Request, res: Response) {
   const { id } = req.params; // Get the userId from the URL parameter
   const userId = parseInt(id, 10); // Convert id to a number if needed
   // console.log('getrole' + id, "userID"+userId);
-  
+
   try {
     // Find the user's role
     const userRole = await UserService.getUserRoleById(userId);
@@ -266,8 +279,8 @@ export async function importUsers(req: Request, res: Response) {
     // Batch create users
     const createdUsers = await UserService.createUserBatch(users);
     return res
-      .status(201)
-      .json({ message: `${createdUsers.count} users imported successfully` });
+        .status(201)
+        .json({ message: `${createdUsers.count} users imported successfully` });
   } catch (error) {
     console.error(error);
     return res.status(500).json({ error: 'Internal Server Error' });
@@ -306,7 +319,7 @@ export const sendPasswordResetLink = async (req: Request, res: Response) => {
   // Alert the user if EMAIL_USER or EMAIL_PASS are not set
   if (!process.env.EMAIL_USER || !process.env.EMAIL_PASS) {
     console.error(
-      'ERROR: EMAIL_USER or EMAIL_PASS environment variables not set. Set it in .env\n'
+        'ERROR: EMAIL_USER or EMAIL_PASS environment variables not set. Set it in .env\n'
     );
   }
 
@@ -367,4 +380,98 @@ export const confirmResetPassword = async (req: Request, res: Response) => {
 
   // 6. Send a response to the frontend
   res.status(200).json({ message: 'Password reset successful' });
+};
+
+
+/**
+ *
+ * @param req
+ * @param res
+ * @param next
+ * @returns
+ */
+
+//this get function returns all available student 
+export const getAllStudent = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  console.log('in get all');
+
+  try {
+    // return all jobs that have been published
+    const students = await UserService.getAllStudent();
+    if (students.length == 0) {
+      console.log('No student listings found.');
+      // if there are no jobs found, return message that no jobs are found
+      return res.status(404).json({ message: 'No student listings found.' });
+    }
+    res.json(students);
+  } catch (error) {
+    console.log(error);
+    next(error);
+  }
+};
+
+/**
+ *
+ * @param req
+ * @param res
+ * @param next
+ * @returns
+ */
+
+//this get function returns all available course
+export const getAllCourse = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  console.log('in get all');
+
+  try {
+    // return all Course
+    const course = await UserService.getAllCourse();
+    if (course.length == 0) {
+      console.log('No Course listings found.');
+      
+      return res.status(404).json({ message: 'No Course listings found.' });
+    }
+    res.json(course);
+  } catch (error) {
+    console.log(error);
+    next(error);
+  }
+};
+
+/**
+ *
+ * @param req
+ * @param res
+ * @param next
+ * @returns
+ */
+
+//this get function returns all available Faculty
+export const getAllFaculty = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  console.log('in get all');
+
+  try {
+    // return all Faculty
+    const faculty = await UserService.getAllFaculty();
+    if (faculty.length == 0) {
+      console.log('No Faculty listings found.');
+      
+      return res.status(404).json({ message: 'No Faculty listings found.' });
+    }
+    res.json(faculty);
+  } catch (error) {
+    console.log(error);
+    next(error);
+  }
 };
