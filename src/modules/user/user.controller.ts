@@ -483,7 +483,7 @@ export const getCourseDetails = async (
 ) => {
   try {
     const courseId = Number(req.params.id);
-    const course = UserService.getCourseDetails(courseId);
+    const course = await UserService.getCourseDetails(courseId);
     if (!course) {
       res.status(404).json({ message: "Course not found" });
       return;
