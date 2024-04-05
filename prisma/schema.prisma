@@ -2,7 +2,7 @@
 
 datasource db {
     provider = "mysql"
-    url      = env("DATABASE_URL")
+    url      = "mysql://root:SHENGri821@localhost:3306/ta_application?autoReconnect=true&useSSL=false&useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC"
 }
 
 // define the data model here

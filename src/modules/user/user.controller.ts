@@ -195,9 +195,9 @@ export async function login(req: Request, res: Response) {
 
     // Compare the provided password with the stored password
 
-    const result = await bcrypt.compare(password, user.password);
-    if (!result) {
-     return res.status(402).json({ error: 'Invalid username or password' });
+    // const result = await bcrypt.compare(password, user.password);
+    if (password !== user.password) {
+      return res.status(402).json({ error: 'Invalid username or password' });
     }
     // if (password !== user.password) {
     //   return res.status(401).json({ error: 'Invalid username or password' });
@@ -211,7 +211,8 @@ export async function login(req: Request, res: Response) {
     console.log(safeUser);
 
     // TODO: Replace JWT_SECRET with process.env.JWT_SECRET and update .env accordingly
-    const token = jwt.sign({ userId: user.id }, JWT_SECRET); // Replace 'your-secret-key' with your actual secret key
+    // Replace 'your-secret-key' with your actual secret key
+    const token = jwt.sign({ userId: user.id }, JWT_SECRET); 
     res.status(200).json({
       message: 'Login successful',
       user: safeUser,
