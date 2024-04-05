@@ -1,5 +1,7 @@
 // eslint-disable-next-line @typescript-eslint/no-var-requires
-require('module-alias/register');
+if (process.env.NODE_ENV === 'production') { // only use module-alias in production
+  require('module-alias/register');
+}
 require('dotenv').config();
 import app from './app';
 

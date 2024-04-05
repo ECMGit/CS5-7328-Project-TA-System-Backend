@@ -1,5 +1,4 @@
-import { PrismaClient } from '@prisma/client';
-const prisma = new PrismaClient();
+import { prisma } from 'prisma';
 
 //get all Ta jobs
 export const getAllTAJobs = async () => {
@@ -11,6 +10,17 @@ export const getAllTAJobs = async () => {
       faculty: true,
     },
   });
+};
+//Update student TA assignment
+export const makeTAService = async (studentId: number, courseId: number) => {
+  const taAssignment = await prisma.courseTA.create({
+    data: {
+      student: { connect: { userId: studentId } },
+      course: { connect: { id: courseId } },
+    },
+  });
+
+  return taAssignment;
 };
 
 //find TA Job by job id
