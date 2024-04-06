@@ -2,7 +2,7 @@
 
 datasource db {
     provider = "mysql"
-    url      = env("DATABASE_URL")
+    url = env("DATABASE_URL")
 }
 
 // define the data model here
@@ -23,7 +23,7 @@ model User {
   admin                  Admin?
   sentMessages           UserMessage[]  @relation(name: "MessageSender") // Relation to sent messages
   receivedMessages       UserMessage[]  @relation(name: "MessageReceiver") // Relation to received messages
-  taEvaluationsAsTA      TAEvaluation[] @relation("TaEvaluations")
+  taEvaluationsAsTA      TAEvaluation[] @relation("taEvaluations")
   taEvaluationsAsFaculty TAEvaluation[] @relation("FacultyEvaluations")
 }
 
@@ -151,7 +151,7 @@ model TAEvaluation {
   comments               String
   createdAt              DateTime @default(now())
 
-  taUser      User   @relation(name: "TaEvaluations", fields: [taUserId], references: [id])
+  taUser      User   @relation(name: "taEvaluations", fields: [taUserId], references: [id])
   facultyUser User   @relation(name: "FacultyEvaluations", fields: [facultyUserId], references: [id])
   course      Course @relation(fields: [courseId], references: [id])
 }
