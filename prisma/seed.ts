@@ -8,7 +8,6 @@ const { csCoursesObject } = require("../prisma/data/CSCourseData");
 
 
 async function seedTAApplications() {
-  // Assuming you already have some courses and students in your database
   const courses = await prisma.course.findMany();
   const students = await prisma.student.findMany();
   const taJobs = await prisma.tAJob.findMany();
@@ -19,14 +18,38 @@ async function seedTAApplications() {
   }
 
   for (let i = 0; i < 20; i++) {
-
-    const course = faker.helpers.arrayElement(courses);
     const student = faker.helpers.arrayElement(students);
     const taJob = faker.helpers.arrayElement(taJobs);
 
+    // Select a random faculty member who teaches the course related to the TA job
+    const facultyCourse = await prisma.facultyCourse.findFirst({
+      where: {
+        courseId: taJob.courseId,
+      },
+      select: {
+        facultyId: true,
+      },
+    });
+
+    if (!facultyCourse) {
+      console.log(`No faculty member found for the course with ID ${taJob.courseId}`);
+      continue;
+    }
+
+    const course = await prisma.course.findUnique({
+      where: {
+        id: taJob.courseId,
+      },
+    });
+
+    if (!course) {
+      console.log(`Course with ID ${taJob.courseId} not found.`);
+      continue;
+    }
+
     const newTaApplications = await prisma.tAApplication.create({
       data: {
-        courseId: course.id,
+        courseId: taJob.courseId,
         studentId: student.userId,
         hoursCanWorkPerWeek: faker.helpers.arrayElement(['10', '15', '20']),
         coursesTaken: faker.lorem.words(3),
@@ -42,6 +65,7 @@ async function seedTAApplications() {
   }
   return taApplications;
 }
+
 
 async function main() {
   // Create users, faculty, courses, and TA positions here
