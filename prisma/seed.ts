@@ -51,7 +51,7 @@ async function main() {
   const number_of_users = await prisma.user.count();
   let courses: Course[] = [];
   // Loop to create multiple faculty members
-  for (let i = 1; i < 6; i++) {
+  for (let i = 1; i <= 10; i++) {
     const userType = faker.helpers.arrayElement(['faculty', 'student', 'admin']);
     const newUser = await prisma.user.create({
       data: {
@@ -227,11 +227,18 @@ async function main() {
     });
 
     // Create TA jobs for each course taught by the faculty
+    // Create TA jobs for each course taught by the faculty
     for (const facultyCourse of facultyCourses) {
       const courseId = facultyCourse.courseId;
+      const course = courses.find(course => course.id === courseId); // find the course by ID
+      if (!course) {
+        console.error(`Course with ID ${courseId} not found.`);
+        continue;
+      }
+      const courseTitle = course.title;
       const newTAJob = await prisma.tAJob.create({
         data: {
-          title: `Assistant for ${courseId}`,
+          title: `Assistant for ${courseTitle}`,
           courseSchedule: 'Mon, Wed, Fri',
           totalHoursPerWeek: 20,
           maxNumberOfTAs: 3,
@@ -247,6 +254,7 @@ async function main() {
       taJobs.push(newTAJob);
     }
   }
+
 
 
 

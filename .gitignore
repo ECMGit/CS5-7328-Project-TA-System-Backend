@@ -1,5 +1,6 @@
 node_modules/
 *dist
+prisma/schema.prisma
 .env
 .vscode
 .DS_Store
