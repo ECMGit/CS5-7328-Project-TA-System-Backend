@@ -182,4 +182,3 @@ export const updateJob = async (id: number, jobData: jobData) => {
     throw error;
   }
 };
-
