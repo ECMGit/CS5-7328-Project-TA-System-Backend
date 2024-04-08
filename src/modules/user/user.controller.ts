@@ -35,9 +35,9 @@ function bigIntToString(obj: any) {
  * @param next
  */
 export const getUsers = async (
-    req: Request,
-    res: Response,
-    next: NextFunction
+  req: Request,
+  res: Response,
+  next: NextFunction
 ) => {
   try {
     const users = await UserService.getUsers();
@@ -60,9 +60,9 @@ export const getUsers = async (
  * @returns
  */
 export const getUserById = async (
-    req: Request,
-    res: Response,
-    next: NextFunction
+  req: Request,
+  res: Response,
+  next: NextFunction
 ) => {
 
   try {
@@ -88,9 +88,9 @@ export const getUserById = async (
  * @returns
  */
 export const getUserDetailById = async (
-    req: Request,
-    res: Response,
-    next: NextFunction
+  req: Request,
+  res: Response,
+  next: NextFunction
 ) => {
   try {
     const user = await UserService.getUserDetailById(Number(req.params.id));
@@ -159,7 +159,7 @@ export async function signUp(req: Request, res: Response) {
     } else if (userType === 'admin') {
       await UserService.createAdmin({
         userId: user.id,
-        role:'admin',
+        role: 'admin',
       });
     }
 
@@ -212,7 +212,7 @@ export async function login(req: Request, res: Response) {
 
     // TODO: Replace JWT_SECRET with process.env.JWT_SECRET and update .env accordingly
     // Replace 'your-secret-key' with your actual secret key
-    const token = jwt.sign({ userId: user.id }, JWT_SECRET); 
+    const token = jwt.sign({ userId: user.id }, JWT_SECRET);
     res.status(200).json({
       message: 'Login successful',
       user: safeUser,
@@ -280,8 +280,8 @@ export async function importUsers(req: Request, res: Response) {
     // Batch create users
     const createdUsers = await UserService.createUserBatch(users);
     return res
-        .status(201)
-        .json({ message: `${createdUsers.count} users imported successfully` });
+      .status(201)
+      .json({ message: `${createdUsers.count} users imported successfully` });
   } catch (error) {
     console.error(error);
     return res.status(500).json({ error: 'Internal Server Error' });
@@ -320,7 +320,7 @@ export const sendPasswordResetLink = async (req: Request, res: Response) => {
   // Alert the user if EMAIL_USER or EMAIL_PASS are not set
   if (!process.env.EMAIL_USER || !process.env.EMAIL_PASS) {
     console.error(
-        'ERROR: EMAIL_USER or EMAIL_PASS environment variables not set. Set it in .env\n'
+      'ERROR: EMAIL_USER or EMAIL_PASS environment variables not set. Set it in .env\n'
     );
   }
 
@@ -436,7 +436,7 @@ export const getAllCourse = async (
     const course = await UserService.getAllCourse();
     if (course.length == 0) {
       console.log('No Course listings found.');
-      
+
       return res.status(404).json({ message: 'No Course listings found.' });
     }
     res.json(course);
@@ -467,7 +467,7 @@ export const getAllFaculty = async (
     const faculty = await UserService.getAllFaculty();
     if (faculty.length == 0) {
       console.log('No Faculty listings found.');
-      
+
       return res.status(404).json({ message: 'No Faculty listings found.' });
     }
     res.json(faculty);
