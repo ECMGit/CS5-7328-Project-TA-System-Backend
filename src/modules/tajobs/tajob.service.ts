@@ -127,18 +127,38 @@ export type jobData = {
  * @throws Error if job could not be created
  */
 export const createJob = async (jobData: jobData) => {
-  console.log(jobData);
-  
-  
   try {
-    return await prisma.tAJob.create({
-      data: jobData,
+    const createdJob = await prisma.tAJob.create({
+      data: {
+        title: jobData.title,
+        courseSchedule: jobData.courseSchedule,
+        totalHoursPerWeek: jobData.totalHoursPerWeek,
+        maxNumberOfTAs: jobData.maxNumberOfTAs,
+        requiredCourses: jobData.requiredCourses,
+        requiredSkills: jobData.requiredSkills,
+        TAStats: jobData.TAStats,
+        notes: jobData.notes,
+        deadlineToApply: jobData.deadlineToApply,
+        // Connecting Course
+        // Connecting Course
+        course: {
+          connect: { id: jobData.courseId },
+        },
+        // Connecting Faculty, assuming the primary key of Faculty is userId
+        faculty: {
+          connect: { userId: jobData.facultyId },
+        },
+      },
     });
+
+    console.log('Created new TA job:', createdJob);
+    return createdJob;
   } catch (error) {
-    console.log(error);
+    console.error('Error creating TA job:', error);
     throw error;
   }
 };
+
 
 //udpate job by id passed as param
 /**
@@ -146,7 +166,7 @@ export const createJob = async (jobData: jobData) => {
  * @param jobData data to be updated
  * @returns the job that was updated
  * @throws Error if job could not be updated
- */  
+ */
 export const updateJob = async (id: number, jobData: jobData) => {
   try {
     // update one job from database
