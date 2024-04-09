@@ -140,7 +140,6 @@ export const createJob = async (jobData: jobData) => {
         notes: jobData.notes,
         deadlineToApply: jobData.deadlineToApply,
         // Connecting Course
-        // Connecting Course
         course: {
           connect: { id: jobData.courseId },
         },
