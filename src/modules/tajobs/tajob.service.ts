@@ -175,7 +175,26 @@ export const updateJob = async (id: number, jobData: jobData) => {
         id: id
       },
       //update partial data from body request
-      data: jobData
+      data: {
+        title: jobData.title,
+        courseSchedule: jobData.courseSchedule,
+        totalHoursPerWeek: jobData.totalHoursPerWeek,
+        maxNumberOfTAs: jobData.maxNumberOfTAs,
+        requiredCourses: jobData.requiredCourses,
+        requiredSkills: jobData.requiredSkills,
+        TAStats: jobData.TAStats,
+        notes: jobData.notes,
+        deadlineToApply: jobData.deadlineToApply,
+        // Connecting Course
+        // Connecting Course
+        course: {
+          connect: { id: jobData.courseId },
+        },
+        // Connecting Faculty, assuming the primary key of Faculty is userId
+        faculty: {
+          connect: { userId: jobData.facultyId },
+        },
+      },
     });
   } catch (error) {
     console.log(error);
