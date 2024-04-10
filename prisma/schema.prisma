@@ -179,6 +179,8 @@ model Feedback {
   timeSubmitted DateTime @default(now())
 
   comments FeedbackComment[]
+
+  type String @default("feedback") // Either "feedback" or "bug"
 }
 
 model FeedbackComment {
