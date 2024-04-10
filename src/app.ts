@@ -7,10 +7,10 @@ import messageRoutes from './modules/message/message.routes';
 import taPerformanceRoute from './modules/taPerformance/taPerformance.routes';
 import courseRoutes from './modules/course/course.routes';
 import taskRoutes from './modules/tasks/tasks.routes';
+import feedbackRouter from './modules/feedback/feedback.router';
 
 // middleware
 import { verifyToken } from './middleware/authentication';
-import { feedbackRouter } from './modules/feedback';
 
 const app = express();
 
