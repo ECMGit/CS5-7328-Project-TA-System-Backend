@@ -46,6 +46,51 @@ async function seedTAApplications() {
   }
 }
 
+async function seedFacultyCourses(faculties: any[], courses: any[]) {
+  const facultyCourses = [];
+  for (const faculty of faculties) {
+    const assignedCourses = faker.helpers.arrayElements(courses, faker.datatype.number({ min: 1, max: 3 }));
+    for (const course of assignedCourses) {
+      const facultyCourse = await prisma.facultyCourse.create({
+        data: {
+          facultyId: faculty.userId,
+          courseId: course.id,
+        },
+      });
+      facultyCourses.push(facultyCourse);
+    }
+  }
+  return facultyCourses;
+}
+
+async function seedCourseTAs(students: any[], facultyCourses:any[]) {
+  const courseTAs = [];
+  const availableStudents = new Set(students.map(s => s.userId));
+
+  for (const facultyCourse of facultyCourses) {
+    if (availableStudents.size === 0) {
+      break; // if there is no available student, then stop
+    }
+
+    // choose one student
+    const studentIdArray = Array.from(availableStudents);
+    const studentId = faker.helpers.arrayElement(studentIdArray);
+
+    const courseTA = await prisma.courseTA.create({
+      data: {
+        studentId: studentId,
+        courseId: facultyCourse.courseId,
+      },
+    });
+    courseTAs.push(courseTA);
+
+    // delete the student from list
+    availableStudents.delete(studentId);
+  }
+
+  return courseTAs;
+}
+
 async function main() {
   // Create users, faculty, courses, and TA positions here
   const users = [];
@@ -56,12 +101,14 @@ async function main() {
   const taJobs = [];
   const number_of_users = await prisma.user.count();
 
-  for (let i = 1; i < 6; i++) {
-    const userType = faker.helpers.arrayElement([
-      "faculty",
-      "student",
-      "admin",
-    ]);
+  // Make sure the numbers of different users' type for testing here;
+  const userTypes = ['faculty', 'faculty', 'faculty', 'student', 'student', 'admin'];
+  while (userTypes.length < 6) {
+    userTypes.push(faker.helpers.arrayElement(['student', 'admin']));
+  }
+
+  for (let i = 1; i <= userTypes.length; i++) {
+    const userType = userTypes[i - 1]; // 使用预先设定的用户类型
     const newUser = await prisma.user.create({
       data: {
         smuNo: 123456 + i + number_of_users,
@@ -82,7 +129,6 @@ async function main() {
         data: {
           userId: newUser.id,
           year: 2023,
-          // other required fields...
         },
       });
       console.log({ newStudent });
@@ -95,7 +141,6 @@ async function main() {
           userId: newUser.id,
           designation: "Professor",
           department: "Computer Science",
-          // other required fields...
         },
       });
       console.log({ newFaculty });
@@ -129,6 +174,7 @@ async function main() {
 
   // Loop to create multiple TA positions
   for (let i = 0; i < 3; i++) {
+    const facultyIndex = i % faculties.length; // make sure this function still work even faculty numbers < 3;
     const newTAJob = await prisma.tAJob.create({
       data: {
         title: `Assistant for ${courses[i].courseCode}`,
@@ -141,7 +187,7 @@ async function main() {
         notes: "Prior experience preferred.",
         deadlineToApply: new Date("2023-11-30"), // Adjust the date as needed
         courseId: courses[i].id,
-        facultyId: faculties[i].userId,
+        facultyId: faculties[facultyIndex].userId,
         // other required fields...
       },
     });
@@ -152,7 +198,22 @@ async function main() {
   const taApplications = await seedTAApplications();
 
   console.log({ users, faculties, courses, taJobs, taApplications });
+
+  // Create faculty-course relationships
+  const facultyCourses = await seedFacultyCourses(faculties, courses);
+  console.log({ facultyCourses });
+
+  // Check if there are enough students and faculty courses
+  if (students.length >= 2 && facultyCourses.length > 0) {
+    // Create Course-TA relationships
+    const courseTAs = await seedCourseTAs(students, facultyCourses);
+    console.log({ courseTAs });
+  } else {
+    console.log("Not enough students or faculty courses to create TA assignments.");
+  }
 }
+
+
 
 main()
   .catch((e) => {

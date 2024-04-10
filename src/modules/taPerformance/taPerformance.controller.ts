@@ -31,3 +31,27 @@ export async function getAllTaEvaluations(req: Request, res: Response) {
         res.status(500).json({ message: error.message });
     }
 }
+
+/**
+ * Handles the request to retrieve all TA performance evaluations
+ * @param req The HTTP request object
+ * @param res The HTTP response object
+ * @returns A JSON response with all TA performance evaluation records
+ */
+// 在 taPerformance.controller.ts 中
+
+export async function getFacultyCoursesAndTAs(req: Request, res: Response) {
+    try {
+        const facultyUserId = parseInt(req.params.facultyUserId);
+        const coursesAndTAs = await TaPerformanceService.getCoursesAndTAsForFaculty(facultyUserId);
+        res.json(coursesAndTAs);
+    } catch (error) {
+        // check the 'unknown' type
+        if (error instanceof Error) {
+            res.status(500).json({ message: error.message });
+        } else {
+            // if there not an Error entity，return
+            res.status(500).json({ message: 'An unknown error occurred' });
+        }
+    }
+}

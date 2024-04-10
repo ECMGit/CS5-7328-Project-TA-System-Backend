@@ -7,3 +7,12 @@ export type TAEvaluationData = {
     effectiveCommunication: number;
     comments: string;
 };
+
+
+export type FacultyCourseTAInfo = {
+    username: string;
+    smuNo: number;
+    courseId: number;
+    courseCode: string;
+    title: string;
+};
