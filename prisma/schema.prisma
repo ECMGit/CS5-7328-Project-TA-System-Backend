@@ -27,8 +27,6 @@ model User {
   FeedbackComments       FeedbackComment[]
   taEvaluationsAsTA      TAEvaluation[]     @relation("TaEvaluations")
   taEvaluationsAsFaculty TAEvaluation[]     @relation("FacultyEvaluations")
-  BugReport              BugReport[]
-  BugReportComment       BugReportComment[]
 }
 
 model Faculty {
@@ -187,31 +185,6 @@ model FeedbackComment {
   id         Int      @id @default(autoincrement())
   feedbackId Int
   feedback   Feedback @relation(fields: [feedbackId], references: [id])
-
-  leftById Int
-  leftBy   User @relation(fields: [leftById], references: [id])
-
-  content       String
-  timeSubmitted DateTime @default(now())
-}
-
-model BugReport {
-  id       Int  @id @default(autoincrement())
-  leftById Int
-  leftBy   User @relation(fields: [leftById], references: [id])
-
-  content  String
-  complete Boolean
-
-  timeSubmitted DateTime @default(now())
-
-  comments BugReportComment[]
-}
-
-model BugReportComment {
-  id        Int       @id @default(autoincrement())
-  bugId     Int
-  bugReport BugReport @relation(fields: [bugId], references: [id])
 
   leftById Int
   leftBy   User @relation(fields: [leftById], references: [id])
