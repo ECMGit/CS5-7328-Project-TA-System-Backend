@@ -3,19 +3,30 @@ import { prisma } from 'prisma';
 export const createNewFeedback = async ({
   content,
   userId,
+  type,
 }: {
   content: string;
-  userId: string;
+  userId: number;
+  type: string,
 }) => {
   return await prisma.feedback.create({
     data: {
       content: content,
+      type: type,
       complete: false,
       leftBy: {
         connect: {
-          id: parseInt(userId),
+          id: userId,
         },
       },
+    },
+  });
+};
+
+export const getUserFeedback = async (userId: number) => {
+  return await prisma.feedback.findMany({
+    where: {
+      leftById: userId,
     },
   });
 };

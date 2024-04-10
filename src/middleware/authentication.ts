@@ -6,7 +6,7 @@ import { Request, Response, NextFunction } from 'express';
 // TODO: Replace JWT_SECRET with process.env.JWT_SECRET and update .env accordingly
 const JWT_SECRET = 'my-secret-key';
 
-interface CustomJwtPayload extends JwtPayload {
+export interface CustomJwtPayload extends JwtPayload {
   userId: number; // Assuming userId is a number type
 }
 
@@ -39,7 +39,6 @@ export const verifyToken = (
   try {
     const decoded = jwt.verify(token, JWT_SECRET) as CustomJwtPayload;
     req.body.userId = decoded.userId;
-    console.log('valid token');
     res.locals.user = decoded;
     next();
   } catch (error) {
