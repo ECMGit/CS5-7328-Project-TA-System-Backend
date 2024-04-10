@@ -43,7 +43,7 @@ model Student {
   year          Int?
   courses       StudentCourse[]
   tas           CourseTA[] // Opposite relation field for CourseTA
-  user          User            @relation(fields: [userId], references: [id])
+  user          User            @relation(fields: [userId], references: [id], onDelete: Cascade)
   TAApplication TAApplication[]
 }
 
@@ -116,7 +116,7 @@ model TAApplication {
   courseId            Int
   course              Course        @relation(fields: [courseId], references: [id])
   studentId           Int
-  student             Student       @relation(fields: [studentId], references: [userId])
+  student             Student       @relation(fields: [studentId], references: [userId], onDelete: Cascade)
   hoursCanWorkPerWeek String
   coursesTaken        String?
   status              String?
