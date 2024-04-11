@@ -105,3 +105,19 @@ export const viewCompletedByStudent = async (req: Request, res: Response, next: 
         next(error); // Pass the error to the error handling middleware
     }
 };
+
+/**
+ * Controller function to view tasks for a course .
+ * @param req The HTTP request containing course ID.
+ * @param res The HTTP response to be sent back.
+ * @param next The next function to be called in the middleware chain.
+ */
+export const viewByCourse = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        const courseId = req.params.courseId; // Assuming course ID is passed as a route parameter
+        const tasks = await TaskService.viewByCourse(+courseId);
+        res.json(tasks);
+    } catch (error) {
+        next(error); // Pass the error to the error handling middleware
+    }
+};

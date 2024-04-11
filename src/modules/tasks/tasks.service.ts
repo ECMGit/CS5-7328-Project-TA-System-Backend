@@ -8,7 +8,7 @@ export type TaskInfo = {
     facultyId: string;
     title: string;
     description: string;
-    courseId: string;
+    courseId: number | null;
     
 };
 /**
@@ -22,6 +22,10 @@ export const createTask = async (taskInfo: TaskInfo) => {
     console.log(taskInfo);
 
     try {
+        if (taskInfo.courseId == 0) { // If the user did not enter a course id
+            taskInfo.courseId = null;
+        }
+
         return await prisma.task.create({
             data: taskInfo,
             
@@ -113,5 +117,20 @@ export const viewCompletedByStudent = async (studentId: string) => {
         return completedTasks;
     } catch (error) {
         console.error('Error fetching completed tasks:', error);
+    }
+}
+
+// View tasks based on their course Id
+export const viewByCourse = async (courseId: number) => {
+    try {
+        const tasks = await prisma.task.findMany({
+            where: {
+                courseId: courseId,
+                
+            },
+        });
+        return tasks;
+    } catch (error) {
+        console.error('Error fetching tasks:', error);
     }
 }
