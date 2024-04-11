@@ -55,10 +55,13 @@ This is a collaborative work from students of SMU's software engineering class C
 
 ### `npm install`
 Start your database server on port 3306, and run the following command to create the database schema:
-### `npx prisma db push`
+<!-- ### `npx prisma db push` -->
 
 ### `npx ts-node prisma/seed.ts`
 import course data to database, if any duplicate happend, try remove all data in your database
+
+### `npx ts-node prisma/seed_TA_Application.ts`
+5.import the example data (TAJob and TAApplication), if any duplicate happend, try remove all data in your database
 
 ## Available Script
 ### `npm test`
