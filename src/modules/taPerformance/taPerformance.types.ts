@@ -9,10 +9,14 @@ export type TAEvaluationData = {
 };
 
 
-export type FacultyCourseTAInfo = {
-    username: string;
-    smuNo: number;
+
+export interface FacultyCourseTAInfo {
     courseId: number;
     courseCode: string;
     title: string;
-};
+    username: string;
+    smuNo: number;
+    userId: number;
+    facultyUserId: number;
+}
+

@@ -11,7 +11,7 @@ router.get('/faculty/:facultyId', TajobController.getTAJobsByFacultyId);
 
 // post one job
 router.post('/', TajobController.createJob);
-router.post('/student/:studentId/course/:courseId/make-ta', TajobController.makeStudentTA);
+router.post('/student/course/make-ta', TajobController.makeStudentTA);
 //update one job by id passed as param
 router.put('/edit/:id', TajobController.updateJob);
 
