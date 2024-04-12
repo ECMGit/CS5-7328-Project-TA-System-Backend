@@ -108,7 +108,7 @@ async function main() {
   }
 
   for (let i = 1; i <= userTypes.length; i++) {
-    const userType = userTypes[i - 1]; // 使用预先设定的用户类型
+    const userType = userTypes[i - 1]; 
     const newUser = await prisma.user.create({
       data: {
         smuNo: 123456 + i + number_of_users,
