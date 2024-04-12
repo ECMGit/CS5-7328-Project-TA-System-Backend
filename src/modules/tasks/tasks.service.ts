@@ -1,3 +1,5 @@
+/* eslint-disable max-len */
+
 import { PrismaClient } from '@prisma/client';
 
 const prisma = new PrismaClient();
@@ -24,8 +26,6 @@ export const createTask = async (taskInfo: TaskInfo) => {
     console.log(taskInfo);
 
     try {
-        
-
         return await prisma.task.create({
             data: taskInfo,
             
@@ -90,11 +90,12 @@ export const checkoff = async (smuNo: string, taskId: string) => {
 
 
 // View current tasks as a student based on their Id
-export const viewCurrent = async (studentId: string) => {
+export const viewCurrent = async (studentId: number) => {
     try {
         const currentTasks = await prisma.task.findMany({
             where: {
-                studentId: studentId,
+                studentId:studentId, 
+                
             },
             select: {
                 studentId: true,

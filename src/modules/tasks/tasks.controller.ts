@@ -84,7 +84,7 @@ export const checkoff = async (req: Request, res: Response, next: NextFunction) 
 export const viewCurrent = async (req: Request, res: Response, next: NextFunction) => {
     try {
         const studentId = req.params.studentId; // Assuming student ID is passed as a route parameter
-        const currentTasks = await TaskService.viewCurrent(studentId);
+        const currentTasks = await TaskService.viewCurrent(+studentId);
         res.json(currentTasks);
     } catch (error) {
         next(error); // Pass the error to the error handling middleware
