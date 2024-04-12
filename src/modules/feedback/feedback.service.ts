@@ -59,24 +59,27 @@ export const getAllFeedback = async () => {
  * @returns The newly created comment object.
  */
 export const createNewComment = async ({
+  feedbackId,
+  leftById,
   content,
-  userId,
-  type,
 }: {
+  feedbackId: number;
+  leftById: number;
   content: string;
-  userId: number;
-  type: string,
 }) => {
-  return await prisma.feedback.create({
+  return await prisma.feedbackComment.create({
     data: {
       content: content,
-      type: type,
-      complete: false,
       leftBy: {
         connect: {
-          id: userId,
+          id: leftById,
         },
       },
+      feedback: {
+        connect: {
+          id: feedbackId
+        }
+      }
     },
   });
 };
@@ -87,7 +90,7 @@ export const createNewComment = async ({
  * @returns An array of comment items.
  */
 export const getUserComment = async (userId: number) => {
-  return await prisma.feedback.findMany({
+  return await prisma.feedbackComment.findMany({
     where: {
       leftById: userId,
     },
@@ -99,5 +102,5 @@ export const getUserComment = async (userId: number) => {
  * @returns An array of all comment items.
  */
 export const getAllComments = async () => {
-  return await prisma.feedback.findMany();
+  return await prisma.feedbackComment.findMany();
 };

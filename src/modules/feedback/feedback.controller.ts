@@ -56,13 +56,15 @@ export const getAdminFeedback = async (_req: Request, res: Response) => {
  */
 export const createCommentRoute = async (req: Request, res: Response) => {
   try {
-    const feedback = await createNewComment({
-      type: req.body.type,
-      content: req.body.content,
-      userId: req.body.userId
+    const user = res.locals.user as CustomJwtPayload;
+    const feedbackComment = await createNewComment({
+  
+      feedbackId: req.body.feedbackId,
+      leftById: user.userId,
+      content: req.body.content
     });
 
-    res.json(feedback);
+    res.json(feedbackComment);
   } catch (err) {
     console.log(err);
     res.status(500).json(err);

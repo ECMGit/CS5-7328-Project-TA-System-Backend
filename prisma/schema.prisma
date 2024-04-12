@@ -185,7 +185,7 @@ model Feedback {
 
 model FeedbackComment {
   id         Int      @id @default(autoincrement())
-  feedbackId Int
+  feedbackId String
   feedback   Feedback @relation(fields: [feedbackId], references: [id])
 
   leftById Int
