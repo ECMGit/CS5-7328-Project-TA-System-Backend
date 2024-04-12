@@ -9,7 +9,9 @@ export type TaskInfo = {
     title: string;
     description: string;
     courseId: number | null;
-    
+    courseCode: string;
+    courseTitle: string;
+    completed: boolean;
 };
 /**
  * @param TaskInfo Task Info to be stored
@@ -65,28 +67,27 @@ export const viewPending = async (facultyId: string) => {
 }
 
 // Check off tasks as student who is assigned tasks
-export const checkoff = async (studentId: string, taskId: number) => {
+export const checkoff = async (smuNo: string, taskId: string) => {
     try {
         // Update completion status of the task
+        console.log("Task Id: " + taskId);
+        console.log("Smu No: " + smuNo);
         const updatedTask = await prisma.task.update({
             where: {
-                TaskId: taskId,
-                studentId: studentId,
+                TaskId: Number(taskId),
+                studentId: smuNo,
             },
             data: {
                 completed: true,
             },
         });
-        // Check if the task was updated successfully
-        if (updatedTask) {
-            return true; //Task was updated successfully
-        } else {
-            return false; //Task with specified ID not found
-        }   
+        return updatedTask; // Return the updated task object
     } catch (error) {
         console.error('Error updating task completion status:', error);
+        throw error; // Rethrow the error to be handled by the caller
     }
 }
+
 
 // View current tasks as a student based on their Id
 export const viewCurrent = async (studentId: string) => {
@@ -94,9 +95,24 @@ export const viewCurrent = async (studentId: string) => {
         const currentTasks = await prisma.task.findMany({
             where: {
                 studentId: studentId,
-                completed: false,
             },
+            select: {
+                studentId: true,
+                facultyId: true,
+                title: true,
+                description: true,
+                courseId: true,
+                TaskId: true,
+                completed: true,
+                course: {
+                    select: {
+                        courseCode: true,
+                        title: true
+                    }
+                }
+            }
         });
+        console.log(currentTasks);
         return currentTasks;
     } catch (error) {
         console.error('Error fetching current tasks:', error);

@@ -12,7 +12,7 @@ router.get('/completed/student/:studentId', TaskController.viewCompletedByStuden
 router.get('/current/:courseId', TaskController.viewByCourse);
 
 // Update Tasks
-router.put('/checkoff/:studentId/:taskId', TaskController.checkoff);
+router.put('/checkoff/:smuNo/:TaskId', TaskController.checkoff);
 
 // Create task
 router.post('/', TaskController.createTask);

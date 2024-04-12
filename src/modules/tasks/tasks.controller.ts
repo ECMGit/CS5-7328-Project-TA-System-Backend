@@ -61,9 +61,10 @@ export const viewPending = async (req: Request, res: Response, next: NextFunctio
  */
 export const checkoff = async (req: Request, res: Response, next: NextFunction) => {
     try {
-        const studentId = req.body.studentId; // Assuming student ID is sent in the request body
-        const taskId = req.body.taskId; // Assuming task ID is sent in the request body
-        const result = await TaskService.checkoff(studentId, taskId);
+        console.log(req.params);
+        const smuNo = req.params.smuNo; // Assuming student ID is sent in the request params
+        const taskId = req.params.TaskId; // Assuming task ID is sent in the request params
+        const result = await TaskService.checkoff(smuNo, taskId);
         if (result) {
             res.json({ success: true, message: 'Task completion status updated successfully.' });
         } else {
