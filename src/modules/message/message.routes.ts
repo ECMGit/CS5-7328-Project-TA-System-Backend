@@ -28,6 +28,7 @@ router.get('/sender/:senderID', MessageService.getMessagesBySenderId);
  */
 router.get('/receiver/:receiverID', MessageService.getMessagesByReceiverId);
 
+
 /**
  * POST /mark-read/:messageID
  * Marks a specific message as read.
@@ -36,6 +37,7 @@ router.get('/receiver/:receiverID', MessageService.getMessagesByReceiverId);
  */
 router.post('/mark-read/:messageID', MessageController.markMessageAsRead);
 
+
 /**
  * POST /
  * Adds a new message to the database.
@@ -43,5 +45,6 @@ router.post('/mark-read/:messageID', MessageController.markMessageAsRead);
  * @returns {Object} An object containing the added message.
  */
 router.post('/', MessageController.addMessage);
+// Export the router
 
 export default router;

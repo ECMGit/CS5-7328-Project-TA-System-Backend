@@ -15,11 +15,13 @@ export const getMessagesByApplication = async (
   next: NextFunction
 ) => {
   try {
+    // Retrieve messages by application ID
     const messages = await MessageService.getMessagesByApplication(
       Number(req.params.app)
     );
     res.json(messages);
   } catch (error) {
+    // Log and pass the error to the error handler middleware
     console.error('Failed to retrieve messages by application:', error);
     next(error);
   }
@@ -33,16 +35,19 @@ export const getMessagesByApplication = async (
  * @param {NextFunction} next - The next middleware function in the stack.
  */
 export const getMessagesBySenderId = async (
+  // Retrieve messages by sender ID
   req: Request,
   res: Response,
   next: NextFunction
 ) => {
   try {
     const messages = await MessageService.getMessagesBySenderId(
+      // Retrieve messages by sender ID
       Number(req.params.sID)
     );
     res.json(messages);
   } catch (error) {
+    // Log and pass the error to the error handler middleware
     console.error('Failed to retrieve messages by sender ID:', error);
     next(error);
   }
@@ -80,14 +85,17 @@ export const getMessagesByReceiverId = async (
  */
 export const markMessageAsRead = async (req: Request, res: Response) => {
   try {
+    // Mark message as read
     const success = await MessageService.markMessageAsRead(
       Number(req.params.messageID)
     );
     if (!success) {
       return res.status(404).json({ message: 'Message not found' });
     }
+    // Return success message
     return res.status(200).json({ message: 'Marked message as read' });
   } catch (error) {
+    // Log and return an error message
     console.error('Failed to mark message as read:', error);
     res.status(500).json({ message: 'Internal server error' });
   }
@@ -102,11 +110,13 @@ export const markMessageAsRead = async (req: Request, res: Response) => {
  * @returns {Response} Returns a status 201 with the newly created message or an error message.
  */
 export const addMessage = async (
+  // Add a new message
   req: Request,
   res: Response,
   next: NextFunction
 ) => {
   try {
+    // Extract message details from the request body
     const { senderId, receiverId, content, applicationId } = req.body;
     const newMessage = await MessageService.addMessage(
       senderId,
@@ -116,6 +126,7 @@ export const addMessage = async (
     );
     res.status(201).json(newMessage);
   } catch (error) {
+    // Log and pass the error to the error handler middleware
     console.error('Error in controller while adding message:', error);
     next(error);
   }
