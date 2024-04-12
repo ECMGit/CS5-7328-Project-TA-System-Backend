@@ -11,12 +11,10 @@ export async function createTaEvaluation(req: Request, res: Response) {
     try {
         const evaluationData = req.body;
 
-        // 打印接收到的评价数据
         console.log('Received evaluation data:', evaluationData);
 
         const newEvaluation = await TaPerformanceService.createEvaluation(evaluationData);
 
-        // 打印新创建的评价记录
         console.log('New evaluation:', newEvaluation);
 
         res.status(201).json(newEvaluation);

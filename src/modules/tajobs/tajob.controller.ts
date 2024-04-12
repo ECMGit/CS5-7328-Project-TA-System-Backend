@@ -129,7 +129,7 @@ export const createJob = async (
 };
 
 export const makeStudentTA = async (req: Request, res: Response) => {
-  const studentId = parseInt(req.params.studentId, 10); // 使用parseInt确保转换成整数
+  const studentId = parseInt(req.params.studentId, 10); 
   const courseId = parseInt(req.params.courseId, 10);
 
   console.log("Attempting to make student into TA", { studentId, courseId });
@@ -149,20 +149,20 @@ export const makeStudentTA = async (req: Request, res: Response) => {
       .status(200)
       .json({ message: "Student has been made a TA successfully" });
   } catch (error: unknown) {
-    // 明确指明 error 类型为 unknown
+
     console.error("Failed to make the student a TA", {
       studentId,
       courseId,
       error,
     });
-    // 类型守卫：检查 error 是否为 Error 实例
+
     if (error instanceof Error) {
       res.status(500).json({
         message: "Failed to make the student a TA",
         error: error.message,
       });
     } else {
-      // 如果 error 不是 Error 实例，返回一般错误消息
+
       res.status(500).json({
         message: "Failed to make the student a TA",
         error: "An unknown error occurred",

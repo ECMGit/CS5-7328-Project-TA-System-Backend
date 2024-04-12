@@ -4,7 +4,7 @@
   "description": "nodejs backend template based on Express",
   "main": "dist",
   "scripts": {
-    "start": "set NODE_ENV=production&& node dist/src/server.js",
+    "start": "NODE_ENV=production node dist/src/server.js",
     "build": "tsc",
     "dev": "ts-node -r tsconfig-paths/register src/server.ts",
     "test": "jest --detectOpenHandles"
