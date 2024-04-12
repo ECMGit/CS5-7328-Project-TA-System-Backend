@@ -10,11 +10,13 @@ feedbackRouter.post('/', verifyToken, createFeedbackRoute);
 // Get all of the feedback to show to the student
 feedbackRouter.get('/', verifyToken, getMyFeedbackRoute);
 
+// Route to create a comment
 feedbackRouter.post('/', verifyToken, createCommentRoute);
 
 // Get all of the feedback to show to the student
 feedbackRouter.get('/', verifyToken, getMyCommentRoute);
 
+//Get all feedback for the admin
 feedbackRouter.get('/admin', verifyToken, getAdminFeedback);
 
 export default feedbackRouter;
