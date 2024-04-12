@@ -2,7 +2,7 @@
 
 datasource db {
   provider = "mysql"
-  url      = "mysql://root:123zxc..@localhost:3306/ebean_prisma?autoReconnect=true&useSSL=false&useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC"
+  url      = env("DATABASE_URL")
 }
 
 // define the data model here
