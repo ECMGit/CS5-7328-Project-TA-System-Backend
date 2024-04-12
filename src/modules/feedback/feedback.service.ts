@@ -34,3 +34,38 @@ export const getUserFeedback = async (userId: number) => {
 export const getAllFeedback = async () => {
   return await prisma.feedback.findMany();
 };
+
+export const createNewComment = async ({
+  content,
+  userId,
+  type,
+}: {
+  content: string;
+  userId: number;
+  type: string,
+}) => {
+  return await prisma.feedback.create({
+    data: {
+      content: content,
+      type: type,
+      complete: false,
+      leftBy: {
+        connect: {
+          id: userId,
+        },
+      },
+    },
+  });
+};
+
+export const getUserComment = async (userId: number) => {
+  return await prisma.feedback.findMany({
+    where: {
+      leftById: userId,
+    },
+  });
+};
+
+export const getAllComments = async () => {
+  return await prisma.feedback.findMany();
+};

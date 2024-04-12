@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { createFeedbackRoute, getAdminFeedback, getMyFeedbackRoute } from './feedback.controller';
+import { createFeedbackRoute, getAdminFeedback, getMyFeedbackRoute, createCommentRoute, getMyCommentRoute } from './feedback.controller';
 import { verifyToken } from '../../middleware/authentication';
 
 const feedbackRouter = Router();
@@ -9,6 +9,11 @@ feedbackRouter.post('/', verifyToken, createFeedbackRoute);
 
 // Get all of the feedback to show to the student
 feedbackRouter.get('/', verifyToken, getMyFeedbackRoute);
+
+feedbackRouter.post('/', verifyToken, createCommentRoute);
+
+// Get all of the feedback to show to the student
+feedbackRouter.get('/', verifyToken, getMyCommentRoute);
 
 feedbackRouter.get('/admin', verifyToken, getAdminFeedback);
 
