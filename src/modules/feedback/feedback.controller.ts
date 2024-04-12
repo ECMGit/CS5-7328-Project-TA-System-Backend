@@ -49,9 +49,9 @@ export const getAdminFeedback = async (_req: Request, res: Response) => {
 };
 
 /**
- * Creates a new feedback/bug report
- * @param req the content of the feedback and the type
- * @param res the feedback item you created
+ * Creates a new comment report
+ * @param req the content of the comment
+ * @param res the comment item you created
  * @returns void
  */
 export const createCommentRoute = async (req: Request, res: Response) => {
@@ -70,9 +70,9 @@ export const createCommentRoute = async (req: Request, res: Response) => {
 };
 
 /**
- * Gets the feedback for a specific user
+ * Gets the comment for a specific user
  * @param req nothing
- * @param res array of feedback items
+ * @param res array of comment items
  * @returns void
  */
 export const getMyCommentRoute = async (_req: Request, res: Response) => {
@@ -83,9 +83,9 @@ export const getMyCommentRoute = async (_req: Request, res: Response) => {
 };
 
 /**
- * Gets ALL feedback for admins
+ * Gets ALL comment for admins
  * @param req nothing
- * @param res array of feedback items
+ * @param res array of comment items
  * @returns void
  */
 export const getAllUserComments = async (_req: Request, res: Response) => {
