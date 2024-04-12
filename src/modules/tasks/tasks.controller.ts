@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 import * as TaskService from './tasks.service';
 import { Request, Response, NextFunction } from 'express';
 
@@ -29,6 +30,7 @@ export const createTask = async (req: Request, res: Response, next: NextFunction
  */
 export const viewCompleted = async (req: Request, res: Response, next: NextFunction) => {
     try {
+        console.log("IM IN BACKEDN VIEW COMPLETED");
         const facultyId = req.params.facultyId; // Assuming faculty ID is passed as a route parameter
         const completedTasks = await TaskService.viewCompleted(facultyId);
         res.json(completedTasks);
@@ -61,6 +63,7 @@ export const viewPending = async (req: Request, res: Response, next: NextFunctio
  */
 export const checkoff = async (req: Request, res: Response, next: NextFunction) => {
     try {
+        
         const studentId = req.body.studentId; // Assuming student ID is sent in the request body
         const taskId = req.body.taskId; // Assuming task ID is sent in the request body
         const result = await TaskService.checkoff(studentId, taskId);

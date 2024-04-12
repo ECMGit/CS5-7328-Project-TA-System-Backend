@@ -144,8 +144,8 @@ generator client {
 
 //added new schema module notification
 model Task {
-  facultyId       String
-  studentId       String
+  facultyId       Int
+  studentId       Int
   title           String
   description     String?
   TaskId          Int         @id @default(autoincrement())
