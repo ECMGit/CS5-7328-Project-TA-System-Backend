@@ -22,9 +22,7 @@ export const createTask = async (taskInfo: TaskInfo) => {
     console.log(taskInfo);
 
     try {
-        if (taskInfo.courseId == 0) { // If the user did not enter a course id
-            taskInfo.courseId = null;
-        }
+        
 
         return await prisma.task.create({
             data: taskInfo,
