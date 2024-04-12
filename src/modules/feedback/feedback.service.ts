@@ -54,8 +54,8 @@ export const getAllFeedback = async () => {
 /**
  * Creates a new comment in the database, similar to creating feedback.
  * @param content - The content of the comment.
- * @param userId - The user ID of the person leaving the comment.
- * @param type - The type of comment (consistent with feedback types for simplicity).
+ * @param leftByID - The user ID of the person leaving the comment.
+ * @param feedbackId - The id of the feedback being commented on
  * @returns The newly created comment object.
  */
 export const createNewComment = async ({
