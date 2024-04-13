@@ -1,30 +1,32 @@
 // define your database configuration here
 
 datasource db {
-    provider = "mysql"
-    url      = env("DATABASE_URL")
+  provider = "mysql"
+  url      = env("DATABASE_URL")
 }
 
 // define the data model here
 model User {
-  id                     Int            @id @default(autoincrement())
+  id                     Int                @id @default(autoincrement())
   smuNo                  Int
-  username               String         @unique
-  email                  String         @unique
+  username               String             @unique
+  email                  String             @unique
   firstName              String
   lastName               String
   password               String
-  resetToken             String?        @unique
+  resetToken             String?            @unique
   resetTokenExpiry       BigInt?
-  updatedAt              DateTime?      @updatedAt
+  updatedAt              DateTime?          @updatedAt
   userType               String?
   student                Student?
   faculty                Faculty?
   admin                  Admin?
-  sentMessages           UserMessage[]  @relation(name: "MessageSender") // Relation to sent messages
-  receivedMessages       UserMessage[]  @relation(name: "MessageReceiver") // Relation to received messages
-  taEvaluationsAsTA      TAEvaluation[] @relation("TaEvaluations")
-  taEvaluationsAsFaculty TAEvaluation[] @relation("FacultyEvaluations")
+  sentMessages           UserMessage[]      @relation(name: "MessageSender") // Relation to sent messages
+  receivedMessages       UserMessage[]      @relation(name: "MessageReceiver") // Relation to received messages
+  Feedback               Feedback[]
+  FeedbackComments       FeedbackComment[]
+  taEvaluationsAsTA      TAEvaluation[]     @relation("TaEvaluations")
+  taEvaluationsAsFaculty TAEvaluation[]     @relation("FacultyEvaluations")
 }
 
 model Faculty {
@@ -41,7 +43,7 @@ model Student {
   year          Int?
   courses       StudentCourse[]
   tas           CourseTA[] // Opposite relation field for CourseTA
-  user          User            @relation(fields: [userId], references: [id])
+  user          User            @relation(fields: [userId], references: [id], onDelete: Cascade)
   TAApplication TAApplication[]
 }
 
@@ -114,7 +116,7 @@ model TAApplication {
   courseId            Int
   course              Course        @relation(fields: [courseId], references: [id])
   studentId           Int
-  student             Student       @relation(fields: [studentId], references: [userId])
+  student             Student       @relation(fields: [studentId], references: [userId], onDelete: Cascade)
   hoursCanWorkPerWeek String
   coursesTaken        String?
   status              String?
@@ -158,15 +160,41 @@ model TAEvaluation {
 
 //added new schema module notification
 model Task {
-  facultyId       Int
-  studentId       Int
-  title           String
-  description     String?
-  TaskId          Int         @id @default(autoincrement())
-  completed       Boolean     @default(false)
+  facultyId   Int
+  studentId   Int
+  title       String
+  description String?
+  TaskId      Int     @id @default(autoincrement())
+  completed   Boolean @default(false)
+}
+
+model Feedback {
+  id       Int  @id @default(autoincrement())
+  leftById Int
+  leftBy   User @relation(fields: [leftById], references: [id])
+
+  content  String
+  complete Boolean
+
+  timeSubmitted DateTime @default(now())
+
+  comments FeedbackComment[]
+
+  type String @default("feedback") // Either "feedback" or "bug"
+}
+
+model FeedbackComment {
+  id         Int      @id @default(autoincrement())
+  feedbackId Int
+  feedback   Feedback @relation(fields: [feedbackId], references: [id])
+
+  leftById Int
+  leftBy   User @relation(fields: [leftById], references: [id])
+
+  content       String
+  timeSubmitted DateTime @default(now())
 }
 
 generator client {
-    provider = "prisma-client-js"
+  provider = "prisma-client-js"
 }
-
