@@ -64,6 +64,7 @@ model Course {
   TAJob         TAJob[]
   TAApplication TAApplication[]
   TAEvaluation  TAEvaluation[]
+  tasks         Task[]
 }
 
 model FacultyCourse {
@@ -166,6 +167,10 @@ model Task {
   description String?
   TaskId      Int     @id @default(autoincrement())
   completed   Boolean @default(false)
+
+    // Custom course id
+  course       Course?   @relation(fields: [courseId], references: [id])
+  courseId     Int?
 }
 
 model Feedback {
