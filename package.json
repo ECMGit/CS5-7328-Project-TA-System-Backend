@@ -64,7 +64,8 @@
     "typescript": "^5.2.2"
   },
   "prisma": {
-    "seed": "node prisma/seed.js"
+    "seed": "node prisma/seed.ts"
+    "seed_taApp": "node prisma/seed_TA_Application.ts"
   },
   "engines": {
     "node": "16.19.1",

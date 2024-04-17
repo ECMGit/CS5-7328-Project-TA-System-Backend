@@ -18,7 +18,7 @@ export const createUser = async (data: any) => {
     // console.log('User created:', user); // Logging for debugging
     return user;
   } catch (error) {
-    console.error('Error creating user:', error);
+    console.error("Error creating user:", error);
     throw error; // Rethrow the error to handle it in the calling function
   }
 };
@@ -28,11 +28,10 @@ interface CreateStudentData {
   year: number;
 }
 
-
 /**
  * Create a student record in the database
- * @param data 
- * @returns 
+ * @param data
+ * @returns
  */
 export const createStudent = async (data: CreateStudentData) => {
   return await prisma.student.create({
@@ -93,7 +92,7 @@ export const getUserById = async (id: number) => {
 };
 
 export const findUserByUsername = async (username: string) => {
-  console.log('username', username);
+  console.log("username", username);
   const user = await prisma.user.findUnique({
     where: { username },
     include: {
@@ -102,7 +101,7 @@ export const findUserByUsername = async (username: string) => {
       admin: true,
     },
   });
-  console.log('user', user);
+  console.log("user", user);
   if (user === null || user === undefined) {
     return null;
   }
@@ -129,16 +128,17 @@ export const getUserDetailById = async (id: number) => {
   });
 };
 
-
-export const getUserRoleById = async (userId: number): Promise<string | null> => {
+export const getUserRoleById = async (
+  userId: number
+): Promise<string | null> => {
   const facultyUser = await prisma.faculty.findUnique({ where: { userId } });
   const studentUser = await prisma.student.findUnique({ where: { userId } });
   const adminUser = await prisma.admin.findUnique({ where: { userId } });
 
   if (adminUser) {
-    return 'admin';// User is a admin
+    return "admin"; // User is a admin
   } else if (facultyUser) {
-    return 'faculty'; // User is a faculty member
+    return "faculty"; // User is a faculty member
   } else if (studentUser) {
     return "student"; // User is a student
   }
@@ -188,32 +188,31 @@ export const updateUserWithResetToken = async (
   });
 };
 
-
 /**
  * Get all students from the database
- * @returns 
+ * @returns
  */
 export const getAllStudent = async () => {
   //using Prisma's findMany() method to retrieve all student from the database.
 
   return await prisma.student.findMany({
     include: {
-      user: true
+      user: true,
     },
   });
 };
 
 /**
- * Get all courses from the database, 
+ * Get all courses from the database,
  * TODO: Add pagination
- * @returns 
+ * @returns
  */
 export const getAllCourse = async () => {
   try {
     const course = await prisma.course.findMany();
     return course;
   } catch (error) {
-    console.error('Error fetching course:', error);
+    console.error("Error fetching course:", error);
     throw error;
   }
 };
@@ -221,18 +220,32 @@ export const getAllCourse = async () => {
 /**
  * Get all faculty from the database,
  * TODO: add pagination
- * @returns 
+ * @returns
  */
 export const getAllFaculty = async () => {
   try {
-    
     return await prisma.faculty.findMany({
       include: {
-        user: true
+        user: true,
       },
-    });;
+    });
   } catch (error) {
-    console.error('Error fetching faculty:', error);
+    console.error("Error fetching faculty:", error);
+    throw error;
+  }
+};
+
+export const getCourseDetails = async (courseId: number) => {
+  try {
+    return await prisma.course.findUnique({
+      where: { id: courseId },
+      include: {
+        TAJob: true,
+        TAApplication: true,
+      },
+    });
+  } catch (error) {
+    console.log("Error fetching course details", error);
     throw error;
   }
 };
