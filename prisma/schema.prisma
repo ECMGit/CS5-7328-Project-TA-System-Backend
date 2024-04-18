@@ -27,6 +27,7 @@ model User {
   FeedbackComments       FeedbackComment[]
   taEvaluationsAsTA      TAEvaluation[]     @relation("TaEvaluations")
   taEvaluationsAsFaculty TAEvaluation[]     @relation("FacultyEvaluations")
+  TAEvaluation           TAEvaluation[]
 }
 
 model Faculty {
@@ -143,6 +144,7 @@ model UserMessage {
   application   TAApplication @relation(name: "ApplicationMessages", fields: [applicationId], references: [id])
 }
 
+// added new schema module notification
 model TAEvaluation {
   id                     Int      @id @default(autoincrement())
   taUserId               Int
@@ -154,12 +156,14 @@ model TAEvaluation {
   comments               String
   createdAt              DateTime @default(now())
 
-  taUser      User   @relation(name: "TaEvaluations", fields: [taUserId], references: [id])
-  facultyUser User   @relation(name: "FacultyEvaluations", fields: [facultyUserId], references: [id])
+  taUser      User   @relation("TaEvaluations", fields: [taUserId], references: [id])
+  facultyUser User   @relation("FacultyEvaluations", fields: [facultyUserId], references: [id])
   course      Course @relation(fields: [courseId], references: [id])
+  User        User?  @relation(fields: [userId], references: [id])
+  userId      Int?
 }
 
-//added new schema module notification
+// added new schema module notification
 model Task {
   facultyId   Int
   studentId   Int

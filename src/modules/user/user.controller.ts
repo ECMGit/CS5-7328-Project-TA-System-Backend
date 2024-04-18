@@ -1,5 +1,11 @@
 import * as UserService from "./user.service";
+import * as UserService from "./user.service";
 //do we have to import the TA service?
+import { Request, Response, NextFunction } from "express";
+import nodemailer from "nodemailer";
+import crypto from "crypto";
+import bcrypt from "bcrypt";
+import jwt from "jsonwebtoken"; // Import the JWT library
 import { Request, Response, NextFunction } from "express";
 import nodemailer from "nodemailer";
 import crypto from "crypto";
@@ -391,6 +397,8 @@ export const confirmResetPassword = async (req: Request, res: Response) => {
  * @param next
  * @returns
  */
+
+//this get function returns all available student
 export const getAllStudent = async (
   req: Request,
   res: Response,
