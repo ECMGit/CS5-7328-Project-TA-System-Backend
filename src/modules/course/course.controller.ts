@@ -34,17 +34,18 @@ export const getAllCoursesWithoutDetail = async (
 ) => {
   try {
     const courses = await CourseService.getAllCourses();
-    
+
     // Map into courseCode - title format
     const formattedCourses = courses.map((course: any) => ({
+      courseID: course.id,
       courseCode: course.courseCode,
       title: course.title
     }));
 
     res.json(formattedCourses);
-  }catch (error){
+  } catch (error) {
     console.log(error);
-    next(error); 
+    next(error);
   }
 };
 

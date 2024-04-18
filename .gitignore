@@ -2,5 +2,6 @@ node_modules/
 *dist
 .env
 .vscode
+.DS_Store
 uploads
 env
