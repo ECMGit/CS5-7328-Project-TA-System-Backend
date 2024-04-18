@@ -1,11 +1,5 @@
 import * as UserService from "./user.service";
-import * as UserService from "./user.service";
 //do we have to import the TA service?
-import { Request, Response, NextFunction } from "express";
-import nodemailer from "nodemailer";
-import crypto from "crypto";
-import bcrypt from "bcrypt";
-import jwt from "jsonwebtoken"; // Import the JWT library
 import { Request, Response, NextFunction } from "express";
 import nodemailer from "nodemailer";
 import crypto from "crypto";
