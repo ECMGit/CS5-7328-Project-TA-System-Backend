@@ -63,7 +63,7 @@ async function seedFacultyCourses(faculties: any[], courses: any[]) {
   return facultyCourses;
 }
 
-async function seedCourseTAs(students: any[], facultyCourses:any[]) {
+async function seedCourseTAs(students: any[], facultyCourses: any[]) {
   const courseTAs = [];
   const availableStudents = new Set(students.map(s => s.userId));
 
@@ -108,7 +108,7 @@ async function main() {
   }
 
   for (let i = 1; i <= userTypes.length; i++) {
-    const userType = userTypes[i - 1]; 
+    const userType = userTypes[i - 1];
     const newUser = await prisma.user.create({
       data: {
         smuNo: 123456 + i + number_of_users,

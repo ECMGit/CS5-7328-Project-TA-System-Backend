@@ -1,12 +1,13 @@
-const { PrismaClient } = require('@prisma/client');
 const prisma = new PrismaClient();
-const { faker } = require('@faker-js/faker');
-const { csCoursesObject } = require("../prisma/data/CSCourseData");
 
-async function seedTAJobsAndApplications(courses:any, faculties:any) {
+import { PrismaClient } from '@prisma/client';
+import { faker } from '@faker-js/faker';
+import { csCoursesObject } from '../prisma/data/CSCourseData';
+
+async function seedTAJobsAndApplications(courses: any, faculties: any) {
   const students = await prisma.student.findMany();
   if (students.length === 0) {
-    console.log("Please seed students first.");
+    console.log('Please seed students first.');
     return;
   }
 
@@ -20,10 +21,10 @@ async function seedTAJobsAndApplications(courses:any, faculties:any) {
 
   for (let i = 0; i < courses.length; i++) {
     const course = courses[i];
-    const faculty = faculties[i % faculties.length]; 
-    const totalHoursPerWeek = faker.helpers.arrayElement(totalHoursOptions); 
-    const requiredCourses = faker.helpers.arrayElement(requiredCoursesOptions).join(', '); 
-    const requiredSkills = faker.helpers.arrayElement(requiredSkillsOptions).join(', '); 
+    const faculty = faculties[i % faculties.length];
+    const totalHoursPerWeek = faker.helpers.arrayElement(totalHoursOptions);
+    const requiredCourses = faker.helpers.arrayElement(requiredCoursesOptions).join(', ');
+    const requiredSkills = faker.helpers.arrayElement(requiredSkillsOptions).join(', ');
 
     const newTAJob = await prisma.tAJob.create({
       data: {
@@ -35,19 +36,19 @@ async function seedTAJobsAndApplications(courses:any, faculties:any) {
         requiredSkills: requiredSkills,
         TAStats: 'Graduate',
         notes: 'Prior experience preferred.',
-        deadlineToApply: new Date('2024-11-30'), 
+        deadlineToApply: new Date('2024-11-30'),
         courseId: course.id,
         facultyId: faculty.userId,
       },
     });
     taJobs.push(newTAJob);
 
-    
+
     for (let j = 0; j < 5; j++) {
       const student = faker.helpers.arrayElement(students);
-      const GPA = parseFloat(faker.finance.amount(2.0, 4.0, 2)); 
-      const status = faker.helpers.arrayElement(statusOptions); 
-      const hoursCanWorkPerWeek = faker.helpers.arrayElement(hoursOptions); 
+      const GPA = parseFloat(faker.finance.amount(2.0, 4.0, 2));
+      const status = faker.helpers.arrayElement(statusOptions);
+      const hoursCanWorkPerWeek = faker.helpers.arrayElement(hoursOptions);
 
       const newTAApplication = await prisma.tAApplication.create({
         data: {
@@ -103,7 +104,7 @@ async function main() {
             userId: newUser.id,
             designation: 'Professor',
             department: 'Computer Science',
-          // other required fields...
+            // other required fields...
           },
         });
         faculties.push(newFaculty);
@@ -112,7 +113,7 @@ async function main() {
           data: {
             userId: newUser.id,
             year: 2023,
-          // other required fields...
+            // other required fields...
           },
         });
       } else if (userType === 'admin') {
