@@ -1,12 +1,12 @@
-import * as UserService from './user.service';
+import * as UserService from "./user.service";
 //do we have to import the TA service?
-import { Request, Response, NextFunction } from 'express';
-import nodemailer from 'nodemailer';
-import crypto from 'crypto';
-import bcrypt from 'bcrypt';
-import jwt from 'jsonwebtoken'; // Import the JWT library
+import { Request, Response, NextFunction } from "express";
+import nodemailer from "nodemailer";
+import crypto from "crypto";
+import bcrypt from "bcrypt";
+import jwt from "jsonwebtoken"; // Import the JWT library
 
-const JWT_SECRET = 'my-secret-key';
+const JWT_SECRET = "my-secret-key";
 
 /**
  * Demo code for showing how to use the service layer and CRUD operations
@@ -19,9 +19,9 @@ function bigIntToString(obj: any) {
   for (const prop in obj) {
     // eslint-disable-next-line no-prototype-builtins
     if (obj.hasOwnProperty(prop)) {
-      if (typeof obj[prop] === 'bigint') {
+      if (typeof obj[prop] === "bigint") {
         obj[prop] = obj[prop].toString();
-      } else if (typeof obj[prop] === 'object' && obj[prop] !== null) {
+      } else if (typeof obj[prop] === "object" && obj[prop] !== null) {
         bigIntToString(obj[prop]);
       }
     }
@@ -64,11 +64,10 @@ export const getUserById = async (
   res: Response,
   next: NextFunction
 ) => {
-
   try {
     const user = await UserService.getUserById(Number(req.params.id));
     if (!user) {
-      return res.status(404).json({ message: 'User not found' });
+      return res.status(404).json({ message: "User not found" });
     }
 
     // Convert BigInt to String
@@ -95,7 +94,7 @@ export const getUserDetailById = async (
   try {
     const user = await UserService.getUserDetailById(Number(req.params.id));
     if (!user) {
-      return res.status(404).json({ message: 'User not found' });
+      return res.status(404).json({ message: "User not found" });
     }
 
     // Convert BigInt to String
@@ -114,8 +113,16 @@ export const getUserDetailById = async (
  * @returns {Promise<Response>} <- this is just the error code
  */
 export async function signUp(req: Request, res: Response) {
-  const { username, email, password, smuNo, firstName, lastName,
-    year, userType } = req.body;
+  const {
+    username,
+    email,
+    password,
+    smuNo,
+    firstName,
+    lastName,
+    year,
+    userType,
+  } = req.body;
 
   // Convert number to integer
   const smuNo_int = parseInt(smuNo);
@@ -124,7 +131,7 @@ export async function signUp(req: Request, res: Response) {
     // Check if username is already taken
     const existingUser = await UserService.findUserByUsername(username);
     if (existingUser) {
-      return res.status(409).json({ error: 'Username already taken' });
+      return res.status(409).json({ error: "Username already taken" });
     }
 
     // Hash password
@@ -135,31 +142,31 @@ export async function signUp(req: Request, res: Response) {
       username,
       email,
       password: hashedPassword,
+      userType,
       smuNo: smuNo_int,
       firstName,
-      lastName
+      lastName,
     });
 
     if (!user) {
-      return res.status(500).json({ error: 'Internal server error' });
+      return res.status(500).json({ error: "Internal server error" });
     }
 
-
-    if (userType === 'student') {
+    if (userType === "student") {
       await UserService.createStudent({
         userId: user.id,
         year: year,
       });
-    } else if (userType === 'faculty') {
+    } else if (userType === "faculty") {
       await UserService.createFaculty({
         userId: user.id,
-        designation: '',
-        department: 'cs'
+        designation: "",
+        department: "cs",
       });
-    } else if (userType === 'admin') {
+    } else if (userType === "admin") {
       await UserService.createAdmin({
         userId: user.id,
-        role: 'admin',
+        role: "admin",
       });
     }
 
@@ -167,12 +174,12 @@ export async function signUp(req: Request, res: Response) {
     // TODO: Replace JWT_SECRET with process.env.JWT_SECRET and update .env accordingly
     const token = jwt.sign({ userId: user.id }, JWT_SECRET);
     res.status(201).json({
-      message: 'User registered successfully',
+      message: "User registered successfully",
       token, // Include the token in the response
     });
   } catch (error) {
     console.error(error);
-    return res.status(500).json({ error: 'Internal Server Error' });
+    return res.status(500).json({ error: "Internal Server Error" });
   }
 }
 
@@ -190,19 +197,18 @@ export async function login(req: Request, res: Response) {
     const user = await UserService.findUserByUsername(username);
     // console.log("user", user); // for testing purposes
     if (!user) {
-      return res.status(401).json({ error: 'Invalid username or password' });
+      return res.status(401).json({ error: "Invalid username or password" });
     }
 
     // Compare the provided password with the stored password
 
-    // const result = await bcrypt.compare(password, user.password);
-    if (password !== user.password) {
-      return res.status(402).json({ error: 'Invalid username or password' });
+    const result = await bcrypt.compare(password, user.password);
+    if (!result) {
+      return res.status(402).json({ error: "Invalid username or password" });
     }
     // if (password !== user.password) {
     //   return res.status(401).json({ error: 'Invalid username or password' });
     // }
-
 
     // Exclude password and other sensitive fields before sending
     // and before generating the jwt token
@@ -211,25 +217,23 @@ export async function login(req: Request, res: Response) {
     console.log(safeUser);
 
     // TODO: Replace JWT_SECRET with process.env.JWT_SECRET and update .env accordingly
-    // Replace 'your-secret-key' with your actual secret key
-    const token = jwt.sign({ userId: user.id }, JWT_SECRET);
+    const token = jwt.sign({ userId: user.id }, JWT_SECRET); // Replace 'your-secret-key' with your actual secret key
     res.status(200).json({
-      message: 'Login successful',
+      message: "Login successful",
       user: safeUser,
       token, // Include the token in the response
     });
   } catch (error) {
     console.error(error);
-    return res.status(500).json({ error: 'Internal Server Error' });
+    return res.status(500).json({ error: "Internal Server Error" });
   }
 }
 
-
 /**
  * Get user's role by userId
- * @param req 
- * @param res 
- * @returns 
+ * @param req
+ * @param res
+ * @returns
  */
 export async function getRole(req: Request, res: Response) {
   const { id } = req.params; // Get the userId from the URL parameter
@@ -241,17 +245,15 @@ export async function getRole(req: Request, res: Response) {
     const userRole = await UserService.getUserRoleById(userId);
     // console.log(userRole);
     if (!userRole) {
-      return res.status(401).json({ error: 'Invalid userId' });
+      return res.status(401).json({ error: "Invalid userId" });
     }
 
     res.status(200).json({ role: userRole });
-
   } catch (error) {
     console.error(error);
-    return res.status(500).json({ error: 'Internal Server Error' });
+    return res.status(500).json({ error: "Internal Server Error" });
   }
 }
-
 
 /**
  * Import all users
@@ -264,14 +266,14 @@ export async function importUsers(req: Request, res: Response) {
   console.log(users);
   // Validate that the input is an array
   if (!Array.isArray(users)) {
-    return res.status(400).json({ error: 'Input should be an array of users' });
+    return res.status(400).json({ error: "Input should be an array of users" });
   }
 
   // Validate each user object
   for (const user of users) {
     if (!user.username || !user.email || !user.password) {
       return res.status(400).json({
-        error: 'Each user object should have a username, email, and password',
+        error: "Each user object should have a username, email, and password",
       });
     }
   }
@@ -284,7 +286,7 @@ export async function importUsers(req: Request, res: Response) {
       .json({ message: `${createdUsers.count} users imported successfully` });
   } catch (error) {
     console.error(error);
-    return res.status(500).json({ error: 'Internal Server Error' });
+    return res.status(500).json({ error: "Internal Server Error" });
   }
 }
 
@@ -302,7 +304,7 @@ export const sendPasswordResetLink = async (req: Request, res: Response) => {
   const user = await UserService.findUserByEmail(email);
 
   if (!user) {
-    return res.status(401).json({ error: 'Invalid email' });
+    return res.status(401).json({ error: "Invalid email" });
   }
 
   const timestamp = Date.now();
@@ -310,7 +312,7 @@ export const sendPasswordResetLink = async (req: Request, res: Response) => {
 
   console.log(email, currentDate.toLocaleString());
 
-  const token = crypto.randomBytes(20).toString('hex');
+  const token = crypto.randomBytes(20).toString("hex");
   const resetLink = process.env.FRONTEND_URL + `/password-reset/${token}`;
   // Validate the email (make sure it's registered, etc.)
 
@@ -320,13 +322,13 @@ export const sendPasswordResetLink = async (req: Request, res: Response) => {
   // Alert the user if EMAIL_USER or EMAIL_PASS are not set
   if (!process.env.EMAIL_USER || !process.env.EMAIL_PASS) {
     console.error(
-      'ERROR: EMAIL_USER or EMAIL_PASS environment variables not set. Set it in .env\n'
+      "ERROR: EMAIL_USER or EMAIL_PASS environment variables not set. Set it in .env\n"
     );
   }
 
   // Create a transporter object using the default SMTP transport
   const transporter = nodemailer.createTransport({
-    service: 'gmail', // Use your preferred email service
+    service: "gmail", // Use your preferred email service
     auth: {
       user: process.env.EMAIL_USER,
       pass: process.env.EMAIL_PASS,
@@ -337,17 +339,17 @@ export const sendPasswordResetLink = async (req: Request, res: Response) => {
   const mailOptions = {
     from: process.env.EMAIL_USER,
     to: email,
-    subject: 'Password Reset',
+    subject: "Password Reset",
     text: `Click the link below to reset your password:\n${resetLink}\nIf you did not request a password reset, please ignore this email.`,
     // You'd typically generate a unique link for the user to reset their password
   };
 
   try {
     await transporter.sendMail(mailOptions);
-    res.status(200).send({ message: 'Reset email sent successfully.' });
+    res.status(200).send({ message: "Reset email sent successfully." });
   } catch (error) {
-    console.error('Error sending email:', error);
-    res.status(500).send({ error: 'Failed to send reset email.' });
+    console.error("Error sending email:", error);
+    res.status(500).send({ error: "Failed to send reset email." });
   }
 };
 
@@ -360,17 +362,16 @@ export const sendPasswordResetLink = async (req: Request, res: Response) => {
 export const confirmResetPassword = async (req: Request, res: Response) => {
   const { token, password } = req.body;
 
-
   // 1. Find the user by the token
   const user = await UserService.findUserByResetToken(token);
   if (!user) {
-    return res.status(401).json({ error: 'User is null' });
+    return res.status(401).json({ error: "User is null" });
   }
 
   // 2. Verify that the token hasn't expired (assuming you have an expiry date in your DB)
   // If you have a resetTokenExpiry field in your User model:
   if (!user.resetTokenExpiry || user.resetTokenExpiry < Date.now()) {
-    return res.status(400).json({ error: 'The access token has expired' });
+    return res.status(400).json({ error: "The access token has expired" });
   }
 
   // 3. Hash the new password
@@ -380,33 +381,32 @@ export const confirmResetPassword = async (req: Request, res: Response) => {
   await UserService.updateUserWithResetToken(user.email, token, hashedPassword);
 
   // 6. Send a response to the frontend
-  res.status(200).json({ message: 'Password reset successful' });
+  res.status(200).json({ message: "Password reset successful" });
 };
 
-
 /**
- *
+ * this get function returns all available student
  * @param req
  * @param res
  * @param next
  * @returns
  */
 
-//this get function returns all available student 
+//this get function returns all available student
 export const getAllStudent = async (
   req: Request,
   res: Response,
   next: NextFunction
 ) => {
-  console.log('in get all');
+  console.log("in get all");
 
   try {
     // return all jobs that have been published
     const students = await UserService.getAllStudent();
     if (students.length == 0) {
-      console.log('No student listings found.');
+      console.log("No student listings found.");
       // if there are no jobs found, return message that no jobs are found
-      return res.status(404).json({ message: 'No student listings found.' });
+      return res.status(404).json({ message: "No student listings found." });
     }
     res.json(students);
   } catch (error) {
@@ -429,15 +429,15 @@ export const getAllCourse = async (
   res: Response,
   next: NextFunction
 ) => {
-  console.log('in get all');
+  console.log("in get all");
 
   try {
     // return all Course
     const course = await UserService.getAllCourse();
     if (course.length == 0) {
-      console.log('No Course listings found.');
+      console.log("No Course listings found.");
 
-      return res.status(404).json({ message: 'No Course listings found.' });
+      return res.status(404).json({ message: "No Course listings found." });
     }
     res.json(course);
   } catch (error) {
@@ -460,19 +460,45 @@ export const getAllFaculty = async (
   res: Response,
   next: NextFunction
 ) => {
-  console.log('in get all');
+  console.log("in get all");
 
   try {
     // return all Faculty
     const faculty = await UserService.getAllFaculty();
     if (faculty.length == 0) {
-      console.log('No Faculty listings found.');
+      console.log("No Faculty listings found.");
 
-      return res.status(404).json({ message: 'No Faculty listings found.' });
+      return res.status(404).json({ message: "No Faculty listings found." });
     }
     res.json(faculty);
   } catch (error) {
     console.log(error);
+    next(error);
+  }
+};
+
+
+/**
+ * Admin user get course details by course id
+ * @param req 
+ * @param res 
+ * @param next 
+ * @returns 
+ */
+export const getCourseDetailsByCourseId = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const courseId = Number(req.params.id);
+    const course = await UserService.getCourseDetails(courseId);
+    if (!course) {
+      res.status(404).json({ message: "Course not found" });
+      return;
+    }
+    res.json(course);
+  } catch (error) {
     next(error);
   }
 };

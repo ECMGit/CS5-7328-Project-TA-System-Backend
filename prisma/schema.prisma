@@ -2,29 +2,32 @@
 
 datasource db {
   provider = "mysql"
-  url      = "mysql://root:SHENGri821@localhost:3306/TAApplication?autoReconnect=true&useSSL=false&useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC"
+  url      = env("DATABASE_URL")
 }
 
 // define the data model here
 model User {
-  id                     Int            @id @default(autoincrement())
+  id                     Int                @id @default(autoincrement())
   smuNo                  Int
-  username               String         @unique
-  email                  String         @unique
+  username               String             @unique
+  email                  String             @unique
   firstName              String
   lastName               String
   password               String
-  resetToken             String?        @unique
+  resetToken             String?            @unique
   resetTokenExpiry       BigInt?
-  updatedAt              DateTime?      @updatedAt
+  updatedAt              DateTime?          @updatedAt
   userType               String?
   student                Student?
   faculty                Faculty?
   admin                  Admin?
-  sentMessages           UserMessage[]  @relation(name: "MessageSender") // Relation to sent messages
-  receivedMessages       UserMessage[]  @relation(name: "MessageReceiver") // Relation to received messages
-  taEvaluationsAsTA      TAEvaluation[] @relation("TaEvaluations")
-  taEvaluationsAsFaculty TAEvaluation[] @relation("FacultyEvaluations")
+  sentMessages           UserMessage[]      @relation(name: "MessageSender") // Relation to sent messages
+  receivedMessages       UserMessage[]      @relation(name: "MessageReceiver") // Relation to received messages
+  Feedback               Feedback[]
+  FeedbackComments       FeedbackComment[]
+  taEvaluationsAsTA      TAEvaluation[]     @relation("TaEvaluations")
+  taEvaluationsAsFaculty TAEvaluation[]     @relation("FacultyEvaluations")
+  TAEvaluation           TAEvaluation[]
 }
 
 model Faculty {
@@ -41,7 +44,7 @@ model Student {
   year          Int?
   courses       StudentCourse[]
   tas           CourseTA[] // Opposite relation field for CourseTA
-  user          User            @relation(fields: [userId], references: [id])
+  user          User            @relation(fields: [userId], references: [id], onDelete: Cascade)
   TAApplication TAApplication[]
 }
 
@@ -62,6 +65,7 @@ model Course {
   TAJob         TAJob[]
   TAApplication TAApplication[]
   TAEvaluation  TAEvaluation[]
+  tasks         Task[]
 }
 
 model FacultyCourse {
@@ -114,7 +118,7 @@ model TAApplication {
   courseId            Int
   course              Course        @relation(fields: [courseId], references: [id])
   studentId           Int
-  student             Student       @relation(fields: [studentId], references: [userId])
+  student             Student       @relation(fields: [studentId], references: [userId], onDelete: Cascade)
   hoursCanWorkPerWeek String
   coursesTaken        String?
   status              String?
@@ -140,6 +144,7 @@ model UserMessage {
   application   TAApplication @relation(name: "ApplicationMessages", fields: [applicationId], references: [id])
 }
 
+// added new schema module notification
 model TAEvaluation {
   id                     Int      @id @default(autoincrement())
   taUserId               Int
@@ -151,12 +156,14 @@ model TAEvaluation {
   comments               String
   createdAt              DateTime @default(now())
 
-  taUser      User   @relation(name: "TaEvaluations", fields: [taUserId], references: [id])
-  facultyUser User   @relation(name: "FacultyEvaluations", fields: [facultyUserId], references: [id])
+  taUser      User   @relation("TaEvaluations", fields: [taUserId], references: [id])
+  facultyUser User   @relation("FacultyEvaluations", fields: [facultyUserId], references: [id])
   course      Course @relation(fields: [courseId], references: [id])
+  User        User?  @relation(fields: [userId], references: [id])
+  userId      Int?
 }
 
-//added new schema module notification
+// added new schema module notification
 model Task {
   facultyId   Int
   studentId   Int
@@ -164,6 +171,37 @@ model Task {
   description String?
   TaskId      Int     @id @default(autoincrement())
   completed   Boolean @default(false)
+
+    // Custom course id
+  course       Course?   @relation(fields: [courseId], references: [id])
+  courseId     Int?
+}
+
+model Feedback {
+  id       Int  @id @default(autoincrement())
+  leftById Int
+  leftBy   User @relation(fields: [leftById], references: [id])
+
+  content  String
+  complete Boolean
+
+  timeSubmitted DateTime @default(now())
+
+  comments FeedbackComment[]
+
+  type String @default("feedback") // Either "feedback" or "bug"
+}
+
+model FeedbackComment {
+  id         Int      @id @default(autoincrement())
+  feedbackId Int
+  feedback   Feedback @relation(fields: [feedbackId], references: [id])
+
+  leftById Int
+  leftBy   User @relation(fields: [leftById], references: [id])
+
+  content       String
+  timeSubmitted DateTime @default(now())
 }
 
 generator client {

@@ -7,10 +7,10 @@ import messageRoutes from './modules/message/message.routes';
 import taPerformanceRoute from './modules/taPerformance/taPerformance.routes';
 import courseRoutes from './modules/course/course.routes';
 import taskRoutes from './modules/tasks/tasks.routes';
+import feedbackRouter from './modules/feedback/feedback.router';
 
 // middleware
-import { verifyToken } from "./middleware/authentication";
-
+import { verifyToken } from './middleware/authentication';
 
 const app = express();
 
@@ -23,34 +23,37 @@ app.use(express.json());
 
 app.use((req, res, next) => {
   // res.setHeader('Access-Control-Allow-Origin', 'http://localhost:3000');
-  res.setHeader("Access-Control-Allow-Origin", "*");
+  res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader(
-    "Access-Control-Allow-Methods",
-    "OPTIONS, GET, POST, PUT, DELETE"
+    'Access-Control-Allow-Methods',
+    'OPTIONS, GET, POST, PUT, DELETE'
   );
-  res.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
 
   // Handle preflight request.
   // By default, send a 200 status for OPTIONS requests.
-  if (req.method === "OPTIONS") {
+  if (req.method === 'OPTIONS') {
     return res.sendStatus(200);
   }
 
   // api log
-  console.log("Incoming request:", req.method, req.originalUrl, req.query);
+  console.log('Incoming request:', req.method, req.originalUrl, req.query);
 
   next();
 });
 
 // import routes which are defined in modules
-app.use("/user", userRoutes);
+app.use('/user', userRoutes);
 // routes that require middleware
 app.use('/message', verifyToken, messageRoutes);
 app.use('/ta-application', verifyToken, taApplicationRoutes);
 app.use('/jobs', verifyToken, tajobRoutes);
 app.use('/api/ta-performance', taPerformanceRoute);
 app.use('/course', verifyToken, courseRoutes);
+app.use('/api/courses', courseRoutes);
 app.use('/tasks', verifyToken, taskRoutes);
+app.use('/feedback', feedbackRouter);
+
 app.get('/', (req, res) => {
   res.status(200).send('Hello World!');
 });

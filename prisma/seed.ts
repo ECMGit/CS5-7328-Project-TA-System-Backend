@@ -1,13 +1,11 @@
-import { Course } from "@prisma/client";
-
-const { PrismaClient } = require('@prisma/client');
+const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
-const { faker } = require('@faker-js/faker');
+const { faker } = require("@faker-js/faker");
 // const courseData = require("src/modules/course/course.types")
 const { csCoursesObject } = require("../prisma/data/CSCourseData");
 
-
 async function seedTAApplications() {
+  // Assuming you already have some courses and students in your database
   const courses = await prisma.course.findMany();
   const students = await prisma.student.findMany();
   const taJobs = await prisma.tAJob.findMany();
@@ -18,274 +16,204 @@ async function seedTAApplications() {
   }
 
   for (let i = 0; i < 20; i++) {
-    const student = faker.helpers.arrayElement(students);
-    const taJob = faker.helpers.arrayElement(taJobs);
+    try {
+      const course = faker.helpers.arrayElement(courses);
+      const student = faker.helpers.arrayElement(students);
+      const taJob = faker.helpers.arrayElement(taJobs);
 
-    // Select a random faculty member who teaches the course related to the TA job
-    const facultyCourse = await prisma.facultyCourse.findFirst({
-      where: {
-        courseId: taJob.courseId,
-      },
-      select: {
-        facultyId: true,
-      },
-    });
-
-    if (!facultyCourse) {
-      console.log(`No faculty member found for the course with ID ${taJob.courseId}`);
-      continue;
+      const newTaApplications = await prisma.tAApplication.create({
+        data: {
+          courseId: course.id,
+          studentId: student.userId,
+          hoursCanWorkPerWeek: faker.helpers.arrayElement(["10", "15", "20"]),
+          coursesTaken: faker.lorem.words(3),
+          status: faker.helpers.arrayElement([
+            "Pending",
+            "Approved",
+            "Rejected",
+          ]),
+          GPA: parseFloat(faker.finance.amount(2.0, 4.0, 2)),
+          requiredCourses: faker.lorem.words(2),
+          requiredSkills: faker.lorem.words(3),
+          resumeFile: faker.internet.url(),
+          taJobId: taJob.id,
+        },
+      });
+      taApplications.push(newTaApplications);
+    } catch (error) {
+      console.error("Error creating TA application:", error);
     }
-
-    const course = await prisma.course.findUnique({
-      where: {
-        id: taJob.courseId,
-      },
-    });
-
-    if (!course) {
-      console.log(`Course with ID ${taJob.courseId} not found.`);
-      continue;
-    }
-
-    const newTaApplications = await prisma.tAApplication.create({
-      data: {
-        courseId: taJob.courseId,
-        studentId: student.userId,
-        hoursCanWorkPerWeek: faker.helpers.arrayElement(['10', '15', '20']),
-        coursesTaken: faker.lorem.words(3),
-        status: faker.helpers.arrayElement(['Pending', 'Approved', 'Rejected']),
-        GPA: parseFloat(faker.finance.amount(2.0, 4.0, 2)),
-        requiredCourses: faker.lorem.words(2),
-        requiredSkills: faker.lorem.words(3),
-        resumeFile: faker.internet.url(),
-        taJobId: taJob.id,
-      },
-    });
-    taApplications.push(newTaApplications);
   }
-  return taApplications;
 }
 
+async function seedFacultyCourses(faculties: any[], courses: any[]) {
+  const facultyCourses = [];
+  for (const faculty of faculties) {
+    const assignedCourses = faker.helpers.arrayElements(courses, faker.datatype.number({ min: 1, max: 3 }));
+    for (const course of assignedCourses) {
+      const facultyCourse = await prisma.facultyCourse.create({
+        data: {
+          facultyId: faculty.userId,
+          courseId: course.id,
+        },
+      });
+      facultyCourses.push(facultyCourse);
+    }
+  }
+  return facultyCourses;
+}
+
+async function seedCourseTAs(students: any[], facultyCourses:any[]) {
+  const courseTAs = [];
+  const availableStudents = new Set(students.map(s => s.userId));
+
+  for (const facultyCourse of facultyCourses) {
+    if (availableStudents.size === 0) {
+      break; // if there is no available student, then stop
+    }
+
+    // choose one student
+    const studentIdArray = Array.from(availableStudents);
+    const studentId = faker.helpers.arrayElement(studentIdArray);
+
+    const courseTA = await prisma.courseTA.create({
+      data: {
+        studentId: studentId,
+        courseId: facultyCourse.courseId,
+      },
+    });
+    courseTAs.push(courseTA);
+
+    // delete the student from list
+    availableStudents.delete(studentId);
+  }
+
+  return courseTAs;
+}
 
 async function main() {
   // Create users, faculty, courses, and TA positions here
   const users = [];
+  const students = [];
   const faculties = [];
+  const admin = [];
+  const courses = [];
   const taJobs = [];
   const number_of_users = await prisma.user.count();
-  let courses: Course[] = [];
-  // Loop to create multiple faculty members
-  for (let i = 1; i <= 10; i++) {
-    const userType = faker.helpers.arrayElement(['faculty', 'student', 'admin']);
+
+  // Make sure the numbers of different users' type for testing here;
+  const userTypes = ['faculty', 'faculty', 'faculty', 'student', 'student', 'admin'];
+  while (userTypes.length < 6) {
+    userTypes.push(faker.helpers.arrayElement(['student', 'admin']));
+  }
+
+  for (let i = 1; i <= userTypes.length; i++) {
+    const userType = userTypes[i - 1]; 
     const newUser = await prisma.user.create({
       data: {
-        smuNo: 123456 + i + number_of_users, // Unique number for each user
+        smuNo: 123456 + i + number_of_users,
         username: `johndoe${i + number_of_users}`,
         email: `johndoe${i + number_of_users}@example.com`,
-        firstName: 'John',
+        firstName: "John",
         lastName: `Doe${i + number_of_users}`,
-        password: 'securepassword', // Make sure to hash this properly in a real scenario
-        userType: userType
-        //userType: faker.helpers.arrayElement(['faculty', 'student', 'admin'])// Assuming this is a string field, not an enum
-        // other required fields...
+        password: "securepassword",
+        userType: userType,
       },
     });
-    for (let i = 0; i < csCoursesObject.length; i++) {
-      const course = csCoursesObject[i];
-      // check the course is unique or not
-      const existingCourse = await prisma.course.findUnique({
-        where: {
-          courseCode: course.courseCode,
-        },
-      });
-      if (existingCourse) {
-        console.log(`Course with code ${course.courseCode} already exists. Skipping creation...`);
-        continue; // If the same course code exists, skip
-      }
-      // create new course
-      const newCourse = await prisma.course.create({
-        data: {
-          courseCode: course.courseCode,
-          title: course.title,
-          description: course.courseDescription,
-        }
-      });
-      courses.push(newCourse);
-    }
-    /** //These code creates the users without the relationship with ID
-       const newFaculty = await prisma.faculty.create({
-         data: {
-           userId: newUser.id,
-           designation: 'Professor',
-           department: 'Computer Science',
-           // other required fields...
-         },
-       });
-   
-       const newStudent = await prisma.student.create({
-         data: {
-           userId: newUser.id,
-           year: 2023,
-           // other required fields...
-         },
-       });
-       users.push(newUser);
-       faculties.push(newFaculty);
-   
-       // Create admin if the user type is 'admin'
-       if (newUser.userType === 'admin') {
-         const newAdmin = await prisma.admin.create({
-           data: {
-             userId: newUser.id,
-             role: 'dmin',
-           },
-         });
-   
-         console.log({ newAdmin });
-       }
-       */
-    // Check user type and create corresponding records
-    if (userType === 'faculty') {
-      // Create a Faculty instance for this user
-      const newFaculty = await prisma.faculty.create({
-        data: {
-          userId: newUser.id,
-          designation: 'Professor',
-          department: 'Computer Science',
-          // other required fields...
-        },
-      });
-      faculties.push(newFaculty);
 
-      //Create the relationship with faculty ID and course ID
-      const coursesToAssign = faker.datatype.number({ min: 1, max: 4 });
-      // shuffle and choose the course
-      const shuffledCourses = courses.sort(() => 0.5 - Math.random());
-      const selectedCourses = shuffledCourses.slice(0, coursesToAssign);
+    users.push(newUser);
 
-      for (const course of selectedCourses) {
-        await prisma.facultyCourse.create({
-          data: {
-            facultyId: newFaculty.userId,
-            courseId: course.id,
-          },
-        });
-      }
-    } else if (userType === 'student') {
-      // Create a Student instance for this user
+    // Create student record if userType is 'student'
+    if (userType === "student") {
       const newStudent = await prisma.student.create({
         data: {
           userId: newUser.id,
           year: 2023,
-          // other required fields...
         },
       });
-      // Add to students array if needed
-    } else if (userType === 'admin') {
-      // Create an Admin instance for this user
+      console.log({ newStudent });
+      students.push(newStudent);
+    }
+
+    if (userType === "faculty") {
+      const newFaculty = await prisma.faculty.create({
+        data: {
+          userId: newUser.id,
+          designation: "Professor",
+          department: "Computer Science",
+        },
+      });
+      console.log({ newFaculty });
+      faculties.push(newFaculty);
+    }
+
+    if (newUser.userType === "admin") {
       const newAdmin = await prisma.admin.create({
         data: {
           userId: newUser.id,
-          role: 'admin',
+          role: "admin",
         },
       });
-      // Log or handle the new admin record
+      admin.push(newAdmin);
       console.log({ newAdmin });
     }
-
-    users.push(newUser);
-
   }
 
-  // // Loop to create multiple courses
-  // for (let i = 0; i < 3; i++) {
-  //   const newCourse = await prisma.course.create({
-  //     data: {
-  //       courseCode: `CS101${i}`,
-  //       title: `Introduction to Computer Science ${i}`,
-  //       // other required fields...
-  //     },
-  //   });
-
-  //   courses.push(newCourse);
-  // }
-
-
-
-
-  // Loop to create multiple TA positions
-  /** for (let i = 0; i < 3; i++) {
-      const newTAJob = await prisma.tAJob.create({
-        data: {
-          title: `Assistant for ${courses[i].courseCode}`,
-          courseSchedule: 'Mon, Wed, Fri',
-          totalHoursPerWeek: 20,
-          maxNumberOfTAs: 3,
-          requiredCourses: 'CS100,CS101',
-          requiredSkills: 'Programming, Tutoring',
-          TAStats: 'Undergrad', // Assuming this is a string field, not an enum
-          notes: 'Prior experience preferred.',
-          deadlineToApply: new Date('2023-11-30'), // Adjust the date as needed
-          courseId: courses[i].id,
-          facultyId: faculties[i].userId,
-          // other required fields...
-        },
-      });
-  
-      taJobs.push(newTAJob);
-    }
-  
-  */
-  // Loop to create multiple TA positions
-  // Make sure the TAjob table is connected with facultyCourse table
-  for (let i = 0; i < faculties.length; i++) {
-    const facultyId = faculties[i].userId;
-    // Find courses taught by this faculty
-    const facultyCourses = await prisma.facultyCourse.findMany({
-      where: {
-        facultyId: facultyId,
-      },
-      select: {
-        courseId: true,
+  // Create courses
+  for (let i = 0; i < csCoursesObject.length; i++) {
+    const course = csCoursesObject[i];
+    const newCourse = await prisma.course.create({
+      data: {
+        courseCode: course.courseCode,
+        title: course.title,
+        description: course.courseDescription,
       },
     });
-
-    // Create TA jobs for each course taught by the faculty
-    // Create TA jobs for each course taught by the faculty
-    for (const facultyCourse of facultyCourses) {
-      const courseId = facultyCourse.courseId;
-      const course = courses.find(course => course.id === courseId); // find the course by ID
-      if (!course) {
-        console.error(`Course with ID ${courseId} not found.`);
-        continue;
-      }
-      const courseTitle = course.title;
-      const newTAJob = await prisma.tAJob.create({
-        data: {
-          title: `Assistant for ${courseTitle}`,
-          courseSchedule: 'Mon, Wed, Fri',
-          totalHoursPerWeek: 20,
-          maxNumberOfTAs: 3,
-          requiredCourses: 'CS100,CS101',
-          requiredSkills: 'Programming, Tutoring',
-          TAStats: 'Undergrad',
-          notes: 'Prior experience preferred.',
-          deadlineToApply: new Date('2023-11-30'),
-          courseId: courseId,
-          facultyId: facultyId,
-        },
-      });
-      taJobs.push(newTAJob);
-    }
+    courses.push(newCourse);
   }
 
-
-
+  // Loop to create multiple TA positions
+  for (let i = 0; i < 3; i++) {
+    const facultyIndex = i % faculties.length; // make sure this function still work even faculty numbers < 3;
+    const newTAJob = await prisma.tAJob.create({
+      data: {
+        title: `Assistant for ${courses[i].courseCode}`,
+        courseSchedule: "Mon, Wed, Fri",
+        totalHoursPerWeek: 20,
+        maxNumberOfTAs: 3,
+        requiredCourses: "CS100,CS101",
+        requiredSkills: "Programming, Tutoring",
+        TAStats: "Undergrad", // Assuming this is a string field, not an enum
+        notes: "Prior experience preferred.",
+        deadlineToApply: new Date("2023-11-30"), // Adjust the date as needed
+        courseId: courses[i].id,
+        facultyId: faculties[facultyIndex].userId,
+        // other required fields...
+      },
+    });
+    taJobs.push(newTAJob);
+    console.log(newTAJob);
+  }
 
   const taApplications = await seedTAApplications();
 
   console.log({ users, faculties, courses, taJobs, taApplications });
+
+  // Create faculty-course relationships
+  const facultyCourses = await seedFacultyCourses(faculties, courses);
+  console.log({ facultyCourses });
+
+  // Check if there are enough students and faculty courses
+  if (students.length >= 2 && facultyCourses.length > 0) {
+    // Create Course-TA relationships
+    const courseTAs = await seedCourseTAs(students, facultyCourses);
+    console.log({ courseTAs });
+  } else {
+    console.log("Not enough students or faculty courses to create TA assignments.");
+  }
 }
+
+
 
 main()
   .catch((e) => {

@@ -7,3 +7,16 @@ export type TAEvaluationData = {
     effectiveCommunication: number;
     comments: string;
 };
+
+
+
+export interface FacultyCourseTAInfo {
+    courseId: number;
+    courseCode: string;
+    title: string;
+    username: string;
+    smuNo: number;
+    userId: number;
+    facultyUserId: number;
+}
+
