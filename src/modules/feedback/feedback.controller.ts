@@ -13,7 +13,8 @@ export const createFeedbackRoute = async (req: Request, res: Response) => {
     const feedback = await createNewFeedback({
       type: req.body.type,
       content: req.body.content,
-      userId: req.body.userId
+      userId: req.body.userId,
+      status: req.body.status
     });
 
     res.json(feedback);

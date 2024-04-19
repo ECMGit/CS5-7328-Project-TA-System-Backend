@@ -11,16 +11,19 @@ export const createNewFeedback = async ({
   content,
   userId,
   type,
+  status,
 }: {
   content: string;
   userId: number;
-  type: string,
+  type: string;
+  status: string,
 }) => {
   return await prisma.feedback.create({
     data: {
       content: content,
       type: type,
       complete: false,
+      
       leftBy: {
         connect: {
           id: userId,
