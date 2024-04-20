@@ -1,6 +1,5 @@
-const prisma = new PrismaClient();
-
 import { PrismaClient } from '@prisma/client';
+const prisma = new PrismaClient();
 import { faker } from '@faker-js/faker';
 import { csCoursesObject } from '../prisma/data/CSCourseData';
 
