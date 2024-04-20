@@ -15,16 +15,27 @@ async function seedTAJobsAndApplications(courses: any, faculties: any) {
   const statusOptions = ['Pending', 'Approved', 'Rejected'];
   const hoursOptions = ['10', '15', '20'];
   const totalHoursOptions = [10, 15, 20];
-  const requiredCoursesOptions = [['CS101', 'CS102'], ['CS201', 'CS202'], ['CS301', 'CS302']];
-  const requiredSkillsOptions = [['Programming', 'Debugging'], ['Data Analysis', 'Machine Learning'], ['Web Development', 'UI/UX Design']];
+  const requiredCoursesOptions = [
+    ['CS101', 'CS102'],
+    ['CS201', 'CS202'],
+    ['CS301', 'CS302'],
+  ];
+  const requiredSkillsOptions = [
+    ['Programming', 'Debugging'],
+    ['Data Analysis', 'Machine Learning'],
+    ['Web Development', 'UI/UX Design'],
+  ];
 
   for (let i = 0; i < courses.length; i++) {
     const course = courses[i];
     const faculty = faculties[i % faculties.length];
     const totalHoursPerWeek = faker.helpers.arrayElement(totalHoursOptions);
-    const requiredCourses = faker.helpers.arrayElement(requiredCoursesOptions).join(', ');
-    const requiredSkills = faker.helpers.arrayElement(requiredSkillsOptions).join(', ');
-
+    const requiredCourses = faker.helpers
+      .arrayElement(requiredCoursesOptions)
+      .join(', ');
+    const requiredSkills = faker.helpers
+      .arrayElement(requiredSkillsOptions)
+      .join(', ');
     const newTAJob = await prisma.tAJob.create({
       data: {
         title: `Assistant for ${course.courseCode}`,
@@ -41,7 +52,6 @@ async function seedTAJobsAndApplications(courses: any, faculties: any) {
       },
     });
     taJobs.push(newTAJob);
-
 
     for (let j = 0; j < 5; j++) {
       const student = faker.helpers.arrayElement(students);
@@ -90,13 +100,17 @@ async function main() {
           firstName: 'John',
           lastName: `Doe${i + number_of_users}`,
           password: 'securepassword', // Make sure to hash this properly in a real scenario
-          userType: faker.helpers.arrayElement(['faculty', 'student', 'admin'])// Assuming this is a string field, not an enum
+          userType: faker.helpers.arrayElement(['faculty', 'student', 'admin']), // Assuming this is a string field, not an enum
         },
       });
       users.push(newUser);
 
       // Depending on the userType, create faculty or student
-      const userType = faker.helpers.arrayElement(['faculty', 'student', 'admin']);
+      const userType = faker.helpers.arrayElement([
+        'faculty',
+        'student',
+        'admin',
+      ]);
       if (userType === 'faculty') {
         const newFaculty = await prisma.faculty.create({
           data: {
