@@ -7,26 +7,26 @@ datasource db {
 
 // define the data model here
 model User {
-  id                     Int                @id @default(autoincrement())
+  id                     Int               @id @default(autoincrement())
   smuNo                  Int
-  username               String             @unique
-  email                  String             @unique
+  username               String            @unique
+  email                  String            @unique
   firstName              String
   lastName               String
   password               String
-  resetToken             String?            @unique
+  resetToken             String?           @unique
   resetTokenExpiry       BigInt?
-  updatedAt              DateTime?          @updatedAt
+  updatedAt              DateTime?         @updatedAt
   userType               String?
   student                Student?
   faculty                Faculty?
   admin                  Admin?
-  sentMessages           UserMessage[]      @relation(name: "MessageSender") // Relation to sent messages
-  receivedMessages       UserMessage[]      @relation(name: "MessageReceiver") // Relation to received messages
+  sentMessages           UserMessage[]     @relation(name: "MessageSender") // Relation to sent messages
+  receivedMessages       UserMessage[]     @relation(name: "MessageReceiver") // Relation to received messages
   Feedback               Feedback[]
   FeedbackComments       FeedbackComment[]
-  taEvaluationsAsTA      TAEvaluation[]     @relation("TaEvaluations")
-  taEvaluationsAsFaculty TAEvaluation[]     @relation("FacultyEvaluations")
+  taEvaluationsAsTA      TAEvaluation[]    @relation("TaEvaluations")
+  taEvaluationsAsFaculty TAEvaluation[]    @relation("FacultyEvaluations")
   TAEvaluation           TAEvaluation[]
 }
 
@@ -172,9 +172,9 @@ model Task {
   TaskId      Int     @id @default(autoincrement())
   completed   Boolean @default(false)
 
-    // Custom course id
-  course       Course?   @relation(fields: [courseId], references: [id])
-  courseId     Int?
+  // Custom course id
+  course   Course? @relation(fields: [courseId], references: [id])
+  courseId Int?
 }
 
 model Feedback {

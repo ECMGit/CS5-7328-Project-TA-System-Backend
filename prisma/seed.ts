@@ -173,7 +173,7 @@ async function main() {
   }
 
   // Loop to create multiple TA positions
-  for (let i = 0; i < 3; i++) {
+  for (let i = 0; i < 12; i++) {
     const facultyIndex = i % faculties.length; // make sure this function still work even faculty numbers < 3;
     const newTAJob = await prisma.tAJob.create({
       data: {
