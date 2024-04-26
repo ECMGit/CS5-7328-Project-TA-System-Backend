@@ -1,7 +1,7 @@
-import * as JobService from "./tajob.service";
-import { makeTAService } from "./tajob.service";
+import * as JobService from './tajob.service';
+import { makeTAService } from './tajob.service';
 //do we have to import the TA service?
-import { Request, Response, NextFunction } from "express";
+import { Request, Response, NextFunction } from 'express';
 
 /**
  *
@@ -17,15 +17,15 @@ export const getAllTAJobs = async (
   res: Response,
   next: NextFunction
 ) => {
-  console.log("in get all");
+  console.log('in get all');
 
   try {
     // return all jobs that have been published
     const taJobs = await JobService.getAllTAJobs();
     if (taJobs.length == 0) {
-      console.log("No job listings found.");
+      console.log('No job listings found.');
       // if there are no jobs found, return message that no jobs are found
-      return res.status(404).json({ message: "No job listings found." });
+      return res.status(404).json({ message: 'No job listings found.' });
     }
     res.json(taJobs);
   } catch (error) {
@@ -45,7 +45,7 @@ export const getTAJobById = async (
     const taJob = await JobService.getTAJobById(Number(req.params.id));
     if (!taJob) {
       // if no TA job is found with the required ID, return message indicating issue
-      return res.status(404).json({ message: "TA job not found" });
+      return res.status(404).json({ message: 'TA job not found' });
     }
     res.json(taJob);
   } catch (error) {
@@ -60,7 +60,7 @@ export const getTAJobsWithFilters = async (
   res: Response,
   next: NextFunction
 ) => {
-  console.log("in controller");
+  console.log('in controller');
 
   try {
     console.log(req.params);
@@ -74,7 +74,7 @@ export const getTAJobsWithFilters = async (
     // Send back the filtered data.
     res.json(filteredTAJobs);
   } catch (error) {
-    console.error("Error fetching TA jobs with filters:", error);
+    console.error('Error fetching TA jobs with filters:', error);
     next(error); // Pass errors to the next middleware.
   }
 };
@@ -94,7 +94,7 @@ export const getTAJobsByFacultyId = async (
 ) => {
   try {
     // return jobs with matching faculty ID
-    const taJobs = await JobService.getTAJobsByFacultyId(
+    const taJobs = await JobService.getJobsByFacultyID(
       Number(req.params.facultyId)
     );
     // if (taJobs.length == 0) {
@@ -120,7 +120,7 @@ export const createJob = async (
   next: NextFunction
 ) => {
   try {
-    console.log("in create ", req.body);
+    console.log('in create ', req.body);
     const newJob = await JobService.createJob(req.body);
     res.status(201).json(newJob);
   } catch (error) {
@@ -129,28 +129,27 @@ export const createJob = async (
 };
 
 export const makeStudentTA = async (req: Request, res: Response) => {
-  const studentId = parseInt(req.params.studentId, 10); 
+  const studentId = parseInt(req.params.studentId, 10);
   const courseId = parseInt(req.params.courseId, 10);
 
-  console.log("Attempting to make student into TA", { studentId, courseId });
+  console.log('Attempting to make student into TA', { studentId, courseId });
 
   if (isNaN(studentId) || isNaN(courseId)) {
-    console.log("Invalid input: ", req.params);
-    return res.status(400).json({ message: "Invalid studentId or courseId" });
+    console.log('Invalid input: ', req.params);
+    return res.status(400).json({ message: 'Invalid studentId or courseId' });
   }
 
   try {
     await makeTAService(studentId, courseId);
-    console.log("Student has been made a TA successfully", {
+    console.log('Student has been made a TA successfully', {
       studentId,
       courseId,
     });
     res
       .status(200)
-      .json({ message: "Student has been made a TA successfully" });
+      .json({ message: 'Student has been made a TA successfully' });
   } catch (error: unknown) {
-
-    console.error("Failed to make the student a TA", {
+    console.error('Failed to make the student a TA', {
       studentId,
       courseId,
       error,
@@ -158,14 +157,13 @@ export const makeStudentTA = async (req: Request, res: Response) => {
 
     if (error instanceof Error) {
       res.status(500).json({
-        message: "Failed to make the student a TA",
+        message: 'Failed to make the student a TA',
         error: error.message,
       });
     } else {
-
       res.status(500).json({
-        message: "Failed to make the student a TA",
-        error: "An unknown error occurred",
+        message: 'Failed to make the student a TA',
+        error: 'An unknown error occurred',
       });
     }
   }
