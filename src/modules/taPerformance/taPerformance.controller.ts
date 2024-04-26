@@ -10,12 +10,19 @@ import * as TaPerformanceService from './taPerformance.service';
 export async function createTaEvaluation(req: Request, res: Response) {
     try {
         const evaluationData = req.body;
+
+        console.log('Received evaluation data:', evaluationData);
+
         const newEvaluation = await TaPerformanceService.createEvaluation(evaluationData);
+
+        console.log('New evaluation:', newEvaluation);
+
         res.status(201).json(newEvaluation);
     } catch (error: any) {
         res.status(500).json({ message: error.message });
     }
 }
+
 
 /**
  * Handles the request to retrieve all TA performance evaluations
@@ -29,5 +36,30 @@ export async function getAllTaEvaluations(req: Request, res: Response) {
         res.json(evaluations);
     } catch (error: any) {
         res.status(500).json({ message: error.message });
+    }
+}
+
+/**
+ * Handles the request to retrieve all TA performance evaluations
+ * @param req The HTTP request object
+ * @param res The HTTP response object
+ * @returns A JSON response with all TA performance evaluation records
+ */
+// 在 taPerformance.controller.ts 中
+
+export async function getFacultyCoursesAndTAs(req: Request, res: Response) {
+    console.log('now U do use this function')
+    try {
+        const facultyUserId = parseInt(req.params.facultyUserId);
+        const coursesAndTAs = await TaPerformanceService.getCoursesAndTAsForFaculty(facultyUserId);
+        res.json(coursesAndTAs);
+    } catch (error) {
+        // check the 'unknown' type
+        if (error instanceof Error) {
+            res.status(500).json({ message: error.message });
+        } else {
+            // if there not an Error entity，return
+            res.status(500).json({ message: 'An unknown error occurred' });
+        }
     }
 }

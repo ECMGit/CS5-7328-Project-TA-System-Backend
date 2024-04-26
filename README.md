@@ -60,6 +60,9 @@ Start your database server on port 3306, and run the following command to create
 ### `npx ts-node prisma/seed.ts`
 import course data to database, if any duplicate happend, try remove all data in your database
 
+### `npx ts-node prisma/<your file name>-seed.ts`
+import you testing data to database, if any duplicate happend, try remove all data in your database
+
 ## Available Script
 ### `npm test`
 run your test cases with jest and supertest

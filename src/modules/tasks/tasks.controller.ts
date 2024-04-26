@@ -13,6 +13,7 @@ export const createTask = async (req: Request, res: Response, next: NextFunction
     try {
         const taskInfo = req.body; // Assuming task information is sent in the request body
         const newTask = await TaskService.createTask(taskInfo);
+        
         res.status(201).json(newTask);
     } catch (error) {
         console.log("error")
@@ -28,7 +29,7 @@ export const createTask = async (req: Request, res: Response, next: NextFunction
  */
 export const viewCompleted = async (req: Request, res: Response, next: NextFunction) => {
     try {
-        const facultyId =parseInt(req.params.facultyId); // Assuming faculty ID is passed as a route parameter
+        const facultyId = req.params.facultyId; // Assuming faculty ID is passed as a route parameter
         const completedTasks = await TaskService.viewCompleted(facultyId);
         res.json(completedTasks);
     } catch (error) {
@@ -45,7 +46,7 @@ export const viewCompleted = async (req: Request, res: Response, next: NextFunct
 export const viewPending = async (req: Request, res: Response, next: NextFunction) => {
     try {
         const facultyId = req.params.facultyId; // Assuming faculty ID is passed as a route parameter
-        const pendingTasks = await TaskService.viewPending(parseInt(facultyId));
+        const pendingTasks = await TaskService.viewPending(facultyId);
         res.json(pendingTasks);
     } catch (error) {
         next(error); // Pass the error to the error handling middleware
@@ -60,9 +61,10 @@ export const viewPending = async (req: Request, res: Response, next: NextFunctio
  */
 export const checkoff = async (req: Request, res: Response, next: NextFunction) => {
     try {
-        const studentId = req.body.studentId; // Assuming student ID is sent in the request body
-        const taskId = req.body.taskId; // Assuming task ID is sent in the request body
-        const result = await TaskService.checkoff(studentId, taskId);
+        console.log(req.params);
+        const smuNo = req.params.smuNo; // Assuming student ID is sent in the request params
+        const taskId = req.params.TaskId; // Assuming task ID is sent in the request params
+        const result = await TaskService.checkoff(smuNo, taskId);
         if (result) {
             res.json({ success: true, message: 'Task completion status updated successfully.' });
         } else {
@@ -82,7 +84,7 @@ export const checkoff = async (req: Request, res: Response, next: NextFunction) 
 export const viewCurrent = async (req: Request, res: Response, next: NextFunction) => {
     try {
         const studentId = req.params.studentId; // Assuming student ID is passed as a route parameter
-        const currentTasks = await TaskService.viewCurrent(parseInt(studentId));
+        const currentTasks = await TaskService.viewCurrent(studentId);
         res.json(currentTasks);
     } catch (error) {
         next(error); // Pass the error to the error handling middleware
@@ -98,8 +100,24 @@ export const viewCurrent = async (req: Request, res: Response, next: NextFunctio
 export const viewCompletedByStudent = async (req: Request, res: Response, next: NextFunction) => {
     try {
         const studentId = req.params.studentId; // Assuming student ID is passed as a route parameter
-        const completedTasks = await TaskService.viewCompletedByStudent(parseInt(studentId));
+        const completedTasks = await TaskService.viewCompletedByStudent(studentId);
         res.json(completedTasks);
+    } catch (error) {
+        next(error); // Pass the error to the error handling middleware
+    }
+};
+
+/**
+ * Controller function to view tasks for a course .
+ * @param req The HTTP request containing course ID.
+ * @param res The HTTP response to be sent back.
+ * @param next The next function to be called in the middleware chain.
+ */
+export const viewByCourse = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        const courseId = req.params.courseId; // Assuming course ID is passed as a route parameter
+        const tasks = await TaskService.viewByCourse(+courseId);
+        res.json(tasks);
     } catch (error) {
         next(error); // Pass the error to the error handling middleware
     }

@@ -25,7 +25,7 @@ export const save = (req: Request, res: Response, next: NextFunction) => {
         if (!file) {
           return res.status(400).json({ message: 'No file uploaded' });
         }
-        
+
 
         const applicationData: TAApplicationData = JSON.parse(req.body.data);
         const savedApplication = await taApplicationService.saveApplication(
@@ -91,19 +91,41 @@ export const getTaApplications = async (
 };
 
 /**
+ * Get a list of TA applications by faculty ID.
+ * @param req 
+ * @param res 
+ * @param next 
+ */
+export const getTaApplicationsByFacultyId = async (
+  req: Request, res: Response, next: NextFunction
+) => {
+  const facultyId: number = Number(req.params.facultyId);
+  try {
+    // call the service layer function and pass req.query as the parameter
+    const taApplications = await taApplicationService.getTaApplicationsByFacultyId(facultyId);
+    // send response
+    console.log(taApplications);
+    res.json(taApplications);
+  } catch (error) {
+    next(error);
+  }
+};
+
+
+/**
  * get a list of applications by student id
  * @param req 
  * @param res 
  * @param next 
  */
-export const getTaApplicationByStudentId = async (
+export const getTaApplicationsByStudentId = async (
   req: Request, res: Response, next: NextFunction
 ) => {
   const studentId: number = Number(req.params.studentId);
   try {
     // call the service layer function and pass req.query as the parameter
     const taApplications
-          = await taApplicationService.getTaApplicationsByStudentId(studentId);
+      = await taApplicationService.getTaApplicationsByStudentId(studentId);
     // send the response
     console.log(taApplications);
     res.json(taApplications);
@@ -122,9 +144,9 @@ export const getTaApplicationByCourseId = async (
   req: Request, res: Response, next: NextFunction
 ) => {
   const courseId: number = Number(req.params.courseId);
-  try{
+  try {
     const taApplications
-          = await taApplicationService.getTaApplicationsByCourseId(courseId);
+      = await taApplicationService.getTaApplicationsByCourseId(courseId);
     console.log(taApplications);
     res.json(taApplications);
   } catch (error) {

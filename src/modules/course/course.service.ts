@@ -23,15 +23,18 @@ export const getAllCourses = async () => {
 export const getOneCourse = async (id: number) => {
   try {
     return await prisma.course.findUnique({
-      where: {
-        id: id,
+      where: { id: id },
+      include: {
+        TAJob: true,          
+        TAApplication: true,  
       },
     });
   } catch (error) {
-    console.log(error);
+    console.error(error);
     throw error;
   }
 };
+
 
 /**
  * add course to database
@@ -75,3 +78,4 @@ export const editCourse = async (
     },
   });
 };
+
