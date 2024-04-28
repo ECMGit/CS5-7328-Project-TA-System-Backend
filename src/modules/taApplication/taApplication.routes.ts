@@ -9,6 +9,7 @@ router.get('/:id', TaApplicationController.getTaApplication);
 router.get('/faculty/:facultyId', TaApplicationController.getTaApplicationsByFacultyId);
 //faculty only see applications of their courses
 router.get('/student/:studentId', TaApplicationController.getTaApplicationsByStudentId);
+router.get('/tajob/:taJobId', TaApplicationController.getTaApplicationsByTaJobId);
 router.get('/:courseId', TaApplicationController.getTaApplicationByCourseId);
 router.post('/:id', TaApplicationController.updateTaApplication);
 router.delete('/:id', TaApplicationController.deleteTaApplication);

@@ -135,6 +135,28 @@ export const getTaApplicationsByStudentId = async (
 };
 
 /**
+ * get a list of applications by tajobid
+ * @param req 
+ * @param res 
+ * @param next 
+ */
+export const getTaApplicationsByTaJobId = async (
+  req: Request, res: Response, next: NextFunction
+) => {
+  const taJobId: number = Number(req.params.taJobId);
+  try {
+    // call the service layer function and pass req.query as the parameter
+    const taApplications
+      = await taApplicationService.getTaApplicationsByTaJobId(taJobId);
+    // send the response
+    console.log(taApplications);
+    res.json(taApplications);
+  } catch (error) {
+    next(error);
+  }
+};
+
+/**
  * Gets Ta applications by course id
  * @param req 
  * @param res 

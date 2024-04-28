@@ -196,6 +196,21 @@ export const getTaApplicationsByStudentId = async (studentId: number) => {
   });
 };
 
+
+/**
+ * Get TAApplications by taJobId.
+ * @param studentId
+ * @returns
+ */
+
+export const getTaApplicationsByTaJobId = async (taJobId: number) => {
+  return await prisma.tAApplication.findMany({
+    where: {
+      taJobId: taJobId,
+    },
+  });
+};
+
 /**
  * Get Applications by courseID
  * @param courseId
