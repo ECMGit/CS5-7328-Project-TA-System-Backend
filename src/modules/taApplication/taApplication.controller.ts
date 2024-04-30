@@ -102,7 +102,8 @@ export const getTaApplicationsByFacultyId = async (
   const facultyId: number = Number(req.params.facultyId);
   try {
     // call the service layer function and pass req.query as the parameter
-    const taApplications = await taApplicationService.getTaApplicationsByFacultyId(facultyId);
+    const taApplications = await taApplicationService.
+      getTaApplicationsByFacultyId(facultyId);
     // send response
     console.log(taApplications);
     res.json(taApplications);
@@ -172,7 +173,7 @@ export const getTaApplicationByCourseId = async (
     console.log(taApplications);
     res.json(taApplications);
   } catch (error) {
-    next(error)
+    next(error);
   }
 
 };
