@@ -16,19 +16,41 @@ export const createNewFeedback = async ({
   content: string;
   userId: number;
   type: string;
-  status: string,
+  status: string;
 }) => {
   return await prisma.feedback.create({
     data: {
       content: content,
       type: type,
       complete: false,
-      
+
       leftBy: {
         connect: {
           id: userId,
         },
       },
+    },
+  });
+};
+
+export const getFeedbackById = async (id: number) => {
+  return await prisma.feedback.findUnique({
+    include: {
+      leftBy: true,
+    },
+    where: {
+      id: id,
+    },
+  });
+};
+
+export const setFeedbackStatus = async (id: number, status: string) => {
+  return await prisma.feedback.update({
+    where: {
+      id: id,
+    },
+    data: {
+      status: status,
     },
   });
 };
@@ -80,9 +102,9 @@ export const createNewComment = async ({
       },
       feedback: {
         connect: {
-          id: feedbackId
-        }
-      }
+          id: feedbackId,
+        },
+      },
     },
   });
 };

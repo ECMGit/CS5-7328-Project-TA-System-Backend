@@ -51,7 +51,7 @@ app.use('/jobs', verifyToken, tajobRoutes);
 app.use('/api/ta-performance', taPerformanceRoute);
 app.use('/course', verifyToken, courseRoutes);
 app.use('/api/courses', courseRoutes);
-app.use('/tasks', verifyToken, taskRoutes);
+// app.use('/tasks', verifyToken, taskRoutes);
 app.use('/feedback', feedbackRouter);
 
 app.get('/', (req, res) => {

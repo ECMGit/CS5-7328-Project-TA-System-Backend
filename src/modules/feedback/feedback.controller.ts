@@ -1,6 +1,16 @@
 import { Request, Response } from 'express';
-import { createNewComment, createNewFeedback, getAllFeedback, getUserFeedback, getUserComment, getAllComments } from './feedback.service';
+import {
+  createNewComment,
+  createNewFeedback,
+  getAllFeedback,
+  getUserFeedback,
+  getUserComment,
+  getAllComments,
+  getFeedbackById,
+  setFeedbackStatus,
+} from './feedback.service';
 import { CustomJwtPayload } from 'middleware/authentication';
+import feedbackRouter from './feedback.router';
 
 /**
  * Creates a new feedback/bug report
@@ -14,7 +24,7 @@ export const createFeedbackRoute = async (req: Request, res: Response) => {
       type: req.body.type,
       content: req.body.content,
       userId: req.body.userId,
-      status: req.body.status
+      status: req.body.status,
     });
 
     res.json(feedback);
@@ -35,6 +45,21 @@ export const getMyFeedbackRoute = async (_req: Request, res: Response) => {
   const userFeedback = await getUserFeedback(user.userId);
   console.log(userFeedback);
   res.json(userFeedback);
+};
+
+export const getFeedbackItemById = async (req: Request, res: Response) => {
+  const feedbackId: number = parseInt(req.params.id);
+  console.log(feedbackId);
+  const feedback = await getFeedbackById(feedbackId);
+  res.json(feedback);
+};
+
+export const setStatus = async (req: Request, res: Response) => {
+  const body = req.body;
+  const feedbackNumber: number = body.id;
+  const status: string = body.status;
+  const response = await setFeedbackStatus(feedbackNumber, status);
+  res.json(response);
 };
 
 /**
@@ -59,10 +84,9 @@ export const createCommentRoute = async (req: Request, res: Response) => {
   try {
     const user = res.locals.user as CustomJwtPayload;
     const feedbackComment = await createNewComment({
-  
       feedbackId: req.body.feedbackId,
       leftById: user.userId,
-      content: req.body.content
+      content: req.body.content,
     });
 
     res.json(feedbackComment);
