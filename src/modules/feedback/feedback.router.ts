@@ -21,7 +21,7 @@ feedbackRouter.get('/', verifyToken, getMyFeedbackRoute);
 // Route to create a comment
 feedbackRouter.post('/comment', verifyToken, createCommentRoute);
 
-// Get all of the feedback to show to the student
+// Get all of the feedback comments to show to the student
 feedbackRouter.get('/comment', verifyToken, getMyCommentRoute);
 
 //Get all feedback for the admin

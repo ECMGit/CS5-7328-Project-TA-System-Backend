@@ -116,6 +116,14 @@ export const createNewComment = async ({
  */
 export const getUserComment = async (userId: number) => {
   return await prisma.feedbackComment.findMany({
+    include: {
+      leftBy: {
+        select: {
+          firstName: true,
+          lastName: true,
+        },
+      },
+    },
     where: {
       leftById: userId,
     },
