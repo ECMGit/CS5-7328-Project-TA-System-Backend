@@ -7,6 +7,7 @@
     "start": "NODE_ENV=production node dist/src/server.js",
     "build": "tsc",
     "dev": "nodemon --exec ts-node -r tsconfig-paths/register src/server.ts",
+    "seed:message": "ts-node prisma/message_seed.ts",
     "test": "jest --detectOpenHandles"
   },
   "keywords": [

@@ -30,11 +30,16 @@ async function main() {
         },
     ];
 
+    console.log('Seeding messages...');
+
     for (const message of messages) {
         await prisma.userMessage.create({
             data: message,
         });
     }
+
+    console.log('Messages seeded successfully!');
+    
 }
 
 main()
