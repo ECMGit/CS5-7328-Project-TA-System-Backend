@@ -65,6 +65,7 @@
   },
   "prisma": {
     "seed": "node prisma/seed.ts",
+    "seed_message": "ts-node prisma/message_seed.ts",
     "seed_taApp": "node prisma/seed_TA_Application.ts"
   },
   "_moduleAliases": {

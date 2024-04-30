@@ -1,5 +1,10 @@
 import express from 'express';
 import bodyParser from 'body-parser';
+
+import { PrismaClient } from '@prisma/client';
+
+const prisma = new PrismaClient();
+
 import userRoutes from './modules/user/user.routes';
 import taApplicationRoutes from './modules/taApplication/taApplication.routes';
 import tajobRoutes from './modules/tajobs/tajob.routes';
@@ -51,11 +56,40 @@ app.use('/jobs', verifyToken, tajobRoutes);
 app.use('/api/ta-performance', taPerformanceRoute);
 app.use('/course', verifyToken, courseRoutes);
 app.use('/api/courses', courseRoutes);
-app.use('/tasks', verifyToken, taskRoutes);
+app.use('/tasks', verifyToken, taskRoutes);interface Sender {
+  id: number;
+  firstName: string;
+  lastName: string;
+}
+
+interface Message {
+  id: number;
+  content: string;
+  createdAt: string; // or Date if you prefer
+  sender: Sender;
+}
+
+interface MessageThreadProps {
+  messageId: number;
+}
 app.use('/feedback', feedbackRouter);
 
 app.get('/', (req, res) => {
   res.status(200).send('Hello World!');
 });
+
+app.get('/api/messages/:messageId', async (req, res) => {
+  try {
+    const { messageId } = req.params;
+    const messages = await prisma.userMessage.findMany({
+        where: { id: Number(messageId) }
+    });
+    res.json(messages);
+  } catch (error) {
+    console.error('Failed to fetch messages:', error);
+    res.status(500).send('An error occurred while fetching messages.');
+  }
+});
+
 
 export default app;
