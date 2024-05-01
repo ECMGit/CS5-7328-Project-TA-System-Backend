@@ -56,10 +56,21 @@ export const createFaculty = async (data: CreateFacultyData) => {
   });
 };
 
+interface CreateAdminData {
+  userId: number;
+  role: string;
+}
 
-export const createAdmin = async (data: any) => {
+export const createAdmin = async (data: CreateAdminData) => {
   return await prisma.admin.create({
-    data,
+    data: {
+      role: data.role,
+      user: {
+        connect: {
+          id: data.userId
+        }
+      }
+    }
   });
 };
 
@@ -112,11 +123,14 @@ export const getUserDetailById = async (id: number) => {
 export const getUserRoleById = async (userId: number): Promise<string | null> => {
   const facultyUser = await prisma.faculty.findUnique({ where: { userId } });
   const studentUser = await prisma.student.findUnique({ where: { userId } });
-
+  const adminUser = await prisma.admin.findUnique({ where: { userId } });
   if (facultyUser) {
     return 'faculty'; // User is a faculty member
   } else if (studentUser) {
-    return 'student'; // User is a student
+    return 'student';
+  } // User is a student
+  else if (adminUser) {
+    return 'admin';
   }
 
   return null; // User not found or has no specific role
