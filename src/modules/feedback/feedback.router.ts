@@ -30,6 +30,7 @@ feedbackRouter.get('/admin', verifyToken, getAdminFeedback);
 // Get a single feedback item
 feedbackRouter.get('/single/:id', verifyToken, getFeedbackItemById);
 
+// Route to set status
 feedbackRouter.post('/status', verifyToken, setStatus);
 
 export default feedbackRouter;

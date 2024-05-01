@@ -10,7 +10,7 @@ import {
   setFeedbackStatus,
 } from './feedback.service';
 import { CustomJwtPayload } from 'middleware/authentication';
-import feedbackRouter from './feedback.router';
+
 
 /**
  * Creates a new feedback/bug report
@@ -47,6 +47,12 @@ export const getMyFeedbackRoute = async (_req: Request, res: Response) => {
   res.json(userFeedback);
 };
 
+/**
+ * Gets the feedback for a specific ID
+ * @param req nothing
+ * @param res array of feedback items
+ * @returns void
+ */
 export const getFeedbackItemById = async (req: Request, res: Response) => {
   const feedbackId: number = parseInt(req.params.id);
   console.log(feedbackId);
@@ -54,6 +60,12 @@ export const getFeedbackItemById = async (req: Request, res: Response) => {
   res.json(feedback);
 };
 
+/**
+ * Sets the feedback status
+ * @param req nothing
+ * @param res array of feedback items
+ * @returns void
+ */
 export const setStatus = async (req: Request, res: Response) => {
   const body = req.body;
   const feedbackNumber: number = body.id;
