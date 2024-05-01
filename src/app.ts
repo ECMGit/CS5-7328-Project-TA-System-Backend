@@ -91,5 +91,23 @@ app.get('/api/messages/:messageId', async (req, res) => {
   }
 });
 
+app.get('/api/messages/receiver/:receiverId', async (req, res) => {
+  const { receiverId } = req.params;
+  try {
+      const messages = await prisma.userMessage.findMany({
+          where: {
+              receiverId: parseInt(receiverId)
+          },
+          include: {
+              sender: true,  // Assuming 'sender' is part of your user model and set up in Prisma schema
+          }
+      });
+      res.json(messages);
+  } catch (error) {
+      console.error('Error fetching messages:', error);
+      res.status(500).send('Internal Server Error');
+  }
+});
+
 
 export default app;
