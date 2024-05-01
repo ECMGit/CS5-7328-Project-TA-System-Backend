@@ -8,6 +8,7 @@
     "build": "tsc",
     "dev": "nodemon --exec ts-node -r tsconfig-paths/register src/server.ts",
     "seed:message": "ts-node prisma/message_seed.ts",
+    "seed": "ts-node prisma/total_seed.ts",
     "test": "jest --detectOpenHandles"
   },
   "keywords": [
