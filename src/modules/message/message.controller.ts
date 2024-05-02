@@ -136,3 +136,21 @@ export const addMessage = async (
     next(error);
   }
 };
+
+export const deleteMessageByMessageId = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const messageId = req.body.messageId;
+    const success = await MessageService.deleteMessageByMessageId(messageId);
+    if (!success) {
+      return res.status(404).json({ message: 'Message not found' });
+    }
+    return res.status(200).json({ message: 'Message deleted successfully' });
+  } catch (error) {
+    console.error('Failed to delete message:', error);
+    next(error);
+  }
+};

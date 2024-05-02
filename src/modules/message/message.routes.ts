@@ -28,7 +28,6 @@ router.get('/sender/:senderID', MessageService.getMessagesBySenderId);
  */
 router.get('/receiver/:receiverID', MessageService.getMessagesByReceiverId);
 
-
 /**
  * POST /mark-read/:messageID
  * Marks a specific message as read.
@@ -36,7 +35,6 @@ router.get('/receiver/:receiverID', MessageService.getMessagesByReceiverId);
  * @returns {Object} An object indicating the result of the operation (e.g., success or error message).
  */
 router.post('/mark-read/:messageID', MessageController.markMessageAsRead);
-
 
 /**
  * POST /
@@ -46,5 +44,8 @@ router.post('/mark-read/:messageID', MessageController.markMessageAsRead);
  */
 router.post('/', MessageController.addMessage);
 // Export the router
+
+// post for delete message by message id
+router.post('/delete', MessageController.deleteMessageByMessageId);
 
 export default router;

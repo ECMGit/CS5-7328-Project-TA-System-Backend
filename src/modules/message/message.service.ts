@@ -110,7 +110,6 @@ export const createMessage = async (
 };
 
 /**
- * Service function to add a new message to the database with complete details including senders and receivers' usernames.
  * @param {number} senderId - Sender's user ID.
  * @param {number} receiverId - Receiver's user ID.
  * @param {string} content - Content of the message.
@@ -144,5 +143,19 @@ export const addMessage = async (
     console.error('Error adding message to database', error);
     console.log('Error adding message:', error);
     throw error;
+  }
+};
+
+export const deleteMessageByMessageId = async (
+  messageId: number
+): Promise<boolean> => {
+  try {
+    // Delete the message with the given ID
+    await prisma.userMessage.delete({ where: { id: messageId } });
+    return true;
+  } catch (error) {
+    // Log and return false in case of an error
+    console.error('Error deleting message by ID:', error);
+    return false;
   }
 };
