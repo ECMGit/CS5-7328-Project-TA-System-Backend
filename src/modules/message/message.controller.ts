@@ -4,7 +4,7 @@ import { Request, Response, NextFunction } from 'express';
 
 /**
  * Handles GET requests to retrieve messages by application ID.
- * 
+ *
  * @param {Request} req - The request object, expects an application ID in the URL parameter.
  * @param {Response} res - The response object used to send back the fetched data.
  * @param {NextFunction} next - The next middleware function in the stack.
@@ -29,7 +29,7 @@ export const getMessagesByApplication = async (
 
 /**
  * Handles GET requests to retrieve messages by sender ID.
- * 
+ *
  * @param {Request} req - The request object, expects a sender ID in the URL parameter.
  * @param {Response} res - The response object used to send back the fetched data.
  * @param {NextFunction} next - The next middleware function in the stack.
@@ -55,7 +55,7 @@ export const getMessagesBySenderId = async (
 
 /**
  * Handles GET requests to retrieve messages by receiver ID.
- * 
+ *
  * @param {Request} req - The request object, expects a receiver ID in the URL parameter.
  * @param {Response} res - The response object used to send back the fetched data.
  * @param {NextFunction} next - The next middleware function in the stack.
@@ -78,7 +78,7 @@ export const getMessagesByReceiverId = async (
 
 /**
  * Handles POST requests to mark a specific message as read.
- * 
+ *
  * @param {Request} req - The request object, expects a message ID in the URL parameter.
  * @param {Response} res - The response object used to return the result.
  * @returns {Response} Returns a status 200 with success message or 404 if message not found.
@@ -103,7 +103,7 @@ export const markMessageAsRead = async (req: Request, res: Response) => {
 
 /**
  * Handles POST requests to add a new message.
- * 
+ *
  * @param {Request} req - The request object, expects message details in the body (senderId, receiverId, content, applicationId).
  * @param {Response} res - The response object used to return the newly created message.
  * @param {NextFunction} next - The next middleware function in the stack.
@@ -118,6 +118,11 @@ export const addMessage = async (
   try {
     // Extract message details from the request body
     const { senderId, receiverId, content, applicationId } = req.body;
+    console.log('senderId:', senderId);
+    console.log('receiverId:', receiverId);
+    console.log('content:', content);
+    console.log('applicationId:', applicationId);
+    // Add the message
     const newMessage = await MessageService.addMessage(
       senderId,
       receiverId,
@@ -131,4 +136,3 @@ export const addMessage = async (
     next(error);
   }
 };
-
