@@ -5,27 +5,64 @@ import { prisma } from 'prisma';
  * @param content - The content of the feedback.
  * @param userId - The user ID of the person leaving the feedback.
  * @param type - The type of feedback (e.g., 'bug', 'comment', 'suggestion').
+ * @param status - The status of the comment
  * @returns The newly created feedback object.
  */
 export const createNewFeedback = async ({
   content,
   userId,
   type,
+  status,
 }: {
   content: string;
   userId: number;
-  type: string,
+  type: string;
+  status: string;
 }) => {
   return await prisma.feedback.create({
     data: {
       content: content,
       type: type,
       complete: false,
+
       leftBy: {
         connect: {
           id: userId,
         },
       },
+    },
+  });
+};
+
+/**
+ * Sets status of the feedback
+ * @param id - The ID of the feedback
+ * @returns the feedback with the specified ID
+ */
+export const getFeedbackById = async (id: number) => {
+  return await prisma.feedback.findUnique({
+    include: {
+      leftBy: true,
+    },
+    where: {
+      id: id,
+    },
+  });
+};
+
+/**
+ * Sets status of the feedback
+ * @param id - The ID of the feedback
+ * @param status - the status of the feedback
+ * @returns updated status of feedback
+ */
+export const setFeedbackStatus = async (id: number, status: string) => {
+  return await prisma.feedback.update({
+    where: {
+      id: id,
+    },
+    data: {
+      status: status,
     },
   });
 };
@@ -77,9 +114,9 @@ export const createNewComment = async ({
       },
       feedback: {
         connect: {
-          id: feedbackId
-        }
-      }
+          id: feedbackId,
+        },
+      },
     },
   });
 };
@@ -91,6 +128,14 @@ export const createNewComment = async ({
  */
 export const getUserComment = async (userId: number) => {
   return await prisma.feedbackComment.findMany({
+    include: {
+      leftBy: {
+        select: {
+          firstName: true,
+          lastName: true,
+        },
+      },
+    },
     where: {
       leftById: userId,
     },

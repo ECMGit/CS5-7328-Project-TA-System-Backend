@@ -184,6 +184,7 @@ model Feedback {
 
   content  String
   complete Boolean
+  status String @default("Unread")
 
   timeSubmitted DateTime @default(now())
 
