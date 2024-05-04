@@ -145,8 +145,9 @@ export async function signUp(req: Request, res: Response) {
       userType,
       smuNo: smuNo_int,
       firstName,
-      lastName,
+      lastName
     });
+
 
     if (!user) {
       return res.status(500).json({ error: "Internal server error" });

@@ -70,16 +70,17 @@ interface CreateAdminData {
   userId: number;
   role: string;
 }
+
 export const createAdmin = async (data: CreateAdminData) => {
   return await prisma.admin.create({
     data: {
       role: data.role,
       user: {
         connect: {
-          id: data.userId,
-        },
-      },
-    },
+          id: data.userId
+        }
+      }
+    }
   });
 };
 
@@ -134,7 +135,6 @@ export const getUserRoleById = async (
   const facultyUser = await prisma.faculty.findUnique({ where: { userId } });
   const studentUser = await prisma.student.findUnique({ where: { userId } });
   const adminUser = await prisma.admin.findUnique({ where: { userId } });
-
   if (adminUser) {
     return "admin"; // User is a admin
   } else if (facultyUser) {

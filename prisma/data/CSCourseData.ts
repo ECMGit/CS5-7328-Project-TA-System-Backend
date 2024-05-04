@@ -6,7 +6,7 @@ export const csCoursesObject = [
     },
     {
         title: "Principles of Computer Science I",
-        courseCode: "CS 1341",
+        courseCode: "CS 1341", 
         courseDescription: "Introduces the fundamental concepts of computer science and object-oriented design of reusable modules. Covers basic object-oriented concepts of composition, inheritance, polymorphism, and containers. First course for computer science and computer engineering majors and minors."
     },
     {
