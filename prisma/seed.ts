@@ -94,6 +94,27 @@ async function seedCourseTAs(students: any[], facultyCourses: any[]) {
   return courseTAs;
 }
 
+async function seedTasks(students: any[], faculties: any[], courses: any[]) {
+  const tasks = [];
+  for (const student of students) {
+    for (const faculty of faculties) {
+      const course = faker.helpers.arrayElement(courses);
+      const task = await prisma.task.create({
+        data: {
+          facultyId: faculty.userId,
+          studentId: student.userId,
+          title: `Task for ${course.title}`, // Example task title
+          description: `Complete assignment for ${course.title}`, // Example task description
+          completed: false, // Example task completion status
+          courseId: course.id,
+        },
+      });
+      tasks.push(task);
+    }
+  }
+  return tasks;
+}
+
 async function main() {
   // Create users, faculty, courses, and TA positions here
   const users = [];
@@ -219,6 +240,10 @@ async function main() {
     // Create Course-TA relationships
     const courseTAs = await seedCourseTAs(students, facultyCourses);
     console.log({ courseTAs });
+
+    // Create tasks
+    const tasks = await seedTasks(students, faculties, courses);
+    console.log({ tasks });
   } else {
     console.log(
       'Not enough students or faculty courses to create TA assignments.'
