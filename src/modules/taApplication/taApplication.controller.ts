@@ -102,7 +102,8 @@ export const getTaApplicationsByFacultyId = async (
   const facultyId: number = Number(req.params.facultyId);
   try {
     // call the service layer function and pass req.query as the parameter
-    const taApplications = await taApplicationService.getTaApplicationsByFacultyId(facultyId);
+    const taApplications = await taApplicationService.
+      getTaApplicationsByFacultyId(facultyId);
     // send response
     console.log(taApplications);
     res.json(taApplications);
@@ -135,6 +136,28 @@ export const getTaApplicationsByStudentId = async (
 };
 
 /**
+ * get a list of applications by tajobid
+ * @param req 
+ * @param res 
+ * @param next 
+ */
+export const getTaApplicationsByTaJobId = async (
+  req: Request, res: Response, next: NextFunction
+) => {
+  const taJobId: number = Number(req.params.taJobId);
+  try {
+    // call the service layer function and pass req.query as the parameter
+    const taApplications
+      = await taApplicationService.getTaApplicationsByTaJobId(taJobId);
+    // send the response
+    console.log(taApplications);
+    res.json(taApplications);
+  } catch (error) {
+    next(error);
+  }
+};
+
+/**
  * Gets Ta applications by course id
  * @param req 
  * @param res 
@@ -150,7 +173,7 @@ export const getTaApplicationByCourseId = async (
     console.log(taApplications);
     res.json(taApplications);
   } catch (error) {
-    next(error)
+    next(error);
   }
 
 };

@@ -102,10 +102,22 @@ export const getTAJobsWithFilters = async (filters: FilterParams) => {
   }
 };
 
-export const getTAJobsByFacultyId = async (facultyId: number) => {
-  return await prisma.tAJob.findMany({ where: { facultyId } });
+export const getJobsByFacultyID = async (facultyId: number): Promise<any[]> => {
+  try {
+    const jobs = await prisma.tAJob.findMany({
+      where: {
+        facultyId: facultyId,
+      },
+      include: {
+        course: true,
+      },
+    });
+    return jobs;
+  } catch (error) {
+    console.error('Error fetching jobs for faculty ID:', facultyId, error);
+    throw error;
+  }
 };
-
 
 // setting jobData type for use in createJob and updateJob route functions
 export type jobData = {
@@ -128,8 +140,7 @@ export type jobData = {
  */
 export const createJob = async (jobData: jobData) => {
   console.log(jobData);
-  
-  
+
   try {
     return await prisma.tAJob.create({
       data: jobData,
@@ -146,20 +157,19 @@ export const createJob = async (jobData: jobData) => {
  * @param jobData data to be updated
  * @returns the job that was updated
  * @throws Error if job could not be updated
- */  
+ */
 export const updateJob = async (id: number, jobData: jobData) => {
   try {
     // update one job from database
     return await prisma.tAJob.update({
       where: {
-        id: id
+        id: id,
       },
       //update partial data from body request
-      data: jobData
+      data: jobData,
     });
   } catch (error) {
     console.log(error);
     throw error;
   }
 };
-

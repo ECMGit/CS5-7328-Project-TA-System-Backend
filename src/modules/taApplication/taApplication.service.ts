@@ -9,7 +9,10 @@ import { prisma } from 'prisma'; // I have preset the path to prisma in tsconfig
  * @param appId The ID of the TAApplication the message should be associated with
  */
 
-async function createMessagesForFaculty(data: TAApplicationData, appId: number) {
+async function createMessagesForFaculty(
+  data: TAApplicationData,
+  appId: number
+) {
   // Retrieve the course faculties
   const faculties = await prisma.facultyCourse.findMany({
     where: {
@@ -58,7 +61,7 @@ async function createMessagesForFaculty(data: TAApplicationData, appId: number) 
           content: personalizedMessage,
           senderId: student.userId,
           receiverId: fc.faculty.userId,
-          applicationId: appId
+          applicationId: appId,
         },
       });
     })
@@ -72,7 +75,6 @@ async function createMessagesForFaculty(data: TAApplicationData, appId: number) 
  */
 
 export const saveApplication =
-
   //   // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
   //   async (data: TAApplicationData, file: Express.Multer.File)
   //     : Promise<TAApplication | null> => {
@@ -96,8 +98,10 @@ export const saveApplication =
   //   };
 
   // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
-  async (data: TAApplicationData, file: Express.Multer.File)
-    : Promise<TAApplication | null> => {
+  async (
+    data: TAApplicationData,
+    file: Express.Multer.File
+  ): Promise<TAApplication | null> => {
     const filePath = file.path;
 
     // Check if there is already a record with the same studentId and taJobId
@@ -160,75 +164,78 @@ export const getTaApplications = async () => {
 
 /**
  * Get TAApplications by facultyId.
- * @param facultyId 
- * @returns 
+ * @param facultyId
+ * @returns
  */
-export const getTaApplicationsByFacultyId = async (
-  facultyId: number
-) => {
+export const getTaApplicationsByFacultyId = async (facultyId: number) => {
   return await prisma.tAApplication.findMany({
     where: {
       taJob: {
-        facultyId: facultyId
-      }
+        facultyId: facultyId,
+      },
     },
     include: {
       course: true,
       student: true,
-      taJob: true
-    }
+      taJob: true,
+    },
   });
 };
 
 /**
  * Get TAApplications by studentId, not SMU No.
- * @param studentId 
- * @returns 
+ * @param studentId
+ * @returns
  */
-export const getTaApplicationsByStudentId = async (
-  studentId: number
-) => {
-  return await prisma.tAApplication.findMany(
-    {
-      where: {
-        studentId: studentId
-      },
-    }
-  );
-};
 
-
-
-/**
- * Get Applications by courseID
- * @param courseId 
- * @returns 
- */
-export const getTaApplicationsByCourseId = async (
-  courseId: number
-) => {
-  return await prisma.tAApplication.findMany(
-    {
-      where: {
-        courseId: courseId
-      },
-    }
-  )
-};
-
-export const updateApplication = async (
-  id: number
-  , updateData: Partial<TAApplicationData>
-): Promise<TAApplication> => {
-  return await prisma.tAApplication.update({
-    where: { id },
-    data: {
-      ...updateData
-      // Omit resumeFile here, handle it separately if you're allowing resume file updates
+export const getTaApplicationsByStudentId = async (studentId: number) => {
+  return await prisma.tAApplication.findMany({
+    where: {
+      studentId: studentId,
     },
   });
 };
 
+
+/**
+ * Get TAApplications by taJobId.
+ * @param studentId
+ * @returns
+ */
+
+export const getTaApplicationsByTaJobId = async (taJobId: number) => {
+  return await prisma.tAApplication.findMany({
+    where: {
+      taJobId: taJobId,
+    },
+  });
+};
+
+/**
+ * Get Applications by courseID
+ * @param courseId
+ * @returns
+ */
+export const getTaApplicationsByCourseId = async (courseId: number) => {
+  return await prisma.tAApplication.findMany({
+    where: {
+      courseId: courseId,
+    },
+  });
+};
+
+export const updateApplication = async (
+  id: number,
+  updateData: Partial<TAApplicationData>
+): Promise<TAApplication> => {
+  return await prisma.tAApplication.update({
+    where: { id },
+    data: {
+      ...updateData,
+      // Omit resumeFile here, handle it separately if you're allowing resume file updates
+    },
+  });
+};
 
 export const deleteApplication = async (id: number): Promise<TAApplication> => {
   return await prisma.tAApplication.delete({

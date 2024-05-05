@@ -96,7 +96,7 @@ describe('TA Job Service Tests', () => {
       // jest.spyOn(UserService1, 'createFaculty').mockImplementation(mockCreateFaculty);
       const mockGetTAJobsByFacultyId = jest.fn().mockResolvedValue(mockTAJobs);
       jest
-        .spyOn(UserService, 'getTAJobsByFacultyId')
+        .spyOn(UserService, 'getJobsByFacultyID')
         .mockImplementation(mockGetTAJobsByFacultyId);
 
       const response = await request(app).get('/jobs/faculty/10'); // Assuming faculty ID is 10
@@ -106,7 +106,7 @@ describe('TA Job Service Tests', () => {
     });
 
     it('should return 404 if user of faculty id is not found', async () => {
-      jest.spyOn(UserService, 'getTAJobsByFacultyId').mockResolvedValue([]);
+      jest.spyOn(UserService, 'getJobsByFacultyID').mockResolvedValue([]);
 
       const response = await request(app).get('/jobs/faculty/999'); // Assuming 999 is a non-existent faculty ID
       expect(response.status).toBe(404);
