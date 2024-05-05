@@ -7,6 +7,8 @@
     "start": "NODE_ENV=production node dist/src/server.js",
     "build": "tsc",
     "dev": "nodemon --exec ts-node -r tsconfig-paths/register src/server.ts",
+    "seed:message": "ts-node prisma/message_seed.ts",
+    "seed": "ts-node prisma/total_seed.ts",
     "test": "jest --detectOpenHandles"
   },
   "keywords": [
@@ -65,6 +67,7 @@
   },
   "prisma": {
     "seed": "node prisma/seed.ts",
+    "seed_message": "ts-node prisma/message_seed.ts",
     "seed_taApp": "node prisma/seed_TA_Application.ts"
   },
   "_moduleAliases": {

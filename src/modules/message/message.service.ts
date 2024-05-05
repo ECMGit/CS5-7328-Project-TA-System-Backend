@@ -7,8 +7,9 @@ import { UserMessage } from '@prisma/client';
  * @returns {Promise<UserMessage[]>} A promise that resolves to an array of UserMessage instances.
  */
 
-
-export const getMessagesByApplication = async (appID: number): Promise<UserMessage[]> => {
+export const getMessagesByApplication = async (
+  appID: number
+): Promise<UserMessage[]> => {
   try {
     // Fetch all messages associated with the given application ID
     return await prisma.userMessage.findMany({
@@ -30,7 +31,9 @@ export const getMessagesByApplication = async (appID: number): Promise<UserMessa
  * @param {number} sID - The unique identifier of the sender.
  * @returns {Promise<UserMessage[]>} A promise that resolves to an array of UserMessage instances.
  */
-export const getMessagesBySenderId = async (sID: number): Promise<UserMessage[]> => {
+export const getMessagesBySenderId = async (
+  sID: number
+): Promise<UserMessage[]> => {
   try {
     return await prisma.userMessage.findMany({ where: { senderId: sID } });
   } catch (error) {
@@ -45,8 +48,9 @@ export const getMessagesBySenderId = async (sID: number): Promise<UserMessage[]>
  * @returns {Promise<UserMessage[]>} A promise that resolves to an array of UserMessage instances.
  */
 
-
-export const getMessagesByReceiverId = async (rID: number): Promise<UserMessage[]> => {
+export const getMessagesByReceiverId = async (
+  rID: number
+): Promise<UserMessage[]> => {
   try {
     // Fetch all messages received by the receiver
     return await prisma.userMessage.findMany({ where: { receiverId: rID } });
@@ -62,7 +66,9 @@ export const getMessagesByReceiverId = async (rID: number): Promise<UserMessage[
  * @param {number} messageID - The unique identifier of the message to be marked as read.
  * @returns {Promise<boolean>} A promise that resolves to a boolean indicating success or failure.
  */
-export const markMessageAsRead = async (messageID: number): Promise<boolean> => {
+export const markMessageAsRead = async (
+  messageID: number
+): Promise<boolean> => {
   try {
     await prisma.userMessage.update({
       // Update the message with the given ID
@@ -72,7 +78,7 @@ export const markMessageAsRead = async (messageID: number): Promise<boolean> => 
     return true;
   } catch (error) {
     // Log and return false in case of an error
-    console.error("Error marking message as read:", error);
+    console.error('Error marking message as read:', error);
     return false;
   }
 };
@@ -86,7 +92,12 @@ export const markMessageAsRead = async (messageID: number): Promise<boolean> => 
  * @returns {Promise<UserMessage>} A promise that resolves to the newly created UserMessage instance.
  */
 
-export const createMessage = async (senderId: number, receiverId: number, applicationId: number, content: string): Promise<UserMessage> => {
+export const createMessage = async (
+  senderId: number,
+  receiverId: number,
+  applicationId: number,
+  content: string
+): Promise<UserMessage> => {
   // Create a new message in the database
   return await prisma.userMessage.create({
     data: {
@@ -94,19 +105,23 @@ export const createMessage = async (senderId: number, receiverId: number, applic
       receiverId,
       applicationId,
       content,
-    }
+    },
   });
 };
 
 /**
- * Service function to add a new message to the database with complete details including senders and receivers' usernames.
  * @param {number} senderId - Sender's user ID.
  * @param {number} receiverId - Receiver's user ID.
  * @param {string} content - Content of the message.
  * @param {number} applicationId - Application context ID.
  * @returns {Promise<UserMessage>} A promise that resolves to the newly added UserMessage with detailed information.
  */
-export const addMessage = async (senderId: number, receiverId: number, content: string, applicationId: number): Promise<UserMessage> => {
+export const addMessage = async (
+  senderId: number,
+  receiverId: number,
+  content: string,
+  applicationId: number
+): Promise<UserMessage> => {
   try {
     // Add the message to the database
     const newMessage = await prisma.userMessage.create({
@@ -120,13 +135,27 @@ export const addMessage = async (senderId: number, receiverId: number, content: 
         // Include sender and receiver details in the response
         sender: { select: { username: true } },
         receiver: { select: { username: true } },
-      }
+      },
     });
     return newMessage;
   } catch (error) {
     // Log and throw the error in case of an error
     console.error('Error adding message to database', error);
+    console.log('Error adding message:', error);
     throw error;
   }
 };
 
+export const deleteMessageByMessageId = async (
+  messageId: number
+): Promise<boolean> => {
+  try {
+    // Delete the message with the given ID
+    await prisma.userMessage.delete({ where: { id: messageId } });
+    return true;
+  } catch (error) {
+    // Log and return false in case of an error
+    console.error('Error deleting message by ID:', error);
+    return false;
+  }
+};
